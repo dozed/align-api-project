@@ -447,7 +447,7 @@ public class XMLParser extends DefaultHandler {
 			onto1.setURI( u );
 			if ( onto1.getFile() == null ) onto1.setFile( u );
 		    } catch (URISyntaxException e) {
-			throw new SAXException("uri1: malformed URI : "+content);
+//			throw new SAXException("uri1: malformed URI : "+content);
 		    }
 		} else if (pName.equals("uri2")) { // Legacy
 		    try {
@@ -455,13 +455,13 @@ public class XMLParser extends DefaultHandler {
 			onto2.setURI( u );
 			if ( onto2.getFile() == null ) onto2.setFile( u );
 		    } catch (URISyntaxException e) {
-			throw new SAXException("uri1: malformed URI : "+content);
+//			throw new SAXException("uri1: malformed URI : "+content);
 		    }
 		} else if (pName.equals( SyntaxElement.ONTOLOGY.name )) {
 		} else if (pName.equals( SyntaxElement.LOCATION.name )) {
 		    try { curronto.setFile( new URI( content ) );
 		    } catch (URISyntaxException e) {
-			throw new SAXException("Malformed URI : "+content );
+			//throw new SAXException("Malformed URI : "+content );
 		    }
 		} else if (pName.equals( SyntaxElement.FORMALISM.name )) {
 		} else if (pName.equals( SyntaxElement.FORMATT.name )) {
@@ -473,7 +473,7 @@ public class XMLParser extends DefaultHandler {
 			    curronto.setFile( u );
 			    if ( curronto.getURI() == null ) curronto.setURI( u );
 			} catch (URISyntaxException e) {
-			    throw new SAXException(pName+": malformed URI : "+content );
+//			    throw new SAXException(pName+": malformed URI : "+content );
 			}
 		    };
 		    curronto = null;
