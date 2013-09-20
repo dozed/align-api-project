@@ -177,41 +177,22 @@ public class SemPRecEvaluator extends PRecEvaluator implements Evaluator {
     }
 
     public int nbEntailedCorrespondences(ObjectAlignment al1, ObjectAlignment al2) throws AlignmentException {
-        logger.trace("Computing entailment (semantics: {})", semantics);
-        if (semantics != null) { // IDDL
-            ArrayList<Alignment> allist = new ArrayList<Alignment>();
-            allist.add(al1);
-            try {
-                reasoner = new IDDLReasoner(allist, semantics);
-            } catch (IDDLException idex) {
-                throw new AlignmentException("Cannot create IDDLReasoner", idex);
-            }
-        } else { // Hermit
-            loadPipedAlignedOntologies(al1);
-        }
+        Reasoner reasoner = new ReasonerBuilder()
+                .add(al1.getOntologyObject1())
+                .add(al2.getOntologyObject1())
+                .add(al1.getArrayElements())
+                .build();
+
         if (!reasoner.isConsistent()) return al2.nbCells(); // everything is entailed
-        logger.debug("{} is consistent", al1);
+
         int entailed = 0;
         for (Cell c2 : al2) {
-            logger.trace(c2.getObject1() + " {} {}", c2.getRelation().getRelation(), c2.getObject2());
-            if (semantics != null) { // IDDL
-                try {
-                    if (((IDDLReasoner) reasoner).isEntailed(al2, c2)) {
-                        logger.trace("      --> entailed");
-                        entailed++;
-                    }
-                } catch (IDDLException idex) { // counted as non entailed
-                    logger.warn("Cannot be translated.");
+            try {
+                if (reasoner.isEntailed(correspToAxiom(al2, (ObjectCell) c2))) {
+                    entailed++;
                 }
-            } else { // Hermit
-                try {
-                    if (reasoner.isEntailed(correspToAxiom(al2, (ObjectCell) c2))) {
-                        logger.trace("      --> entailed");
-                        entailed++;
-                    }
-                } catch (AlignmentException aex) { // type mismatch -> 0
-                    logger.warn("Cannot be translated.");
-                }
+            } catch (AlignmentException aex) { // type mismatch -> 0
+                logger.warn("Cannot be translated.");
             }
         }
         return entailed;
@@ -270,7 +251,7 @@ public class SemPRecEvaluator extends PRecEvaluator implements Evaluator {
      * Two implementation of Alignment loading: one with intermediate file and one without.
      */
     protected OWLOntologyManager manager = null;
-    protected OWLReasoner reasoner = null;
+    //  protected OWLReasoner reasoner = null;
 
     /* 
      * Loads the Aligned ontologies without intermediate file
