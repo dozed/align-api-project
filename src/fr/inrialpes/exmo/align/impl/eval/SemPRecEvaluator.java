@@ -20,6 +20,7 @@
 
 package fr.inrialpes.exmo.align.impl.eval;
 
+import fr.inrialpes.exmo.ontowrap.owlapi30.OWLAPI3Ontology;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
 import org.semanticweb.owl.align.Cell;
@@ -216,6 +217,54 @@ public class SemPRecEvaluator extends PRecEvaluator implements Evaluator {
         return entailed;
     }
 
+    public void loadAlignedOntologies(ObjectAlignment align) throws OWLOntologyCreationException, OntowrapException {
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+
+        OWLOntology ontology = manager.createOntology();
+
+        for (Object o : ((LoadedOntology<?>) align.getOntologyObject1()).getIndividuals()) {
+
+            manager.addAxiom(ontology, owlAxiom);
+        }
+
+        for (OWLAxiom owlAxiom : ((OWLAPI3Ontology) (Object) align.getOntologyObject2()).getOntology().getAxioms()) {
+            manager.addAxiom(ontology, owlAxiom);
+        }
+
+        for (Cell cell : align.getArrayElements()) {
+            correspToAxiom(manager, null, (ObjectCell) cell);
+        }
+
+        reasoner = new Reasoner(ontology);
+    }
+
+    public OWLAxiom correspToAxiom(OWLOntologyManager manager, LoadedOntology onto, ObjectCell corresp) throws AlignmentException {
+        OWLDataFactory owlfactory = manager.getOWLDataFactory();
+
+        Object e1 = corresp.getObject1();
+        Object e2 = corresp.getObject2();
+        Relation r = corresp.getRelation();
+
+        try {
+            if (onto.isIndividual(e1)) {
+                if (onto.isIndividual(e2)) {
+                    OWLIndividual entity1 = owlfactory.getOWLNamedIndividual(IRI.create(onto.getEntityURI(e1)));
+                    OWLIndividual entity2 = owlfactory.getOWLNamedIndividual(IRI.create(onto.getEntityURI(e2)));
+                    if (r instanceof EquivRelation) {
+                        return owlfactory.getOWLSameIndividualAxiom(entity1, entity2);
+                    } else if (r instanceof IncompatRelation) {
+                        return owlfactory.getOWLDifferentIndividualsAxiom(entity1, entity2);
+                    }
+                }
+            }
+        } catch (OntowrapException owex) {
+            throw new AlignmentException("Error interpreting URI " + owex);
+        }
+
+        throw new AlignmentException("Cannot convert correspondence " + corresp);
+    }
+
+
     /**
      * It would be useful to directly use the Ontologies since they are already loaded
      * Two implementation of Alignment loading: one with intermediate file and one without.
@@ -308,7 +357,7 @@ public class SemPRecEvaluator extends PRecEvaluator implements Evaluator {
         }
 
         // Load the ontology
-        manager = OWLManager.createOWLOntologyManager();
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         //logger.trace( "{} ----> {}", align.getOntology1URI(), align.getFile1() );
         //logger.trace( "{} ----> {}", align.getOntology2URI(), align.getFile2() );
         manager.addIRIMapper(new SimpleIRIMapper(IRI.create(align.getOntology1URI()),

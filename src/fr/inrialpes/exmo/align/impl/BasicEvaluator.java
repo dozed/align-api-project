@@ -18,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  */
 
-package fr.inrialpes.exmo.align.impl; 
+package fr.inrialpes.exmo.align.impl;
 
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
@@ -38,31 +38,23 @@ public abstract class BasicEvaluator implements Evaluator {
     protected Alignment align1;
     protected Alignment align2;
 
-    /** Creation **/
-    public BasicEvaluator( Alignment align1, Alignment align2 ) throws AlignmentException {
-	this.align1 = align1;
-	this.align2 = align2;
+    /**
+     * Creation *
+     */
+    public BasicEvaluator(Alignment align1, Alignment align2) throws AlignmentException {
+        this.align1 = align1;
+        this.align2 = align2;
     }
 
-    public void convertToObjectAlignments( Alignment al1, Alignment al2 ) throws AlignmentException {
-	align1 = convertToObjectAlignment( al1 );
-	align2 = convertToObjectAlignment( al2 );
+    public void convertToObjectAlignments(Alignment al1, Alignment al2) throws AlignmentException {
+        align1 = AlignmentTransformer.toObjectAlignment(al1);
+        align2 = AlignmentTransformer.toObjectAlignment(al2);
     }
 
-    public ObjectAlignment convertToObjectAlignment( Alignment al ) throws AlignmentException {
-	if ( al instanceof ObjectAlignment ) {
-	    return (ObjectAlignment)al;
-	} else if ( al instanceof URIAlignment ) {
-	    return AlignmentTransformer.toObjectAlignment((URIAlignment) al);
-	} else {
-	    throw new AlignmentException( "Cannot convert to ObjectAlignment : "+al );
-	}
-    }
-
-    public void write( PrintWriter writer ) throws java.io.IOException {
-	writer.print("<rdf:RDF>\n  <Evaluation class=\"BasicEvaluator\">\n    <result>");
- 	writer.print(result);
- 	writer.print("</result>\n  </Evaluation>\n</rdf:RDF>\n");
+    public void write(PrintWriter writer) throws java.io.IOException {
+        writer.print("<rdf:RDF>\n  <Evaluation class=\"BasicEvaluator\">\n    <result>");
+        writer.print(result);
+        writer.print("</result>\n  </Evaluation>\n</rdf:RDF>\n");
     }
 
 }

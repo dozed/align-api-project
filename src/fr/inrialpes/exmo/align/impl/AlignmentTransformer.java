@@ -2,17 +2,33 @@ package fr.inrialpes.exmo.align.impl;
 
 import fr.inrialpes.exmo.ontowrap.LoadedOntology;
 import fr.inrialpes.exmo.ontowrap.OntowrapException;
+import fr.inrialpes.exmo.ontowrap.owlapi30.OWLAPI3Ontology;
+import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
 import org.semanticweb.owl.align.Cell;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.*;
 
+import java.net.URI;
 import java.util.Collection;
+import java.util.Enumeration;
 
 /**
  * Transforms a URIAlignment to a ObjectAlignment
  */
 public class AlignmentTransformer {
 
-    public static ObjectAlignment toObjectAlignment( URIAlignment al ) throws AlignmentException {
+    public static ObjectAlignment toObjectAlignment(Alignment al) throws AlignmentException {
+        if (al instanceof ObjectAlignment) {
+            return (ObjectAlignment) al;
+        } else if (al instanceof URIAlignment) {
+            return toObjectAlignment((URIAlignment) al);
+        } else {
+            throw new AlignmentException("Cannot convert to ObjectAlignment : " + al);
+        }
+    }
+
+    public static ObjectAlignment toObjectAlignment(URIAlignment al) throws AlignmentException {
         AlignmentTransformer t = new AlignmentTransformer();
         return t.asObjectAlignment(al);
     }
@@ -23,18 +39,59 @@ public class AlignmentTransformer {
 
         // improve this
         if ("INSTANCES".equals(f1) && "INSTANCES".equals(f2)) {
-            return asObjectAlignmentFromInstanceMatching(al);
+            try {
+                return asObjectAlignmentFromInstanceMatching(al);
+            } catch (OWLOntologyCreationException e) {
+                throw new AlignmentException("Could not transform URIAlignment.", e);
+            }
         } else {
             return asObjectAlignmentDefault(al);
         }
     }
 
-    private ObjectAlignment asObjectAlignmentFromInstanceMatching(URIAlignment al) {
-        ObjectAlignment alignment = new ObjectAlignment();
+    private ObjectAlignment asObjectAlignmentFromInstanceMatching(URIAlignment al) throws AlignmentException, OWLOntologyCreationException {
 
+        OWLDataFactory df = OWLManager.getOWLDataFactory();
+        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 
+        OWLOntology ont1 = manager.createOntology();
+        OWLOntology ont2 = manager.createOntology();
 
-        return alignment;
+        OWLClass thing = df.getOWLClass(IRI.create("http://www.w3.org/2002/07/owl#Thing"));
+
+        // creates an individual for each match
+        Enumeration<Cell> e = al.getElements();
+        while (e.hasMoreElements()) {
+            Cell cell = e.nextElement();
+
+            URI uri1 = cell.getObject1AsURI();
+            URI uri2 = cell.getObject2AsURI();
+
+            OWLNamedIndividual ind1 = df.getOWLNamedIndividual(IRI.create(uri1));
+            OWLNamedIndividual ind2 = df.getOWLNamedIndividual(IRI.create(uri2));
+
+            OWLClassAssertionAxiom cax1 = df.getOWLClassAssertionAxiom(thing, ind1);
+            manager.addAxiom(ont1, cax1);
+
+            OWLClassAssertionAxiom cax2 = df.getOWLClassAssertionAxiom(thing, ind2);
+            manager.addAxiom(ont2, cax2);
+        }
+
+        ObjectAlignment oa = new ObjectAlignment();
+        oa.setOntology1(wrapOWLOntology(ont1));
+        oa.setOntology2(wrapOWLOntology(ont2));
+
+        return oa;
+    }
+
+    private OWLAPI3Ontology wrapOWLOntology(OWLOntology o) {
+        OWLAPI3Ontology onto = new OWLAPI3Ontology();
+        onto.setOntology(o);
+        onto.setFormalism(null);
+        onto.setFormURI(null);
+        onto.setURI(null);
+        onto.setFile(null);
+        return onto;
     }
 
     private ObjectAlignment asObjectAlignmentDefault(URIAlignment al) throws AlignmentException {
