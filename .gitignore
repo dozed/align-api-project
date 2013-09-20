@@ -1,9 +1,3 @@
-# dtd
-# examples
-# html
-# javadoc
-# lib
-# plugins
 
 .idea
 *.iml
@@ -13,9 +7,5 @@ distrib
 
 mvn-repo
 out
-src
-test
-tools
 
-build.xml
 

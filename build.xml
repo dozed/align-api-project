@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- $Id: build.xml 1846 2013-03-25 15:28:06Z euzenat $ -->
+
+<project name="align" default="compile" basedir="."
+	 xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+  <!-- this is useful but introduces, Xlint:path warnings -->
+  <path id="classpath">
+    <fileset dir="./lib">
+      <include name="**/*.jar"/>
+      <!-- several useless (and may be harmful) things at the moment -->
+      <exclude name="seals/seals-omt-client.jar" />
+      <!--exclude name="slf4j/logback-core-1.0.9.jar" />
+      <exclude name="slf4j/logback-classic-1.0.9.jar" /-->
+    </fileset>
+  </path>
+
+  <!-- tested -->
+  <target name="usage" depends="versionnumber">
+    <echo>ant _target_ _options_
+
+      usage: this message
+      init: sets necessary variables
+      upgrade: retrieve necessary libraries from other projects (local)
+      compile: incrementaly compiles sources
+      compileall: recompiles all sources
+      lint: compiles all sources with bug flags on
+      jar: archives compiled code
+      test: performs unit tests
+      zip: creates a new zip file
+      javadoc: generates documentation
+      release: releases a new version
+      mavenize: creates a maven local repository
+      cover: check test coverage
+      analyse: perform static analysis
+      svnbranch: copy the version under svn
+      clean: clean-up before release
+
+	-Dversion=${version} -Dsvn.revision=${svn.revision} -Dversion.update=${version.update}
+    </echo>
+  </target>
+
+  <target name="bind" description="Set variables">
+    <property file="../build.properties"/>
+    <!-- This should now be handled by GForge -->
+    <property name="tooldir"  value="tools" />
+    <property name="libdir"  value="lib" />
+    <property name="classpath"  value="classes"/>
+    <property name="tempdir"  value="/tmp"/>
+    <!-- when using logback -->
+    <property name="logback.configurationFile"  value="logback.xml"/>
+  </target>
+
+  <target name="versionnumber" depends="bind" description="Establishes the version number">
+    <tstamp><format locale="fr,fr" pattern="dd/MM/yyyy" property="date"/></tstamp>
+    <property name="version.major" value="4"/>
+    <property name="version.minor" value="5"/>
+    <property name="copyyear" value="2003-2013"/>
+    <!-- first attempt -->
+    <exec executable="svnversion" outputproperty="svn.rev" failifexecutionfails="false"/>
+    <condition property="svn.revision" value="${svn.rev}" else="nosvn">
+      <isset property="svn.rev"/>
+    </condition>
+    <!-- second attempt -->
+    <!--exec executable="svn" output="/tmp/svn.properties">
+      <arg value="info" />
+    </exec-->
+    <property prefix="svn" file="/tmp/svn.properties"/>
+    <property name="svn.rev" value="${svn.Revision}"/>
+    <property name="version" value="${version.major}.${version.minor}"/>
+    <property name="login" value="${user.name}"/>
+    <property name="debug" value="off"/>
+    <property name="rep" value="svn+ssh://scm.gforge.inria.fr/svn/alignapi"/>
+    
+    <filter token="DATE" value="${date}"/>
+    <filter token="VERS" value="${version}"/>
+  </target>
+
+  <target name="upgrade" description="Upgrade local dependencies">
+    <copy file="../ontosim/lib/ontosim.jar" todir="lib/ontosim" filtering="false"/>
+  </target>
+
+  <!-- tested -->
+  <target name="compile" depends="bind" description="Incrementally compile source files">
+    <echo message="Compiling..."/>
+    <property name="javacargs" value="-deprecation" />
+    <mkdir dir="classes"/>
+    <javac deprecation="yes" includeantruntime="false" nowarn="no" verbose="no" srcdir="src" destdir="classes" encoding="iso8859-15">
+      <compilerarg value="${javacargs}"/>
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <!-- tested -->
+  <target name="compileall" depends="versionnumber" description="Recompile all source files and create jar">
+    <echo message="Erasing..."/>
+    <delete>
+      <fileset dir="." includes="classes/**/*.class"/>
+    </delete>
+    <antcall target="cleanjar"/>
+    <antcall target="jar"/>
+    <ant dir="plugins/neon" target="compileall" />
+    <ant dir="plugins/webcontent" target="compileall" />
+    <ant dir="plugins/android" target="compileall" />
+  </target>
+
+  <!-- tested -->
+  <target name="lint" depends="bind" description="Check sources for warnings">
+    <echo message="Setting property..."/>
+    <!-- values: cast,deprecation,divzero,empty,unchecked[3],fallthrough,path[5],serial,finally,overrides,all,none -->
+    <!--property name="javacargs" value="-Xlint:cast" /-->
+    <property name="javacargs" value="-Xlint:all" />
+    <antcall target="compileall"/>
+  </target>
+
+  <target name="analyse" depends="jar" description="Perform static analysis of code">
+    <!-- Checkstyle
+    <taskdef resource="checkstyletask.properties"
+             classpath="${tooldir}/checkstyle/checkstyle-all-5.0.jar"/-->
+    <!-- // I must have a checks.xml -->
+    <!--checkstyle config="docs/sun_checks.xml">
+      <fileset dir="src" includes="**/*.java"/>
+      // let see if we can put a css
+      <formatter type="xml" toFile="test/html/checkstyle.xml"/>
+    </checkstyle-->
+    <!-- FindBugs
+    <taskdef name="findbugs" classpath="${tooldir}/findbugs/findbugs-ant.jar" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
+    <findbugs home="test/html/"
+	      output="xml"
+	      outputFile="bcel-fb.xml" >
+      //<auxClasspath path="${basedir}/lib/Regex.jar" />
+      <sourcePath path="src" />
+      <class location="lib/align.jar" />
+    </findbugs-->
+    <!-- Use PMD
+    <taskdef name="pmd" classpath="${tooldir}/pmd/pmd-ant.jar" classname="net.sourceforge.pmd.ant.PMDTask"/>
+    <pmd shortFilenames="true">
+      <ruleset>rulesets/favorites.xml</ruleset>
+      <ruleset>basic</ruleset>
+      <formatter type="html" toFile="pmd_report.html" linkPrefix="http://pmd.sourceforge.net/xref/"/>
+      <fileset dir="/usr/local/j2sdk1.4.1_01/src/">
+	<include name="java/lang/*.java"/>
+      </fileset>
+    </pmd-->
+    <!-- tattletale: very long -->
+    <taskdef name="tattletale-report"
+             classname="org.jboss.tattletale.ant.ReportTask"
+             classpath="${tooldir}/tattletale/tattletale-ant.jar:${tooldir}/tattletale/tattletale.jar:${tooldir}/tattletale/javassist.jar"/>
+    <tattletale-report source="lib" destination="tattletale"/>
+    <!-- Emma (coverage) seems really difficult -->
+    <!--taskdef resource="emma_ant.properties" classpathref="emma.lib" /-->
+  </target>
+
+  <macrodef name="onejar" description="utility macro for JAR packaging">
+    <attribute name="group" description="Maven group ID" />
+    <attribute name="file" description="Artifact name" />
+    <attribute name="desc" description="Description" />
+    <attribute name="main" description="Main class to call" default=""/>
+    <attribute name="pack" description="Exported packages" />
+    <attribute name="impt" description="Imported packages" default="" />
+    <attribute name="path" description="Class path" default="" />
+    <attribute name="contentid" description="The fileset Id of the files to include" />
+    <sequential>
+      <delete file="lib/@{file}.jar"/>
+      <!-- it may even be easier to generate the pom -->
+      <copy file="distrib/@{file}.pom" toFile="lib/@{file}.pom" overwrite="true">
+	<filterset>
+	  <filter token="GROUPID" value="@{group}"/>
+	  <filter token="ARTID" value="@{file}"/>
+	  <filter token="VERS" value="${version}"/>
+	  <filter token="DATE" value="${date}"/>
+	  <filter token="REV" value="${svn.rev}"/>
+	  <filter token="COPYYEAR" value="${copyyear}"/>
+	</filterset>
+      </copy>
+      <jar jarfile="lib/@{file}.jar">
+	<manifest>
+	  <attribute name="Built-Date" value="${date}"/>
+          <attribute name="Main-Class" value="@{main}"/>
+          <attribute name="Class-Path" value="@{path}"/>
+	  <attribute name="Implementation-Title" value="@{desc}"/>
+	  <attribute name="Implementation-Version" value="${version} (${svn.rev})"/>
+	  <attribute name="Bundle-Name" value="@{desc}"/>
+	  <attribute name="Bundle-SymbolicName" value="@{file}"/>
+	  <attribute name="Bundle-Version" value="${version} (${svn.rev})"/>
+	  <attribute name="Bundle-Copyright" value="INRIA, ${copyyear}"/>
+	  <attribute name="Bundle-Date" value="${date}"/>
+	  <attribute name="Bundle-License" value="GNU Lesser General Public License 2.1 or above"/>
+	  <attribute name="Export-package" value="@{pack}"/>
+	  <attribute name="Import-package" value="@{impt}"/>
+	</manifest>
+	<!-- This should be achieved with a metainf tag, but not working -->
+	<zipfileset file="classes/LICENSE.TXT" fullpath="META-INF/LICENSE.TXT" />
+	<zipfileset file="lib/@{file}.pom" fullpath="META-INF/maven/@{group}/@{file}/pom.xml" />
+	<fileset refid="@{contentid}" />
+      </jar>
+    </sequential>
+  </macrodef>
+
+  <!-- tested -->
+  <target name="jar" depends="compile,versionnumber" description="Create jar archives">
+    <echo message="Jarchiving..."/>
+    <copy file="distrib/LICENSE.TXT" tofile="classes/LICENSE.TXT" filtering="true"/>
+
+    <!-- align.jar -->
+    <fileset id="alignset" dir="classes">
+      <include name="org/semanticweb/owl/align/*.class"/>
+    </fileset>
+    <onejar file="align"
+      group="org.semanticweb.owl"
+      desc="Alignment API"
+      pack="org.semanticweb.owl.align"
+      contentid="alignset" />
+
+    <!-- ontowrap.jar -->
+    <copy file="src/fr/inrialpes/exmo/ontowrap/skoslite/skos.rdf" tofile="classes/fr/inrialpes/exmo/ontowrap/skoslite/skos.rdf" />
+    <fileset id="wrapset" dir="classes">
+      <include name="fr/inrialpes/exmo/ontowrap/**/*.class" />
+      <include name="fr/inrialpes/exmo/ontowrap/**/*.rdf"/>
+    </fileset>
+    <onejar file="ontowrap"
+      group="fr.inrialpes.exmo"
+      desc="Ontology wrapper"
+      path="jena/arq.jar jena/icu4j.jar 	jena/iri.jar 	jena/jena.jar 	skosapi/skosapi.jar owlapi10/api.jar owlapi10/impl.jar owlapi10/io.jar owlapi10/rdfapi.jar owlapi10/rdfparser.jar owlapi3/owlapi-bin.jar"
+      pack="fr.inrialpes.exmo.ontowrap,fr.inrialpes.exmo.ontowrap.jena25,fr.inrialpes.exmo.ontowrap.owlapi10,fr.inrialpes.exmo.ontowrap.owlapi30,fr.inrialpes.exmo.ontowrap.util"
+      contentid="wrapset" />
+
+    <!-- procalign.jar -->
+    <fileset id="procset" dir="classes">
+      <include name="fr/inrialpes/exmo/align/impl/**/*.class"/>
+      <include name="fr/inrialpes/exmo/align/parser/**/*.class"/>
+      <include name="fr/inrialpes/exmo/align/util/**/*.class"/>
+      <include name="fr/inrialpes/exmo/align/cli/**/*.class"/>
+      <include name="fr/inrialpes/exmo/align/gen/**/*.class"/>
+      <include name="fr/inrialpes/exmo/align/ling/**/*.class"/>
+    </fileset>
+    <onejar file="procalign"
+      group="fr.inrialpes.exmo.align"
+      desc="Alignment API implementation"
+      main="fr.inrialpes.exmo.align.cli.Procalign"
+      pack="fr.inrialpes.exmo.align.impl,fr.inrialpes.exmo.align.impl.edoal,fr.inrialpes.exmo.align.impl.eval,fr.inrialpes.exmo.align.impl.method,fr.inrialpes.exmo.align.impl.rel,fr.inrialpes.exmo.align.impl.renderer,fr.inrialpes.exmo.align.ling,fr.inrialpes.exmo.align.parser,fr.inrialpes.exmo.align.util,fr.inrialpes.exmo.align.cli,fr.inrialpes.exmo.align.gen"
+      impt="fr.inrialpes.exmo.ontowrap,fr.inrialpes.exmo.ontowrap.jena25,fr.inrialpes.exmo.ontowrap.owlapi10,fr.inrialpes.exmo.ontowrap.owlapi30,fr.inrialpes.exmo.ontowrap.util,org.semanticweb.owl.align"
+      path="skosapi/skosapi.jar owlapi30/owlapi-bin.jar ontosim/ontosim.jar getopt/getopt.jar slf4j/jcl-over-slf4j.jar slf4j/log4j-over-slf4j.jar slf4j/slf4j-api.jar jwnl/jwnl.jar lucene/lucene-core.jar jena/jena.jar jena/iri.jar jena/icu4j.jar iddl/iddl.jar xerces/xercesImpl.jar xerces/resolver.jar xerces/xml-apis.jar hermit/hermit.jar align.jar ontowrap.jar procalign.jar"
+      contentid="procset" />
+
+    <!-- alignsvc.jar -->
+    <copy file="src/fr/inrialpes/exmo/align/service/aserv.wsdl" tofile="classes/fr/inrialpes/exmo/align/service/aserv.wsdl" filtering="false"/>
+    <fileset id="servset" dir="classes">
+      <include name="fr/inrialpes/exmo/align/service/**/*.class"/>
+      <include name="fr/inrialpes/exmo/align/service/**/*.wsdl"/>
+      <include name="fr/inrialpes/exmo/queryprocessor/**/*.class"/>
+    </fileset>
+    <onejar file="alignsvc"
+      group="fr.inrialpes.exmo.align"
+      desc="Alignment server"
+      main="fr.inrialpes.exmo.align.service.AlignmentService"
+      pack="fr.inrialpes.exmo.align.queryprocessor,fr.inrialpes.exmo.align.service,fr.inrialpes.exmo.align.service.jade,fr.inrialpes.exmo.align.service.jade.messageontology"
+      path="procalign.jar jade/jade.jar jade/iiop.jar jade/http.jar jdbc/mysql-connector-java.jar jdbc/postgresql-jdbc4.jar servlet/servlet-api.jar jetty/jetty.jar jetty/jetty-util.jar xerces/xercesImpl.jar"
+      contentid="servset" />
+  </target>
+
+  <!-- tested -->
+  <target name="cleanjar" depends="bind" description="Delete jar archives">
+    <echo message="Erasing..."/>
+    <delete file="lib/align.jar"/>
+    <delete file="lib/ontowrap.jar"/>
+    <delete file="lib/alignsvc.jar"/>
+    <delete file="lib/procalign.jar"/>
+  </target>
+
+  <!-- tested -->
+  <target name="aserv" depends="bind">
+    <echo message="Setting property..."/>
+    <jar jarfile="lib/aserv.jar">
+      <manifest>
+	<attribute name="Built-Date" value="${date}"/>
+        <attribute name="Main-Class" value="fr.inrialpes.exmo.align.service.AlignmentService"/>
+	<!-- usually each MANIFEST knows what it needs, add here -->
+	<!--  semanticmapper-0.2.jar jwnl.jar sboa.jar TaxoMap.jar AROMA_aserv.jaroyster2.jar, semanticmapper-0.2.jar, sboalgorithms.jar -->
+	<!-- others should be there naturally -->
+        <attribute name="Class-Path" value="alignsvc.jar"/>
+	<attribute name="Implementation-Title" value="Alignment server custom launcher"/>
+	<attribute name="Implementation-Version" value="${version} (${svn.rev})"/> 
+      </manifest>
+    </jar>
+  </target>
+<!-- JE: May also be done this way... bundles all the necessary jars...
+<jar destfile="build/main/checksites.jar">
+    <fileset dir="build/main/classes"/>
+    <restrict>
+     <name name="**/*.class"/>
+     <archives>
+       <zips>
+         <fileset dir="lib/main" includes="**/*.jar"/>
+       </zips>
+     </archives>
+    </restrict>
+    <manifest>
+      <attribute name="Main-Class"
+            value="com.acme.checksites.Main"/>
+    </manifest>
+  </jar-->
+
+  <!-- tested -->
+  <target name="test" depends="bind" description="Unit test code">
+    <echo message="Testing..."/>
+    <taskdef name="testng" classpath="${tooldir}/testng/testng.jar" classname="org.testng.TestNGAntTask" />
+    <javac srcdir="test/src" includeantruntime="false" destdir="test/classes" debug="on"
+	   classpath="tools/testng/testng.jar" encoding="iso8859-15">
+      <!--compilerarg value="-Xlint:all"/-->
+      <classpath refid="classpath"/>
+    </javac>
+    <!-- possible groups: raw=impl+serv+io+onto+omwg, full=raw+ling+sem -->
+    <!-- ling requires WordNet and takes ages initialising it -->
+    <testng groups="raw"
+	    outputDir="test/html" verbose="1"
+	    haltOnFailure="false" failureProperty="failed">
+      <!-- if ones uses logback -->
+      <propertyset>
+	<propertyref name="logback.configurationFile"/>
+      </propertyset>
+      <classpath>
+	<path refid="classpath"/>
+	<pathelement location="test/classes"/>
+      </classpath>
+      <!--xmlfileset dir="${test14.dir}" includes="testng.xml"/-->
+      <classfileset dir="test" includes="classes/**/*.class"/>
+    </testng>
+    <fail if="failed" message="For results: open test/html/index.html" />
+  </target>
+
+  <!-- tested -->
+  <target name="cleantest" depends="bind" description="Clean up test directory">
+    <echo message="Cleaning tests..."/>
+    <delete>
+      <fileset dir="test/classes" includes="**/*.class"/>
+      <fileset dir="test/output" includes="**/*.*"/>
+      <fileset dir="test/html" includes="**/*.html,**/*.xml,**/*.css"/>
+    </delete>
+    <delete dir="test/html/Ant suite"/>
+  </target>
+
+  <!-- tested -->
+  <target name="javadoc" depends="versionnumber" description="Generate java documentation">
+   <echo message="Javadocing... ${version}"/>
+   <javadoc
+      destdir="javadoc"
+      author="true"
+      version="true"
+      Use="true" Splitindex="true" private="true"
+      Windowtitle="Alignment API and Server"
+      doctitle="Alignment API and Server ${version}" 
+      header="Alignment API and Server ${version} (${svn.rev})"
+      bottom="(C) INRIA &amp; friends, ${copyyear}"
+      >
+     <classpath refid="classpath"/>
+     <packageset dir="src" defaultexcludes="yes">
+       <include name="org/semanticweb/owl/align/**"/>
+       <include name="fr/inrialpes/**"/>
+       <include name="org/ivml/alimo/**"/>
+       <!--exclude name="org/semanticweb/owl/**"/-->
+     </packageset>
+     <!-- This works but the classpath is not set correctly -->
+     <!--packageset dir="plugins/neon/src" defaultexcludes="yes">
+	 <include name="fr/inrialpes/**"/>
+     </packageset-->
+     <link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+    </javadoc>
+  </target>
+
+  <!-- tested -->
+  <target name="release" depends="versionnumber" description="Release a new version of the API">
+    <echo message="Releasing version ${version} (${svn.revision})" />
+    <!--echo message="Are you sure that everything is OK (update/ci/compile/lint)?"/-->
+    <copy file="distrib/LICENSE.TXT" tofile="LICENSE.TXT" filtering="true"/>
+    <antcall target="zip"/>
+    <!--copy file="${tempdir}/align-${version}.zip" tofile="${FTPDir}/align-${version}.zip" /-->
+    <!-- This should now go to GForge -->
+    <!--copy file="${FTPDir}/align-${version}.zip" tofile="${WebDir}/align.zip" /-->
+    <echo message="Please upload the released file to Gforge" />
+    <echo message="mv ${tempdir}/align-${version}.zip ${FTPDir}/" />
+    <echo message="svn copy svn+ssh://euzenat@scm.gforge.inria.fr/svn/alignapi/trunk svn+ssh://euzenat@scm.gforge.inria.fr/svn/alignapi/tags/version-${version} -m 'release ${version}'"/>
+    <delete file="LICENSE.TXT"/>
+  </target>
+
+  <!-- tested -->
+  <target name="zip" depends="bind" description="Generate zip file containing a release">
+    <echo message="Ziping..."/>
+    <antcall target="clean"/>
+    <!-- Unfortunately commit is not functional -->
+    <!--antcall target="commit"/-->
+    <antcall target="compileall"/>
+    <antcall target="jar"/>
+    <antcall target="test"/>
+    <antcall target="cleantest"/>
+    <antcall target="javadoc"/>
+    <ant dir="plugins/neon" target="jar">
+      <property name="version" value="${version}.${svn.revision}"/>
+    </ant>
+    <ant dir="plugins/android" target="jar">
+      <property name="version" value="${version}.${svn.revision}"/>
+    </ant>
+    <!-- may be useful to change directory -->
+    <zip zipfile="${tempdir}/align-${version}.zip">
+      <fileset dir=".">
+	<include name="**/*"/>
+	<exclude name="**/.svn"/>
+	<exclude name="plugins/neon/lib"/>
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="svnCommit">
+    <property name="source-root" value="/usr/src"/>
+    <property name="repository.URL" value="http://sources.example.com"/>
+    <java classname="org.tmatesoft.svn.cli.SVN"
+      dir="${source-root}/TESTREPO" fork="true">
+      <arg value="commit"/>
+      <arg value="--username"/>
+      <arg value="admin"/>
+      <arg value="--password"/>
+      <arg value="admin"/>
+      <arg value="-m"/> 
+      <arg value='"Testing"'/>
+      <arg value="${repository.URL}/TESTING"/>
+      <classpath>
+        <pathelement location="${antroot}/LIB/ganymed.jar" />
+        <pathelement location="${antroot}/LIB/javasvn.jar" />
+        <pathelement location="${antroot}/LIB/javasvn-cli.jar" />
+      </classpath>
+    </java>
+  </target>
+
+  <!-- This is for testing purposes, but has been found to work -->
+  <target name="status" depends="bind">
+    <java classname="org.tmatesoft.svn.cli.SVN" dir="." fork="true">
+      <arg value="status" />
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <!-- not tested yet -->
+  <target name="update" depends="bind">
+    <java classname="org.tmatesoft.svn.cli.SVN" dir="." fork="true"
+         failonerror="true">
+      <sysproperty key="javasvn.ssh2.key" 
+                   value="/Volumes/Khata/.ssh/id_dsa" />
+      <!--sysproperty key="javasvn.ssh2.username" value="${login}" />
+      <sysproperty key="javasvn.ssh2.passphrase" value="aa" /-->
+      <arg value="update" />
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <!-- not tested yet -->
+  <target name="commit" depends="update">
+    <java classname="org.tmatesoft.svn.cli.SVN" dir="." fork="true">
+      <arg value="commit" />
+      <arg value="--username" />
+      <arg value="${login}" />
+      <arg value="-m" />
+      <arg value='"Pre-release ${version}"' />
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <!-- not tested yet -->
+  <target name="svnbranch" depends="">
+    <java classname="org.tmatesoft.svn.cli.SVN" dir="." fork="true">
+      <arg value="copy" />
+      <arg value="--username" />
+      <arg value="${login}" />
+      <arg value="${rep}/trunk" />
+      <arg value="${rep}/tags/version-${version}" />
+      <arg value="-m" />
+      <arg value='"Release ${version}"' />
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <!-- tested -->
+  <macrodef name="onepom" description="utility macro for maven exporting">
+    <attribute name="file" description="Artifact name" />
+    <sequential>
+      <artifact:install file="lib/@{file}.jar">
+	<pom file="lib/@{file}.pom" />
+	<localRepository path="mvn-repo" />
+      </artifact:install>
+    </sequential>
+  </macrodef>
+
+  <!-- tested -->
+  <target name="mavenize" depends="bind" description="Creates a Maven local repositry">
+    <echo message="Mavenizing..."/>
+    <path id="maven-ant-tasks.classpath" path="${tooldir}/maven/maven-ant-tasks-2.1.3.jar" />
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+             uri="antlib:org.apache.maven.artifact.ant"
+             classpathref="maven-ant-tasks.classpath" />
+    <delete dir="mvn-repo"/>
+    <mkdir dir="mvn-repo"/>
+    <!-- This would require ant-contrib -->
+    <!--for param="file">
+      <path>
+	<fileset dir="lib" includes="**/*.pom"/>
+      </path>
+      <echo message="@{file}" />
+      <onepom file="@{file}" />
+    </for-->
+    <onepom file="getopt/getopt" />
+    <onepom file="google-translate/google-api-translate-java" />
+    <onepom file="google-translate/json" />
+    <onepom file="hermit/hermit" />
+    <onepom file="iddl/iddl" />
+    <onepom file="jade/jade-http" />
+    <onepom file="jade/iiop" />
+    <onepom file="jade/jade" />
+    <onepom file="jdbc/mysql-connector-java" />
+    <onepom file="jdbc/postgresql-jdbc4" />
+    <onepom file="jena/arq" />
+    <onepom file="jena/icu4j" />
+    <onepom file="jena/iri" />
+    <onepom file="jena/jena" />
+    <!-- <onepom file="jetty/jetty-util" /> -->
+    <!-- <onepom file="jetty/jetty" /> -->
+    <onepom file="jwnl/jwnl" />
+    <onepom file="slf4j/slf4j-api" />
+    <onepom file="slf4j/jcl-over-slf4j" />
+    <onepom file="slf4j/log4j-over-slf4j" />
+    <onepom file="lucene/lucene-core" />
+    <onepom file="ontosim/ontosim" />
+    <onepom file="owlapi10/api" />
+    <onepom file="owlapi10/impl" />
+    <onepom file="owlapi10/io" />
+    <onepom file="owlapi10/rdfapi" />
+    <onepom file="owlapi10/rdfparser" />
+    <onepom file="owlapi30/owlapi-bin" />
+    <onepom file="oyster/oyster" />
+    <onepom file="servlet/servlet-api" />
+    <onepom file="skosapi/skosapi" />
+    <onepom file="xerces/resolver" />
+    <onepom file="xerces/xercesImpl" />
+    <onepom file="xerces/xml-apis" />
+    <onepom file="xsdlib/relaxngDatatype" />
+    <!-- <onepom file="xsdlib/xsdlib" /> -->
+    <onepom file="align" />
+    <onepom file="ontowrap" />
+    <onepom file="procalign" />
+    <onepom file="alignsvc" />
+  </target>
+
+  <!-- tested -->
+  <target name="clean" description="Clean up the whole directory">
+    <echo message="Cleaning..."/>
+    <antcall target="cleantest"/>
+    <ant dir="plugins/neon" target="clean" />
+    <ant dir="plugins/webcontent" target="clean" />
+    <ant dir="plugins/android" target="clean" />
+    <delete dir="examples/aligns"/>
+    <delete dir="mvn-repo"/>
+    <delete>
+      <fileset dir="classes" includes="**/*.class"/>
+      <fileset dir="examples" includes="**/*.class"/>
+      <fileset dir="examples/rdf" includes="*.rdf" excludes="newsample.rdf"/>
+      <fileset dir="examples/rdf" includes="*.tex"/>
+      <fileset dir="examples/omwg" includes="wine?.xml"/>
+      <fileset dir="examples" includes="**/*.jar"/>
+      <fileset dir="html/tutorial" includes="**/*.class"/>
+    </delete>
+  </target>
+
+</project>
