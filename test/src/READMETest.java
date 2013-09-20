@@ -22,15 +22,14 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
-import org.testng.annotations.BeforeClass;
+
+import fr.inrialpes.exmo.align.impl.AlignmentTransformer;
 import org.testng.annotations.Test;
 
 import org.semanticweb.owl.align.AlignmentVisitor;
 import org.semanticweb.owl.align.AlignmentException;
 import org.semanticweb.owl.align.AlignmentProcess;
 import org.semanticweb.owl.align.Alignment;
-import org.semanticweb.owl.align.Cell;
-import org.semanticweb.owl.align.Evaluator;
 
 import fr.inrialpes.exmo.align.impl.renderer.RDFRendererVisitor;
 import fr.inrialpes.exmo.align.impl.method.StringDistAlignment;
@@ -49,7 +48,6 @@ import java.io.OutputStreamWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Properties;
 
 /**
@@ -147,7 +145,7 @@ $ java -jar lib/Procalign.jar file://$CWD/examples/rdf/edu.umbc.ebiquity.publica
 	URIAlignment al = ((ObjectAlignment)alignment).toURIAlignment();
 	assertNotNull( al, "URIAlignment should not be null" );
 	assertEquals( al.nbCells(), 10 );
-	ObjectAlignment al2 = ObjectAlignment.toObjectAlignment( al );
+	ObjectAlignment al2 = AlignmentTransformer.toObjectAlignment(al);
 	assertNotNull( al2, "ObjectAlignment should not be null" );
 	assertEquals( al2.nbCells(), 10 );
 	}

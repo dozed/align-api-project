@@ -20,11 +20,10 @@
 
 package fr.inrialpes.exmo.align.impl.renderer; 
 
-import java.net.URI;
-import java.util.Enumeration;
 import java.util.Properties;
 import java.io.PrintWriter;
 
+import fr.inrialpes.exmo.align.impl.AlignmentTransformer;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentVisitor;
 import org.semanticweb.owl.align.AlignmentException;
@@ -41,7 +40,7 @@ import fr.inrialpes.exmo.ontowrap.OntowrapException;
 /**
  * Renders an alignment as a new ontology merging these.
  *
- * @author Jérôme Euzenat
+ * @author Jï¿½rï¿½me Euzenat
  * @version $Id: COWLMappingRendererVisitor.java 1827 2013-03-07 22:44:05Z euzenat $ 
  */
 
@@ -66,7 +65,7 @@ public class COWLMappingRendererVisitor extends GenericReflectiveVisitor impleme
 	    alignment = align;
 	} else {
 	    try {
-		alignment = ObjectAlignment.toObjectAlignment( (URIAlignment)align );
+		alignment = AlignmentTransformer.toObjectAlignment((URIAlignment) align);
 	    } catch ( AlignmentException alex ) {
 		throw new AlignmentException("COWLMappingRenderer: cannot render simple alignment. Need an ObjectAlignment", alex );
 	    }

@@ -24,9 +24,6 @@ import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
 import org.semanticweb.owl.align.Evaluator;
 
-import fr.inrialpes.exmo.align.impl.ObjectAlignment;
-import fr.inrialpes.exmo.align.impl.URIAlignment;
-
 import java.io.PrintWriter;
 
 /**
@@ -56,7 +53,7 @@ public abstract class BasicEvaluator implements Evaluator {
 	if ( al instanceof ObjectAlignment ) {
 	    return (ObjectAlignment)al;
 	} else if ( al instanceof URIAlignment ) {
-	    return ObjectAlignment.toObjectAlignment( (URIAlignment)al );
+	    return AlignmentTransformer.toObjectAlignment((URIAlignment) al);
 	} else {
 	    throw new AlignmentException( "Cannot convert to ObjectAlignment : "+al );
 	}

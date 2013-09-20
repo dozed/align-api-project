@@ -20,28 +20,23 @@
 
 package fr.inrialpes.exmo.align.impl; 
 
-import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Set;
 import java.text.NumberFormat;
 
 import org.semanticweb.owl.align.Alignment;
-import org.semanticweb.owl.align.AlignmentProcess;
 import org.semanticweb.owl.align.AlignmentException;
 import org.semanticweb.owl.align.Cell;
 
 import fr.inrialpes.exmo.ontowrap.LoadedOntology;
 import fr.inrialpes.exmo.ontowrap.OntowrapException;
 
-import fr.inrialpes.exmo.align.impl.Similarity;
-import fr.inrialpes.exmo.align.impl.ObjectAlignment;
-
 /**
  * Implements the structure needed for recording class similarity
  * or dissimilarity within a matrix structure.
  *
- * @author Jérôme Euzenat
+ * @author Jï¿½rï¿½me Euzenat
  * @version $Id: MatrixMeasure.java 1502 2010-08-16 08:13:55Z euzenat $ 
  */
 
@@ -80,7 +75,7 @@ public abstract class MatrixMeasure implements Similarity {
 	try {
 	    ObjectAlignment oalign;
 	    if ( align instanceof URIAlignment ){
-		oalign = ObjectAlignment.toObjectAlignment( (URIAlignment)align );
+		oalign = AlignmentTransformer.toObjectAlignment((URIAlignment) align);
 	    } else if ( align instanceof ObjectAlignment ) {
 		oalign = (ObjectAlignment)align;
 	    } else {

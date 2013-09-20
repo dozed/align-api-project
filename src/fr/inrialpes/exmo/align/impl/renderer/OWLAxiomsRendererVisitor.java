@@ -20,23 +20,17 @@
 
 package fr.inrialpes.exmo.align.impl.renderer; 
 
-import java.util.Enumeration;
 import java.util.Properties;
 import java.io.PrintWriter;
 import java.net.URI;
 
+import fr.inrialpes.exmo.align.impl.*;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentVisitor;
 import org.semanticweb.owl.align.AlignmentException;
 import org.semanticweb.owl.align.Cell;
 import org.semanticweb.owl.align.Relation;
 
-import fr.inrialpes.exmo.align.impl.Annotations;
-import fr.inrialpes.exmo.align.impl.Namespace;
-import fr.inrialpes.exmo.align.impl.Extensions;
-import fr.inrialpes.exmo.align.impl.ObjectAlignment;
-import fr.inrialpes.exmo.align.impl.URIAlignment;
-import fr.inrialpes.exmo.align.impl.BasicRelation;
 import fr.inrialpes.exmo.align.impl.rel.*;
 
 import fr.inrialpes.exmo.ontowrap.LoadedOntology;
@@ -45,7 +39,6 @@ import fr.inrialpes.exmo.ontowrap.OntowrapException;
 import fr.inrialpes.exmo.align.parser.SyntaxElement;
 import fr.inrialpes.exmo.align.parser.SyntaxElement.Constructor;
 
-import fr.inrialpes.exmo.align.impl.edoal.Id;
 import fr.inrialpes.exmo.align.impl.edoal.PathExpression;
 import fr.inrialpes.exmo.align.impl.edoal.Expression;
 import fr.inrialpes.exmo.align.impl.edoal.ClassExpression;
@@ -82,7 +75,7 @@ import fr.inrialpes.exmo.align.impl.edoal.EDOALVisitor;
 /**
  * Renders an alignment as a new ontology merging these.
  *
- * @author Jérôme Euzenat
+ * @author Jï¿½rï¿½me Euzenat
  * @version $Id: OWLAxiomsRendererVisitor.java 1827 2013-03-07 22:44:05Z euzenat $ 
  */
 
@@ -116,7 +109,7 @@ public class OWLAxiomsRendererVisitor extends IndentedRendererVisitor implements
 	    edoal = true;
 	} else {
 	    try {
-		alignment = ObjectAlignment.toObjectAlignment( (URIAlignment)align );
+		alignment = AlignmentTransformer.toObjectAlignment((URIAlignment) align);
 		onto1 = (LoadedOntology)((ObjectAlignment)alignment).getOntologyObject1();
 		onto2 = (LoadedOntology)((ObjectAlignment)alignment).getOntologyObject2();
 	    } catch ( AlignmentException alex ) {

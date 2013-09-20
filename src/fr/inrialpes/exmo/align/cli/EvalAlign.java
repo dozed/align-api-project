@@ -20,6 +20,7 @@
 
 package fr.inrialpes.exmo.align.cli;
 
+import fr.inrialpes.exmo.align.impl.AlignmentTransformer;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
 import org.semanticweb.owl.align.Evaluator;
@@ -31,10 +32,7 @@ import fr.inrialpes.exmo.align.impl.URIAlignment;
 
 //Imported JAVA classes
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.lang.Integer;
-import java.lang.Double;
 import java.util.Properties;
 
 import java.io.OutputStream;
@@ -72,7 +70,7 @@ import gnu.getopt.Getopt;
 $Id: EvalAlign.java 1805 2013-02-08 14:25:15Z euzenat $
 </pre>
 
-@author Jérôme Euzenat
+@author Jï¿½rï¿½me Euzenat
     */
 
 public class EvalAlign {
@@ -203,8 +201,8 @@ public class EvalAlign {
 		    throw aex;
 		} else {
 		    try {
-			align1 = ObjectAlignment.toObjectAlignment( (URIAlignment)align1 );
-			align2 = ObjectAlignment.toObjectAlignment( (URIAlignment)align2 );
+			align1 = AlignmentTransformer.toObjectAlignment((URIAlignment) align1);
+			align2 = AlignmentTransformer.toObjectAlignment((URIAlignment) align2);
 			totry = true;
 		    } catch ( AlignmentException aaex ) { throw aex; }
 		}

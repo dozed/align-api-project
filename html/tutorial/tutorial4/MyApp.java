@@ -25,6 +25,7 @@
  */
 
 // Alignment API classes
+import fr.inrialpes.exmo.align.impl.AlignmentTransformer;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
 import org.semanticweb.owl.align.AlignmentProcess;
@@ -95,7 +96,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.InputStream;
@@ -188,7 +188,7 @@ public class MyApp {
 	    try {
 		AlignmentParser aparser = new AlignmentParser(0);
 		Alignment alu = aparser.parseString( xmlString );
-		al = ObjectAlignment.toObjectAlignment((URIAlignment)alu);
+		al = AlignmentTransformer.toObjectAlignment((URIAlignment) alu);
 	    } catch (AlignmentException ae) { 
 		ae.printStackTrace();
 	    }

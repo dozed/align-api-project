@@ -20,11 +20,11 @@
 
 package fr.inrialpes.exmo.align.impl.renderer; 
 
-import java.util.Enumeration;
 import java.util.Properties;
 import java.io.PrintWriter;
 import java.net.URI;
 
+import fr.inrialpes.exmo.align.impl.AlignmentTransformer;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentVisitor;
 import org.semanticweb.owl.align.AlignmentException;
@@ -42,7 +42,7 @@ import fr.inrialpes.exmo.ontowrap.OntowrapException;
  * Renders an alignment as a SWRL rule set interpreting
  *.data of the first ontology into the second one.
  *
- * @author Jérôme Euzenat
+ * @author Jï¿½rï¿½me Euzenat
  * @version $Id: SWRLRendererVisitor.java 1827 2013-03-07 22:44:05Z euzenat $ 
  */
 
@@ -70,7 +70,7 @@ public class SWRLRendererVisitor extends GenericReflectiveVisitor implements Ali
 	    alignment = align;
 	} else {
 	    try {
-		alignment = ObjectAlignment.toObjectAlignment( (URIAlignment)align );
+		alignment = AlignmentTransformer.toObjectAlignment((URIAlignment) align);
 	    } catch ( AlignmentException alex ) {
 		throw new AlignmentException("SWRLRenderer: cannot render simple alignment. Need an ObjectAlignment", alex );
 	    }

@@ -12,9 +12,9 @@ import java.util.Collection;
  */
 public class AlignmentTransformer {
 
-
-    public ObjectAlignment toObjectAlignment(URIAlignment al) throws AlignmentException {
-        return toObjectAlignment0(al);
+    public static ObjectAlignment toObjectAlignment( URIAlignment al ) throws AlignmentException {
+        AlignmentTransformer t = new AlignmentTransformer();
+        return t.toObjectAlignment0(al);
     }
 
     public ObjectAlignment toObjectAlignment0(URIAlignment al) throws AlignmentException {

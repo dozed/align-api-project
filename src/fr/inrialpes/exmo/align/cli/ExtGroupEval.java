@@ -4,7 +4,7 @@
  * Copyright (C) 2003 The University of Manchester
  * Copyright (C) 2003 The University of Karlsruhe
  * Copyright (C) 2003-2005, 2007-2012 INRIA
- * Copyright (C) 2004, Université de Montréal
+ * Copyright (C) 2004, Universitï¿½ de Montrï¿½al
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -28,10 +28,10 @@
 */
 package fr.inrialpes.exmo.align.cli;
 
+import fr.inrialpes.exmo.align.impl.AlignmentTransformer;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.Evaluator;
 
-import fr.inrialpes.exmo.align.impl.ObjectAlignment;
 import fr.inrialpes.exmo.align.impl.URIAlignment;
 import fr.inrialpes.exmo.align.impl.eval.ExtPREvaluator;
 import fr.inrialpes.exmo.align.parser.AlignmentParser;
@@ -43,14 +43,11 @@ import java.io.File;
 import java.io.PrintStream;
 import java.io.FileOutputStream;
 import java.lang.Integer;
-import java.util.Hashtable;
 import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Properties;
-
-import org.xml.sax.SAXException;
 
 import gnu.getopt.LongOpt;
 import gnu.getopt.Getopt;
@@ -88,7 +85,7 @@ $Id: ExtGroupEval.java 1701 2012-03-10 15:54:01Z euzenat $
 </pre>
 
 @author Sean K. Bechhofer
-@author Jérôme Euzenat
+@author Jï¿½rï¿½me Euzenat
     */
 
 public class ExtGroupEval {
@@ -264,8 +261,8 @@ public class ExtGroupEval {
 	    Alignment align2 = aparser.parse( alignName2 );
 	    if ( debug > 1 ) System.err.println(" Alignment structure2 parsed");
 	    // Create evaluator object
-	    eval = new ExtPREvaluator(ObjectAlignment.toObjectAlignment( (URIAlignment)align1 ), 
-				      ObjectAlignment.toObjectAlignment( (URIAlignment)align2 ) );
+	    eval = new ExtPREvaluator(AlignmentTransformer.toObjectAlignment((URIAlignment) align1),
+				      AlignmentTransformer.toObjectAlignment((URIAlignment) align2) );
 	    // Compare
 	    params.setProperty( "debug", Integer.toString( nextdebug ) );
 	    eval.eval( params ) ;

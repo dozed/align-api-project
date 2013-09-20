@@ -20,24 +20,15 @@
 
 package fr.inrialpes.exmo.align.impl;
 
-import java.util.Hashtable;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Enumeration;
-import java.util.Set;
-import java.util.Collection;
 import java.net.URI;
-
-import org.xml.sax.SAXException;
 
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
-import org.semanticweb.owl.align.AlignmentVisitor;
 import org.semanticweb.owl.align.Cell;
 import org.semanticweb.owl.align.Relation;
 
 import fr.inrialpes.exmo.ontowrap.OntologyFactory;
-import fr.inrialpes.exmo.ontowrap.Ontology;
 import fr.inrialpes.exmo.ontowrap.LoadedOntology;
 import fr.inrialpes.exmo.ontowrap.OntowrapException;
 
@@ -78,7 +69,7 @@ public class ObjectAlignment extends BasicAlignment {
 
     public void loadInit( Alignment al ) throws AlignmentException {
 	if ( al instanceof URIAlignment ) {
-	    init = toObjectAlignment( (URIAlignment)al );
+	    init = AlignmentTransformer.toObjectAlignment((URIAlignment) al);
 	} else if ( al instanceof ObjectAlignment ) {
 	    init = (ObjectAlignment)al;
 	}
@@ -128,11 +119,6 @@ public class ObjectAlignment extends BasicAlignment {
 	    }
 	};
 	return align;
-    }
-
-    public static ObjectAlignment toObjectAlignment( URIAlignment al ) throws AlignmentException {
-        AlignmentTransformer t = new AlignmentTransformer();
-        return t.toObjectAlignment(al);
     }
 
     static LoadedOntology loadOntology( URI ref ) throws AlignmentException {
