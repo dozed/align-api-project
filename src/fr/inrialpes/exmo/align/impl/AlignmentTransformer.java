@@ -14,10 +14,30 @@ public class AlignmentTransformer {
 
     public static ObjectAlignment toObjectAlignment( URIAlignment al ) throws AlignmentException {
         AlignmentTransformer t = new AlignmentTransformer();
-        return t.toObjectAlignment0(al);
+        return t.asObjectAlignment(al);
     }
 
-    public ObjectAlignment toObjectAlignment0(URIAlignment al) throws AlignmentException {
+    public ObjectAlignment asObjectAlignment(URIAlignment al) throws AlignmentException {
+        String f1 = al.getOntologyObject1().getFormalism();
+        String f2 = al.getOntologyObject1().getFormalism();
+
+        // improve this
+        if ("INSTANCES".equals(f1) && "INSTANCES".equals(f2)) {
+            return asObjectAlignmentFromInstanceMatching(al);
+        } else {
+            return asObjectAlignmentDefault(al);
+        }
+    }
+
+    private ObjectAlignment asObjectAlignmentFromInstanceMatching(URIAlignment al) {
+        ObjectAlignment alignment = new ObjectAlignment();
+
+
+
+        return alignment;
+    }
+
+    private ObjectAlignment asObjectAlignmentDefault(URIAlignment al) throws AlignmentException {
         ObjectAlignment alignment = new ObjectAlignment();
         try {
             alignment.init(al.getFile1(), al.getFile2());
