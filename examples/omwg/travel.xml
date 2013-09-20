@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE rdf:RDF [
+<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+]>
+
+<!-- xmlns="http://www.omwg.org/TR/d7/ontology/alignment/" -->
+<rdf:RDF xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment#"
+	 xmlns:align="http://knowledgeweb.semanticweb.org/heterogeneity/alignment#"
+	 xml:base="http://knowledgeweb.semanticweb.org/heterogeneity/alignment#"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	 xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	 xmlns:xsd="&xsd;"
+	 xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:omwg="http://www.omwg.org/TR/d7/ontology/alignment/">
+  
+<Alignment rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1_travel1_http://deri.org/iswc2005tutorial/ontologies/travel2_travel2">
+  <dc:identifier>http://deri.org/iswc2005tutorial/ontologies/travel1_travel1_http://deri.org/iswc2005tutorial/ontologies/travel2_travel2</dc:identifier>
+  <level>2OMWG</level>
+  <type>**</type>
+  <onto1>
+    <Ontology rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#travel1">
+      <location>http://deri.org/iswc2005tutorial/ontologies/travel1#travel1</location>
+      <formalism>
+	<Formalism align:name="WSML" align:uri="http://www.wsmo.org/wsml"/>
+    </formalism></Ontology>
+  </onto1>
+  <onto2>
+    <Ontology rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#travel2">
+      <location>http://deri.org/iswc2005tutorial/ontologies/travel2#travel2</location>
+      <formalism>
+	<Formalism align:name="WSML" align:uri="http://www.wsmo.org/wsml"/>
+      </formalism>
+    </Ontology>
+  </onto2>
+  <map>
+    <Cell
+     rdf:about="#integer-integer">
+      <entity1>
+        <omwg:Class rdf:about="http://www.wsmo.org/wsml/wsml-syntax#integer">
+        </omwg:Class>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://www.wsmo.org/wsml/wsml-syntax#integer">
+        </omwg:Class>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell
+     rdf:about="#ticket-name">
+      <entity1>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket">
+        </omwg:Class>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#name">
+        </omwg:Class>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#ticket-bearer">
+      <entity1>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#bearer">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#travelVoucher"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#departure_time-departureTime">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#departure_time">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#departureTime">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#travelVoucher"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#arrival_date-arrivalDate">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#arrival_date">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#arrivalDate">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#travelVoucher"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#minutes-minutes">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#minutes">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#time"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#minutes">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#time"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#ticket-travelVoucher">
+      <entity1>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#travelVoucher"/>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#date-date">
+      <entity1>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#date"/>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#date"/>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#hour-hour">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#hour">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#time"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#hour">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#time"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#cost-payment">
+      <entity1>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#cost">
+        </omwg:Class>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#payment">
+        </omwg:Class>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#firstName-first">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#firstName">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#first">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#name"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#issuing_terms-terms">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#issuing_terms">
+          <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#terms">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#travelVoucher"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#day-day">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#day">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#date"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#day">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#date"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#type-type">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#type">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#type">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#travelVoucher"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#terms-payment">
+      <entity1>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#terms"/>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#payment"/>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#string-string">
+      <entity1>
+        <omwg:Class rdf:about="http://www.wsmo.org/wsml/wsml-syntax#string"/>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://www.wsmo.org/wsml/wsml-syntax#string"/>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#arrival_time-arrivalTime">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#arrival_time">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#arrivalTime">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#travelVoucher"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#price-payment">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#price">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#terms"/>
+	  </omwg:domainRestriction>
+	</omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#payment"/>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#month-month">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#month">
+          <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#date"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#month">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#date"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell
+     rdf:about="#year-year">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#year">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#date"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#year">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#date"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#lastName-last">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#lastName">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#last">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#name"/>
+	  </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <!-- This is currently not expressible by Knowledge web 2.2.10
+       This is infortunate. Moreover, this is not correct RDF so far.
+       Thus I suggest to add:
+       <valueCondition><Condition><comparator/><value/></Condition></vC>
+       Otherwise, we would have to express:
+       <domainCondition><datatyperestriction></domainCondition>
+	 [JE: 09/01/2008]
+    -->
+  <!--map>
+    <Cell rdf:about="#hasCurrency-inEuro">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#hasCurrency">
+	  <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#cost"/>
+	  </omwg:domainRestriction>
+          <omwg:valueCondition>
+            <omwg:value>http://deri.org/iswc2005tutorial/ontologies/travel1#euro</omwg:value>
+            <omwg:comparator rdf:resource="equal"/>
+          </omwg:valueCondition>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#inEuro-payment">
+          <omwg:valueCondition>
+            <omwg:value>true</omwg:value>
+            <omwg:comparator rdf:resource="equal"/>
+          </omwg:valueCondition>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map-->
+  <map>
+    <Cell rdf:about="#departure_date-departureDate">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#departure_date">
+          <omwg:domainRestriction>
+	    <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#ticket"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#departureDate">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#travelVoucher"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#amount-ammount">
+      <entity1>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#amount">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#cost"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity1>
+      <entity2>
+        <omwg:Attribute rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#ammount">
+          <omwg:domainRestriction>
+            <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#payment"/>
+          </omwg:domainRestriction>
+        </omwg:Attribute>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#time-time">
+      <entity1>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#time"/>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel2#time"/>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="#currency-boolean">
+      <entity1>
+        <omwg:Class rdf:about="http://deri.org/iswc2005tutorial/ontologies/travel1#currency"/>
+      </entity1>
+      <entity2>
+        <omwg:Class rdf:about="http://www.wsmo.org/wsml/wsml-syntax#boolean"/>
+      </entity2>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+      <relation>Equivalence</relation>
+    </Cell>
+  </map>
+</Alignment>
+</rdf:RDF>

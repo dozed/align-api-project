@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>Alignment API: API structure</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<center><h1>Alignment API: API structure</h1></center>
+
+<p>
+The Alignement API package name is <tt>org.semanticweb.owl.align</tt>. This package name is used for historical reasons. In fact, the API itself is fully independent from OWL or the OWL API.
+</p>
+<p>
+The API is essentially made of three interfaces. We present here, under the term "features", the
+information that the API implementation must provide. 
+For each feature, there are the usual
+reader and writer accessors.
+</p>
+<p>
+Concrete implementation of the API is described in
+the <a href="builtin.html">implementation page</a>.
+RDF/XML rendering is presented in the <a href="format.html">format</a>
+and <a href="edoal.html">EDOAL</a> pages.
+</p>
+
+<h2>Ontology networks</h2>
+
+<p>
+</p>
+
+<h2>Alignments</h2>
+
+<p>The <tt>Alignment</tt> interface describes a particular alignment. It contains a specification of the alignment and a list of cells. Its features are the following:
+<dl>
+<dt><tt>xml</tt>
+(value: "yes"/"no")</dt><dd>indicates if the alignment can be read as an XML file compliant with the DTD;</dd>
+<dt><tt>level</tt> (values "0", "1", "2*")</dt><dd>indicates the level of Alignment format used;</dd>
+<dt><tt>type</tt>
+(values: "11", "1?", "1+", "1*", "?1", "??", "?+", "?*", "+1", "+?",
+    "++", "+*", "*1", "*?", "?+", "**")</dt><dd>the type of alignment;</dd>
+<dt><tt>onto1</tt>
+(value: <a href="ontowrap.html">Ontology</a>)</dt><dd>the first ontology to be aligned;</dd>
+<dt><tt>onto2</tt>
+(value: <a href="ontowrap.html">Ontology</a>)</dt><dd>the second ontology to be aligned;</dd>
+<dt><tt>map</tt>
+(value: <tt>Cell</tt>*)</dt><dd>the set of correspondences between entities of the ontologies.</dd>
+</dl></p>
+
+<p>In addition, the interface specifies operations:
+<dl>
+<dt>thresholding: <tt>Alignment.cut(double)</tt></dt><dd> an alignment with threshold as argument;
+<dt>hardening: <tt>Alignment.harden(double)</tt></dt><dd> an alignment by considering that all
+    correspondences whose strength is strictly greater than the
+    argument is converted to the maximum confidence, the others being
+    set to the minimum;</dd>
+<dt>outputting: <tt>Alignment.render(visitor)</tt></dt><dd> alignment in a particular format (SWRL, OWL, XSLT, RDF, etc.).</dd>
+</dl>
+</p>
+
+<h2>Correspondences (<tt>Cell</tt>)</h2>
+
+<p>The <tt>Cell</tt> interface describes a particular correspondence between entities.
+It provides the following features:
+<dl>
+<dt><tt>rdf:about</tt>
+(value: URI, optional)</dt><dd>the URI identifying the current correspondence;</dd>
+<dt><tt>entity1</tt>
+(value: Object, URI, <a href="edoal.html">EDOALExpression</a>)</dt><dd>an entity of the first ontology;</dd>
+<dt><tt>entity2</tt>
+(value: Object, URI, <a href="edoal.html">EDOALExpression</a>)</dt><dd>an entity of the second ontology;</dd>
+<dt><tt>relation</tt>
+(value: <tt>Relation</tt>)</dt><dd>the relation holding between the first and second entity;</dd>
+<dt><tt>measure</tt>
+(value: float between 0. and 1.)</dt><dd>the confidence in the assertion that the relation holds between the first and the second entity (the higher the value, the higher the confidence).</dd>
+</dl></p>
+
+<p><b>Note:</b>
+In a further version the strength will not be restricted to double but abstracted so
+that it is possible to define properly a composition algebra.
+</p>
+
+
+<h2>Relations</h2>
+
+<p>The <tt>Relation</tt> interface does not mandate any particular
+  feature.
+</p>
+
+<p>
+To these three main interfaces, implementing the format, are added a
+couple of other interfaces and classes.
+</p>
+
+<h2>AlignmentProcess</h2>
+
+<p>
+The <tt>AlignmentProcess</tt> interface extends the Alignment interface by providing an <tt>align</tt> method.
+This interface must be implemented for each matching algorithm.
+</p>
+
+<dt>computing: <tt>Alignment.align(Alignment, Properties)</tt></dt><dd> the alignment, with input alignment;</dd>
+
+<h2>Evaluator</h2>
+
+<p>
+The <tt>Evaluator</tt> interface describes the comparison of two alignments (the first one could serve as a reference).
+Its features are the following:
+<dl>
+<dt><tt>align1</tt> (value: URI)</dt><dd>a first alignment, sometimes the reference alignment;
+<dt><tt>align2</tt> (value: URI)</dt><dd>a second alignment which will be compared with the first one.
+</dl>
+</p>
+
+<dt><a href="eval.html">comparing</a>: <tt>Evaluator.eval(Properties)</tt></dt><dd> one alignment with another;</dd>
+
+
+<h2>AlignmentException</h2>
+
+<p>The <tt>AlignmentException</tt> class specifies the kind of
+  exceptions that are raised by matching algorithms and can be used by
+  alignment implementations.</p>
+
+<h2>AlignmentVisitor</h2>
+
+<p>
+The <tt>AlignmentVisitor</tt> interface specifies a way to traverse
+alignment structire. It is used, in particular for rendering alignments.
+</p>
+
+<p>
+In addition, matching and evaluation algorithms accept parameters in
+the form of <tt>java.lang.Properties</tt>. The parameters can be the various
+weights used by some algorithms, some intermediate thresholds or the tolerance of some 
+iterative algorithms.
+</p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/api.html</center>
+<hr />
+$Id: api.html 1718 2012-04-03 06:24:54Z euzenat $
+</small>
+</body>
+</html>

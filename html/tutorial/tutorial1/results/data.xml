@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:ical="http://www.w3.org/2002/12/cal/ical#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:base="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#">
+
+
+  
+  <owl:Ontology rdf:about="">
+    <dc:contributor>Jérôme Euzenat</dc:contributor>
+    <dc:description>Bibliographic entries</dc:description>
+  </owl:Ontology>
+
+  <ns1:Techreport xmlns:ns1="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#" rdf:about="#a475526642">
+    <ns1:hasAuthor>
+      <PersonList>
+	<rdf:first rdf:resource="http://exmo.inrialpes.fr/people/euzenat/euzenatj.rdf#je"/>
+	<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+      </PersonList>
+    </ns1:hasAuthor>
+    <ns1:hasInstitution rdf:resource="http://www.inria.fr"/>
+    <ns1:hasTitle>An API for ontology alignment</ns1:hasTitle>
+    <ns1:pageChapterData><Date><ns1:hasYear>1996</ns1:hasYear></Date></ns1:pageChapterData>
+    <ns1:hasCopyright>INRIA Rhône-Alpes 2004-2006</ns1:hasCopyright>
+    <ns1:hasNumber>Unfilled</ns1:hasNumber>
+  </ns1:Techreport>
+
+  <ns1:Incollection xmlns:ns1="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#" rdf:ID="http://www.inria.fr"/>
+
+  <Person rdf:ID="http://exmo.inrialpes.fr/people/euzenat/euzenatj.rdf#je"/>
+
+</rdf:RDF>

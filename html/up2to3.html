@@ -1,0 +1,146 @@
+<html>
+<head>
+<title>Alignment API: Upgrading from version 2.x to 3.3</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<center><h1>Upgrading an Alignment implementation from version 2.x to 3.3 of the Alignment API</h1></center>
+
+<p>
+Version 3.0 of the Alignment API has been designed to provide
+matching algorithm designers more flexibility. In particular, the
+version 3.0 does not necessarily rely on the OWL API, so designers
+who want to use another OWL API, e.g., Jena, can do so at no cost.
+</p>
+
+<p>
+Version 3.3 goes one step further towards providing an API
+independent access to ontologies. Hence it is possible to switch from
+one API to another without changing code (see documentation).
+</p>
+
+<p>
+This has led to some changes over time in the API.
+</p>
+
+<h2>Since version 3.3, OWLAPIAlignment, OWLAPICell, getObjectXAsURI() are
+  deprecated</h2>
+
+<p>
+The <tt>OWLAPIAlignment</tt> and <tt>OWLAPICell</tt> introduced in
+version 3.0 and which were previously discussed below are now deprecated and
+replaced by <tt>ObjectAlignment</tt> and <tt>ObjectCell</tt>. However,
+for compatibility purposes, these classes are still available and have
+been reimplemented in function of the new ones. They still have the
+same structure, content and behavior as the old ones, but the
+remainder of the API does not use them anymore.
+</p>
+
+<p>
+Moreover, in most of the cases, these classes can be safely replaced
+by the new ones (bringing the benefit of changing Ontology API).</p>
+
+<p>The main exception is that the <tt>getObjectXAsURI()</tt> is not available
+in <tt>ObjectCell</tt>. So, call to this method on <tt>ObjectCell</tt>
+will return <tt>null</tt>. The <tt>Ontology</tt> of the object is
+necessary to obtain its URI, through the call to:
+<pre>
+ontology.getEntityURI( cell.getObjectX() );
+</pre>
+</p>
+
+<h2>Don't panic</h2>
+
+<p>Those who already implemented an algorithm under the API will have
+  to implement some changes for upgrading from version 2 to version
+  3. But first do not panic. This document aims at helping you in this
+  simple task.</p>
+
+<h2>From BasicAlignments to ObjectAlignments</h2>
+
+<p>Previously you certainly had your class
+  extending <tt>BasicAlignment</tt>. You must now have it
+  extending <tt>ObjectAlignment</tt>. This guarantee that you will
+  still find all the features found in the
+  previous <tt>BasicAlignment</tt>.</p>
+<p>If you create on the fly new <tt>Alignment</tt> or
+  new <tt>Cell</tt>, if they must contain <tt>Object</tt>
+  (e.g., <tt>OWLEntity</tt>), then 
+  be sure that they are created as <tt>ObjectAlignment</tt>
+  and <tt>ObjectCell</tt> respectively.</p>
+<p>The new implementation of <tt>BasicAlignment</tt>
+  provides additional new primitives such as <tt>getOntology1URI()</tt>.</p> 
+
+<h2>Parsing alignments</h2>
+
+<p>If you used to parse alignments, you certainly
+  used <tt>AlignmentParser</tt> which returned
+  a <tt>BasicAlignment</tt>. Now the <tt>AlignmentParser</tt> returns
+  a <tt>URIAlignment</tt>. To turn this <tt>URIAlignment</tt> into
+  an <tt>ObjectAlignment</tt>, just
+  invoke <tt>ObjectAlignment.toObjectAlignment( URIAlignment )</tt>. It
+  will return the corresponding <tt>ObjectAlignment</tt>.</p>
+
+<p>Moreover, <tt>AlignmentParser.parse( URI )</tt> used to take a
+  Hashtable as a second argument. This is not true anymore: you must
+  suppress this second argument.</p>
+
+<h2>Invoking your alignment</h2>
+
+<p>For invoking your alignment class, the sequence used to be the
+  following:
+<pre>
+AlignmentProcess al = new MyAlignment();
+al.init( Ontology, Ontology );
+al.align( Alignment, Parameters );
+</pre>
+(You may have used a <tt>MyAlignment( Ontology, Ontology )</tt>
+constructor and no <tt>init</tt>. Now the sequence above is compulsory).
+Since version 3.0, the sequence is the same except that the arguments for init() are
+the <tt>URL</tt> where to find the ontologies instead of the ontology
+themselves. It is thus necessary for you to change your implementation
+of <tt>init()</tt> so that it loads the ontologies. Moreover, the init
+Alignment in <tt>align()</tt> is a <tt>URIAlignment</tt> and not
+a <tt>ObjectAlignment</tt> so it may be necessary to change it as well.</p>
+
+<p>Fortunately, the <tt>OntologyFactory</tt> class already provides
+  the <tt>loadOntology( URI, OntologyCache )</tt> method that loads the
+  required ontology and a <tt>loadInit( URI )</tt> method that will
+  load the initial alignment.</p>
+
+<h2>Manipulating your alignment</h2>
+
+<p>If you manipulated the alignment through the attributes
+  (<tt>onto1</tt> and <tt>onto2</tt>), you must now explicitely cast
+  them as <tt>(Ontology)onto1</tt> because they are now declared
+  as <tt>Object</tt>.</p>
+
+<h2>Misc.</h2>
+
+<p><tt>JWNLDistance.Initialize()</tt> now throws an <tt>AlignmentException</tt>... you
+  must do something with it.</p>
+
+<h2>Report to us</h2>
+
+<p>Please report any tweak that we did not mention here so that we can
+  update this document.</p>
+
+<h2>More</h2>
+
+<p>You can look at the sources of the Alignment API which contain many
+  examples. In particular, look at the <tt>Procalign</tt> class for
+  example of the use of <tt>OntologyCache</tt>.</p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/up2to3.html</center>
+<hr />
+$Id: up2to3.html 690 2008-03-31 10:26:08Z euzenat $
+</small>
+</address>
+</body>
+</html>

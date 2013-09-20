@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Alignment API: Upgrading from version 3.0 to 3.1</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<center><h1>Change of format in version 3.1</h1></center>
+
+<p>The version 3.1 of the Alignment API has slightly changed the
+  RDF/XML format for alignments so that it contains more information.
+  This should, however, be fully backward compatibe with previous implementations.</p>
+
+<p>The change lies in the <tt>onto1</tt> and <tt>onto2</tt>
+  attributes which now contain structured elements instead of strings.
+  Moreover, the <tt>uri1</tt> and <tt>uri2</tt> element are not
+  strictly necessary (but we still generate them in the renderer.</p>
+
+<p>The <b>old version</b> was presented this way:
+<pre>
+&lt;onto1&gt;http://example.org/the/place/where/to/find/ontology&lt;/onto1&gt;
+&lt;uri1&gt;http://example.org/the/ontology/identifier&lt;/uri1&gt;
+</pre>
+</p>
+
+<p>The <b>new version</b> is:
+<pre>
+&lt;onto1&gt;
+  &lt;Ontology rdf:about="http://example.org/the/ontology/identifier"&gt;
+    &lt;location&gt;http://example.org/the/place/where/to/find/ontology&lt;/location&gt;
+    &lt;formalism&gt;
+      &lt;Formalism name="myLanguage" id="http://example.org/my/Language/identifier"/&gt;
+    &lt;/formalism&gt;
+  &lt;/Ontology&gt;
+&lt;/onto1&gt;
+</pre>
+</p>
+
+<h2>Report to us</h2>
+
+<p>Please report any tweak that we did not mention here so that we can
+  update this document.</p>
+
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/up30to31.html</center>
+<hr />
+$Id: up30to31.html 520 2007-07-18 09:01:30Z euzenat $
+</small>
+</address>
+</body>
+</html>

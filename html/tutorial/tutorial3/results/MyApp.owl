@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<swrlx:Ontology swrlx:name="generatedAl"
+                xmlns:swrlx="http://www.w3.org/2003/11/swrlx#"
+                xmlns:owlx="http://www.w3.org/2003/05/owl-xml"
+                xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+  <owlx:Imports rdf:resource="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl"/>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Proceedings"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Proceedings"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Proceedings"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Proceedings"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#TechReport"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Techreport"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#TechReport"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Techreport"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Article"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Article"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Article"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Article"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#InProceedings"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Inproceedings"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#InProceedings"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Inproceedings"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#InCollection"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Incollection"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#InCollection"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Incollection"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#MastersThesis"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Mastersthesis"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#MastersThesis"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Mastersthesis"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#PhdThesis"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Phdthesis"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#PhdThesis"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Phdthesis"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Unpublished"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Unpublished"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Unpublished"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Unpublished"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Book"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Book"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Book"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Book"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Misc"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Misc"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Misc"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Misc"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Manual"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Manual"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Manual"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Manual"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Entry"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Entry"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Entry"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Entry"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Techreport"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Techreport"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Techreport"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Techreport"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#InBook"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Inbook"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#InBook"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Inbook"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:individualPropertyAtom swrlx:property="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#humanCreator"/>
+        <ruleml:var>x</ruleml:var>
+        <ruleml:var>y</ruleml:var>
+      </swrl:individualPropertyAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrl:datavaluedPropertyAtom swrlx:property="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#humanCreator"/>
+        <ruleml:var>x</ruleml:var>
+        <ruleml:var>y</ruleml:var>
+      </swrl:datavaluedPropertyAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:individualPropertyAtom swrlx:property="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#humanCreator"/>
+        <ruleml:var>x</ruleml:var>
+        <ruleml:var>y</ruleml:var>
+      </swrl:individualPropertyAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrl:datavaluedPropertyAtom swrlx:property="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#humanCreator"/>
+        <ruleml:var>x</ruleml:var>
+        <ruleml:var>y</ruleml:var>
+      </swrl:datavaluedPropertyAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:individualPropertyAtom swrlx:property="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#howPublished"/>
+        <ruleml:var>x</ruleml:var>
+        <ruleml:var>y</ruleml:var>
+      </swrl:individualPropertyAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrl:datavaluedPropertyAtom swrlx:property="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#howPublished"/>
+        <ruleml:var>x</ruleml:var>
+        <ruleml:var>y</ruleml:var>
+      </swrl:datavaluedPropertyAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:individualPropertyAtom swrlx:property="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#howPublished"/>
+        <ruleml:var>x</ruleml:var>
+        <ruleml:var>y</ruleml:var>
+      </swrl:individualPropertyAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrl:datavaluedPropertyAtom swrlx:property="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#howPublished"/>
+        <ruleml:var>x</ruleml:var>
+        <ruleml:var>y</ruleml:var>
+      </swrl:datavaluedPropertyAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Booklet"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Booklet"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+  <ruleml:imp>
+    <ruleml:_body>
+      <swrl:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#Booklet"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_body>
+    <ruleml:_head>
+      <swrlx:classAtom>
+        <owllx:Class owllx:name="http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl#Booklet"/>
+        <ruleml:var>x</ruleml:var>
+      </swrl:classAtom>
+    </ruleml:_head>
+  </ruleml:imp>
+
+</swrlx:Ontology>

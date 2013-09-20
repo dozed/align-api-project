@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE rdf:RDF [
+          <!ENTITY xsd		"http://www.w3.org/2001/XMLSchema#" >
+	  <!ENTITY rdf		"http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+	  <!ENTITY rdfs		"http://www.w3.org/2000/01/rdf-schema#" >
+	  <!ENTITY dc		"http://purl.org/dc/elements/1.1/" > 
+	  <!ENTITY owl		"http://www.w3.org/2002/07/owl#" >
+	  <!ENTITY units	"http://visus.mit.edu/fontomri/0.01/units.owl#" >
+	  <!ENTITY bibtex	"http://purl.org/net/nknouf/ns/bibtex#">
+	  <!ENTITY dcterms 	"http://purl.org/dc/terms/">
+	  <!ENTITY dctype 	"http://purl.org/dc/dcmitype/"> ]>
+
+<!--
+   xmlns="http://xmlns.com/foaf/0.1/#"
+   xml:base="http://xmlns.com/foaf/0.1/#"
+-->
+<rdf:RDF
+ xmlns="http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology2.owl#"
+ xml:base="http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology2.owl#"
+ xmlns:units	="&units;"
+ xmlns:foaf	="http://xmlns.com/foaf/0.1/"
+ xmlns:rdf	="&rdf;"
+ xmlns:xsd	="&xsd;"
+ xmlns:rdfs	="&rdfs;"
+ xmlns:owl	="http://www.w3.org/2002/07/owl#"
+ xmlns:wot	="http://xmlns.com/wot/0.1/"
+ xmlns:dc	="&dc;"
+ xmlns:dcterms	="&dcterms;"
+ xmlns:dctype	="&dctype;"
+ xmlns:bibtex	="&bibtex;">
+  
+  <owl:Ontology rdf:about="http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology2.owl">
+    <dc:creator>Jérôme Euzenat</dc:creator>
+    <dc:description>Example for Alignment API advanced turorial</dc:description>
+    <dc:date>2009-07-06</dc:date>
+    <rdfs:label>Second ontology</rdfs:label>
+    <dc:title>ontology2.owl: another fake list of students</dc:title>
+    <dc:identifier rdf:datatype="&xsd;anyURI">http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology2.owl</dc:identifier>
+  </owl:Ontology>
+
+  <owl:Class rdf:ID="Student">
+    <rdfs:label xml:lang="en">Student</rdfs:label>
+  </owl:Class>
+
+<Student rdf:about="#dkral">
+  <name>Krall</name>
+  <first-name>Diana</first-name>
+  <gender>Female</gender>
+  <institution>Royal University of Worchester sauce</institution>
+  <city-of-study>Worchester sauce</city-of-study>
+  <country-of-study>GB</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>OWL and SKOS: Exploring the relationship between formal and informal knowledge representation</topics-of-interest>
+  <phd-advisor>Dr. A. Verdura</phd-advisor>
+  <phd-advisor>C. Fragola</phd-advisor>
+</Student>
+
+<Student rdf:about="#dgord">
+  <name>Gordon</name>
+  <first-name>Dexter</first-name>
+  <gender>Male</gender>
+  <institution>Eelberg University</institution>
+  <city-of-study>Eelberg</city-of-study>
+  <country-of-study>DK</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>Social Web Applications, Personalization, Semantic Web</topics-of-interest>
+  <phd-advisor>C. Pannacotta</phd-advisor>
+</Student>
+
+<Student rdf:about="#drein">
+  <name>Reinhardt</name>
+  <first-name>Django</first-name>
+  <gender>Male</gender>
+  <institution>University Pie XXIII</institution>
+  <institution>IRIA Saskatchevan</institution>
+  <city-of-study>Orssini</city-of-study>
+  <country-of-study>FR</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>Ontology Matching and Alignment</topics-of-interest>
+  <phd-advisor>Prof. Chr. Melocoton</phd-advisor>
+</Student>
+
+<Student rdf:about="#cmill">
+  <name>Miller</name>
+  <first-name>Glenn</first-name>
+  <gender>Male</gender>
+  <institution>University of Shepperington</institution>
+  <city-of-study>Shepperington</city-of-study>
+  <country-of-study>GB</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>Digital Identities and Contextual Knowledge</topics-of-interest>
+  <phd-advisor>Professor G. Limone</phd-advisor>
+</Student>
+
+<Student rdf:about="#jmcle">
+  <name>McLean</name>
+  <first-name>Jackie</first-name>
+  <gender>Male</gender>
+  <institution>Polytechnic of Madeira</institution>
+  <city-of-study>Madeira</city-of-study>
+  <country-of-study>PT</country-of-study>
+  <year-in-phd>3</year-in-phd>
+  <topics-of-interest>Ontology Alignment</topics-of-interest>
+  <phd-advisor>S. Zucchini</phd-advisor>
+</Student>
+
+<Student rdf:about="#nmerc">
+  <name>Merchant</name>
+  <first-name>Natalie</first-name>
+  <gender>Female</gender>
+  <institution>JOHANNISBEER RESEARCH</institution>
+  <city-of-study>Guacamole</city-of-study>
+  <country-of-study>AT</country-of-study>
+  <topics-of-interest>Social Semantic Web</topics-of-interest>
+</Student>
+
+<Student rdf:about="#lhamp">
+  <name>Hampton</name>
+  <first-name>Lionel</first-name>
+  <gender>Male</gender>
+  <institution>Politecnico di Madalena</institution>
+  <city-of-study>Madalena</city-of-study>
+  <country-of-study>ES</country-of-study>
+  <topics-of-interest>ODEMapster</topics-of-interest>
+  <phd-advisor>A. Gorgonzola</phd-advisor>
+  <phd-advisor>O. Mascarponne</phd-advisor>
+</Student>
+
+<Student rdf:about="#rjone">
+  <name>Jones</name>
+  <first-name>Rickie Lee</first-name>
+  <gender>Female</gender>
+  <institution>Philip Vanderbilt Universiteit</institution>
+  <institution>Velo Research</institution>
+  <city-of-study>Amsteelkoog</city-of-study>
+  <country-of-study>NL</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>A combined approach to alignment of patient record data with a clinical context using computerized guidelines and semantic reasoning.</topics-of-interest>
+  <phd-advisor>A. Lambretta</phd-advisor>
+</Student>
+
+<Student rdf:about="#sroll">
+  <name>Rollins</name>
+  <first-name>Sonny</first-name>
+  <gender>Male</gender>
+  <institution>Universita di Miggliore</institution>
+  <city-of-study>Miggliore</city-of-study>
+  <country-of-study>IT</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>social construction of semantic models</topics-of-interest>
+  <phd-advisor>M. Pecorino</phd-advisor>
+</Student>
+
+<Student rdf:about="#kburr">
+  <name>Burrell</name>
+  <first-name>Kenny</first-name>
+  <gender>Male</gender>
+  <institution>Politecnico di Belladona</institution>
+  <city-of-study>Belladona</city-of-study>
+  <country-of-study>IT</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>Semantic Web</topics-of-interest>
+  <phd-advisor>S. Proscuitto</phd-advisor>
+</Student>
+
+<Student rdf:about="#dbrub">
+  <name>Brubeck</name>
+  <first-name>Dave</first-name>
+  <gender>Male</gender>
+  <institution>University of Namibia</institution>
+  <city-of-study>Nürnberg am See</city-of-study>
+  <country-of-study>BE</country-of-study>
+  <year-in-phd>3</year-in-phd>
+  <topics-of-interest>Semantic Web Application: Enhancing Web Usability by Handling the Local Contexts of Web Users</topics-of-interest>
+  <phd-advisor>G. Belladonna</phd-advisor>
+  <phd-advisor>P. Tiramissu</phd-advisor>
+</Student>
+
+<Student rdf:about="#delli">
+  <name>Ellington</name>
+  <first-name>Duke</first-name>
+  <gender>Male</gender>
+  <institution>Vanilla University of Technology</institution>
+  <city-of-study>Vanilla</city-of-study>
+  <country-of-study>AT</country-of-study>
+  <year-in-phd>3</year-in-phd>
+  <topics-of-interest>Context-aware Trip Planning</topics-of-interest>
+  <phd-advisor>Prof. G. Cetriolo</phd-advisor>
+</Student>
+
+<Student rdf:about="#mjack">
+  <name>Jackson</name>
+  <first-name>Milt</first-name>
+  <gender>Male</gender>
+  <institution>Escena</institution>
+  <city-of-study>Aroma</city-of-study>
+  <country-of-study>IT</country-of-study>
+</Student>
+
+<Student rdf:about="#plee">
+  <name>Lee</name>
+  <first-name>Peggy</first-name>
+  <gender>Female</gender>
+  <institution>University des Mitteleuropa</institution>
+  <city-of-study>Linden</city-of-study>
+  <country-of-study>AT</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>Ontology-driven Information Extraction</topics-of-interest>
+  <phd-advisor>a.Univ.Prof.DI.Dr. Z. Melone</phd-advisor>
+</Student>
+
+<Student rdf:about="#agilb">
+  <name>Gilberto</name>
+  <first-name>Astrud</first-name>
+  <gender>Female</gender>
+  <institution>Universität der Gemütlichkeit</institution>
+  <city-of-study>Monte Bianco</city-of-study>
+  <country-of-study>DE</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>Emergent semantics</topics-of-interest>
+  <phd-advisor>Pr. Dr. M. Coppa</phd-advisor>
+</Student>
+
+<Student rdf:about="#erigb">
+  <name>Rigby</name>
+  <first-name>Eleonore</first-name>
+  <gender>Female</gender>
+  <institution>Politecnico di Bermudas</institution>
+  <city-of-study>Brest Litovsk</city-of-study>
+  <country-of-study>MX</country-of-study>
+</Student>
+
+<Student rdf:about="#cblac">
+  <name>Black</name>
+  <first-name>Cilla</first-name>
+  <gender>Female</gender>
+  <institution>University of Shepperington</institution>
+  <city-of-study>Shepperington</city-of-study>
+  <country-of-study>GB</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <phd-advisor>Prof. G. Limone</phd-advisor>
+</Student>
+
+<Student rdf:about="#ashep">
+  <name>Shepp</name>
+  <first-name>Archie</first-name>
+  <gender>Male</gender>
+  <institution>Occarina University</institution>
+  <city-of-study>Paretto Yeats</city-of-study>
+  <country-of-study>GB</country-of-study>
+  <topics-of-interest>Personal Information Management</topics-of-interest>
+</Student>
+
+<Student rdf:about="#atatu">
+  <name>Tatum</name>
+  <first-name>Art</first-name>
+  <gender>Male</gender>
+  <institution>National Kapodistrian University of Athens</institution>
+  <city-of-study>Athens</city-of-study>
+  <country-of-study>GR</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>Query evaluation on spatial and temporal RDF databases in Semantic Web</topics-of-interest>
+  <phd-advisor>B. Tiramisu</phd-advisor>
+</Student>
+
+<Student rdf:about="#ccore">
+  <name>Corea</name>
+  <first-name>Chick</first-name>
+  <gender>Male</gender>
+  <institution>University of Ausblick</institution>
+  <city-of-study>Ausblick</city-of-study>
+  <country-of-study>DE</country-of-study>
+  <year-in-phd>1</year-in-phd>
+  <topics-of-interest>Semantic technologies in business processes and rules</topics-of-interest>
+  <phd-advisor>Prof. Dr. A. Belladonna</phd-advisor>
+</Student>
+
+<Student rdf:about="#rbrya">
+  <name>Bryant</name>
+  <first-name>Ray</first-name>
+  <institution>Handshuh University</institution>
+  <city-of-study>Handshuh</city-of-study>
+  <country-of-study>BE</country-of-study>
+</Student>
+
+<Student rdf:about="#jzawi">
+  <name>Zawinul</name>
+  <first-name>Joe</first-name>
+  <institution>Institute for Social Coworkers</institution>
+  <city-of-study>Madalena</city-of-study>
+  <country-of-study>ES</country-of-study>
+</Student>
+
+<Student rdf:about="#bsinc">
+  <name>Sinclair</name>
+  <first-name>Betty</first-name>
+  <institution>Institute for Social Coworkers</institution>
+  <city-of-study>Madalena</city-of-study>
+  <country-of-study>ES</country-of-study>
+</Student>
+
+<Student rdf:about="#jaldde">
+  <name>Aldderley</name>
+  <first-name>Julian</first-name>
+  <institution>Politecnico di Madalena</institution>
+  <city-of-study>Botella de Mantequilla</city-of-study>
+  <country-of-study>ES</country-of-study>
+</Student>
+
+</rdf:RDF>

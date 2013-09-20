@@ -1,0 +1,361 @@
+<html>
+<head>
+<title>Ontowrap: wrapping ontology APIs</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+
+<h1 class="titre">Ontowrap: wrapping ontology APIs</h1>
+
+<p>
+There are many different APIs for ontologies. Even if the Alignment
+API is independent from these APIs, it is often convenient to interact
+with them.
+For that purpose, we have designed the <tt>ontowrap</tt> API which
+provides a minimal interaction with the major ontology APIs (OWL API
+and Jena, soon SKOS API).
+</p>
+
+<h2>The <tt>ontowrap</tt> architecture</h2>
+
+<p>
+An implementation of <tt>ontowrap</tt> is a <tt>OntologyFactory</tt> and an
+<tt>Ontology</tt> class.
+The ontology factory is used for creating a new <tt>Ontology</tt>
+object.
+</p>
+
+<p>
+The new <tt>ontowrap</tt> package defines
+an <tt>OntologyFactory</tt> class that is used for loading
+ontologies under a particular 
+API. Depending on the used factory, the API will be different and the
+kind of ontology will be different. The
+default factory to use is provided to the
+abstract <tt>OntologyFactory</tt> class which is always used for
+loading ontologies.
+</p>
+
+<p>
+There are three interfaces for ontologies:
+<dl>
+<dt><tt>Ontology</tt></dt><dd>simply describes an ontology. 
+  No assumption is made about the fact that the ontology has been
+  loaded. Its entities may be identified by simple URIs.</dd>
+<dt><tt>LoadedOntology</tt></dt><dd>describes an ontology that has been loaded
+  in main memory. Thus, an implementation of this class is bound to
+  an ontology API. However, the connection with the API is very
+  limited: it is possible to know the type of entity (class,
+  property, etc.) and its names and comments. This does not put
+  burden on developers when connecting an API and this applies to
+  "lightweight" ontologies such as unstructured thesauri.</dd>
+<dt><tt>HeavyLoadedOntology</tt></dt><dd>is supposed to offer broad access to
+  the ontology by obtaining the relations between entities
+  (super-classes, properties, etc.).</dd>
+</dl>
+These three interfaces extend each others so that
+the <tt>Ontology</tt> interface is the minimal one.
+</p>
+
+<p>
+Switching implementations of the API is obtained through:
+<div class="java">
+OntologyFactory.setDefaultFactory("fr.inrialpes.exmo.ontowrap.owlapi30.OWLAPI3OntologyFactory");
+</div>
+and then ontologies can be loaded through:
+<div class="java">
+Ontology o = OntologyFactory.getFactory().loadOntology(new URI(...));
+</div>
+There is a built-in caching mechanism which attempts at avoiding
+loading twice the same ontology under the same implementation.
+</p>
+
+<h2><tt>Ontology</tt></h2>
+
+<p>
+<tt>Ontology</tt> provides a minimal interface to ontologies. It only
+describes the ontology but nothing from its content.
+</p>
+
+<dl>
+<dt>
+<tt>public URI getURI();<br />
+public void setURI( URI uri );</tt>
+</dt>
+<dd>
+Provide the URI identifying the ontology.
+</dd>
+<dt>
+<tt>public URI getFile();<br />
+public void setFile( URI file );</tt>
+</dt>
+<dd>
+Provide the URL from where the ontology can be loaded.
+</dd>
+<dt>
+<tt>public URI getFormURI();
+public void setFormURI( URI u );</tt>
+</dt>
+<dd>
+Provide the URI identifying the knowledge representation formalism
+(may be null).
+</dd>
+<dt>
+<tt>public String getFormalism();<br />
+public void setFormalism( String name );</tt>
+</dt>
+<dd>
+Provide a String indicating the knowledge representation formalism
+("OWL", "SKOS", etc.; may be null).
+</dd>
+<dt>
+<tt>public O getOntology();<br />
+public void setOntology( O o );</tt>
+</dt>
+<dd>
+Provides the ontology object itself when it has been loaded.
+</dd>
+</dl>
+
+<h2><tt>LoadedOntology</tt></h2>
+
+<p>
+<tt>LoadedOntology</tt> extends <tt>Ontology</tt> and provides a minimal interface to the content of
+the ontologies. This interface is made of two main parts:
+<ul>
+<li>One part dealing with the various types of objects in the
+  ontology (classes, properties, instances, etc.). It only deals with
+  locally defined and named entities.</li>
+<li>One part dealing with their names and the annotations they are
+  assigned.</li>
+</ul>
+</p>
+
+<dl>
+<dt><tt>
+    public int nbEntities();<br />
+    public int nbClasses();<br />
+    public int nbProperties();<br />
+    public int nbDataProperties();<br />
+    public int nbObjectProperties();<br />
+    public int nbIndividuals();<br />
+</tt></dt>
+<dd>
+Provide the number of corresponding entities defined in the ontology.
+</dd>
+<dt><tt>
+    public Set&lt;? extends Object> getEntities();<br />
+    public Set&lt;? extends Object> getClasses();<br />
+    public Set&lt;? extends Object> getProperties();<br />
+    public Set&lt;? extends Object> getObjectProperties();<br />
+    public Set&lt;? extends Object> getDataProperties();<br />
+    public Set&lt;? extends Object> getIndividuals();<br />
+</tt></dt>
+<dd>
+Provide the sets of corresponding entities defined in the ontology.
+</dd>
+<dt><tt>
+    public boolean isEntity( Object o );<br />
+    public boolean isClass( Object o );<br />
+    public boolean isProperty( Object o );<br />
+    public boolean isDataProperty( Object o );<br />
+    public boolean isObjectProperty( Object o );<br />
+    public boolean isIndividual( Object o );<br />
+</tt></dt>
+<dd>
+Tell if a particular object is of the corresponding type in the ontology.
+</dd>
+<dt><tt>
+    public String getEntityName( Object o, String lang ) throws OntowrapException;<br />
+    public String getEntityName( Object o ) throws OntowrapException;
+</tt></dt>
+<dd>
+Provide the name of an object in this ontology or its name depending
+on a particular language. This primitive is not very precise and must
+be used with caution: some entities may have no names (identified
+by <tt>rdfs:label</tt> property) and some entities may have several
+names. In the former case, the interface should try to extract a
+fragment from the URI of the entity, but it may reveal
+impossible. Hence the answer would null. In the latter case, which
+name is returned is unspecified. This primitive is more robust in SKOS
+terminologies where it is possible to specify a <tt>skos:preferedLabel</tt>.
+</dd>
+<dt><tt>
+    public Set&lt;String> getEntityNames( Object o , String lang ) throws OntowrapException;<br />
+    public Set&lt;String> getEntityNames( Object o ) throws OntowrapException;
+</tt></dt>
+<dd>
+Provide the names (identified by <tt>rdfs:label</tt> property) of an
+object in this ontology or its name depending on a particular language.
+</dd>
+<dt><tt>
+    public Set&lt;String> getEntityComments( Object o , String lang ) throws OntowrapException;<br />
+    public Set&lt;String> getEntityComments( Object o ) throws OntowrapException;
+</tt></dt>
+<dd>
+Provide the comments (identified by <tt>rdfs:comment</tt> property) of an
+object in this ontology or its comments depending on a particular language.
+</dd>
+<dt><tt>
+    public Set&lt;String> getEntityAnnotations( Object o, String lang ) throws OntowrapException;<br />
+    public Set&lt;String> getEntityAnnotations( Object o ) throws OntowrapException;
+</tt></dt>
+<dd>
+Provide the annotations (found under <tt>owl:AnnotationProperty</tt>s) of an
+object in this ontology or its annotations depending on a particular
+language (when these are available).
+</dd>
+<dt><tt>
+    public void unload();
+</tt></dt>
+<dd>
+Free the memory occupied by this ontology.
+</dd>
+</dl>
+
+<h2><tt>HeavyLoadedOntology</tt></h2>
+
+<p>
+<tt>HeavyLoadedOntology</tt> extends <tt>LoadedOntology</tt> and
+provides an interface to the entities in the ontologies. In
+particular, it provides informations about relations between these
+entities.
+</p>
+
+<p>
+Unfortunately, various APIs would return different kind of answers to
+such queries depending on:
+<ul>
+<li>if they consider only entities defined in
+the ontologies or any entity referenced (<tt>local</tt>);</li>
+<li>if they consider only asserted statements or statements entailed
+  in some way (<tt>asserted</tt>);</li>
+<li>if they consider only named entities or any entities, including
+  anonymous ones (<tt>named</tt>).</li>
+</ul>
+In order to unify the behaviour of the APIs, Ontowrap uses the
+following solution:
+<ul>
+<li>Having only one <tt>getSuperClasses( Class )</tt> primitive but
+  appending to it a number of boolean arguments defining if the
+  results should be restricted
+  to <tt>named</tt>, <tt>asserted</tt>, <tt>local</tt>, etc.</li>
+<li>Having primitives at the factory level expressing the capabilities
+  of the implementation, i.e., if it can deliver <tt>inherited</tt>
+  super classes.</li>
+</ul>
+The idea is that it is possible to invoke the method with particular
+arguments and the API will try to satisfy it as best as
+possible. However, it is possible to check beforehand if the API meets
+the requirements of the application and to raise an exception (or
+change API) if this is not the case.
+</p>
+
+<p>Hence, for instance:
+<div class="java">
+if ( !onto.getCapabilities( OntologyFactory.GLOBAL, OntologyFactory.INHERITED, 0 ) ) {
+    throw new AlignementException( onto+" : cannot provide both global and inherited answers");
+} else {
+    Set&lt;Object&gt; sups = onto.getSuperClasses( class, OntologyFactory.GLOBAL,
+                                     OntologyFactory.INHERITED, OntologyFactory.DIRECT );
+}
+</div>
+These primitives always answer, but the answers are only correct if
+the modalities asked in argument are supported by the implementation.
+</p>
+
+<h4>General methods</h4>
+<dl>
+<dt><tt>public boolean getCapabilities( int Direct, int Asserted, int Named );</tt></dt>
+<dd>Tests the capabilities of the ontology implementation.</dd>
+</dl>
+<h4>Class methods</h4>
+<dl>
+<dt><tt>public Set&lt;Object> getSubClasses( Object c, int local, int asserted, int named );</tt></dt>
+<dd>Returns the set of subclasses of the specified class.</dd>
+<dt><tt>public Set&lt;Object> getSuperClasses( Object c, int local, int asserted, int named );</tt></dt>
+<dd>Returns the set of superclasses of the specified class.</dd>
+<dt><tt>public Set&lt;Object> getProperties( Object c, int local, int asserted, int named );</tt></dt>
+<dd>Returns the set of properties defined on the specified class.</dd>
+<dt><tt>public Set&lt;Object> getDataProperties( Object c, int local, int asserted, int named );</tt></dt>
+<dd>Returns the set of data properties defined on the specified class.</dd>
+<dt><tt>public Set&lt;Object> getObjectProperties( Object c, int local, int asserted, int named );</tt></dt>
+<dd>Returns the set of object properties defined on the specified class.</dd>
+<dt><tt>public Set&lt;Object> getInstances( Object c, int local, int asserted, int named  );</tt></dt>
+<dd>Returns the set of objects belonging to the specified class.</dd>
+</dl>
+<h4>Property  methods</h4>
+<dl>
+<dt><tt>public Set&lt;Object> getSubProperties( Object p, int local, int asserted, int named );</tt></dt>
+<dd>Returns the set of subproperties of the specified property.</dd>
+<dt><tt>public Set&lt;Object> getSuperProperties( Object p, int local, int asserted, int named );</tt></dt>
+<dd>Returns the set of superproperties of the specified property.</dd>
+<dt><tt>public Set&lt;Object> getRange( Object p, int asserted );</tt></dt>
+<dd>Returns the set of range constraints defined on the specified property.</dd>
+<dt><tt>public Set&lt;Object> getDomain( Object p, int asserted );</tt></dt>
+<dd>Returns the set of domain constraints defined on the specified property.</dd>
+</dl>
+<h4>Individual methods</h4>
+<dl>
+<dt><tt>public Set&lt;Object> getClasses( Object i, int local, int asserted, int named );</tt></dt>
+<dd>Returns the set of classes to which the specified individual belongs.</dd>
+</dl>
+
+<!--h2><tt>Additional services</tt></h2>
+
+<p>
+</p-->
+
+<h2>Implementations</h2>
+
+<p>
+Here are the available implementations:
+<center>
+<table border="0">
+<tr>
+<td>API</td><td>Version</td><td>Implementation</td><td>Requires</td><td>Availability</td><td>classname</td>
+</th>
+<tr>
+<td><a href="http://jena.sourceforge.net/">Jena</a></td><td>2.5</td><td>LoadedOntology</td><td></td><td>3.5</td><td><tt>ow.jena25.JENAOntologyFactory</tt></td>
+</tr>
+<tr>
+<td><a href="http://jena.sourceforge.net/">Jena</a></td><td>2.6</td><td>LoadedOntology</td><td></td><td>4.0</td><td><tt>ow.jena25.JENAOntologyFactory</tt></td>
+</tr>
+<tr>
+<td><a href="http://owlapi.sourceforge.net/">OWL API</a></td><td>1.0</td><td>HeavyLoadedOntology</td><td></td><td>3.5</td><td><tt>ow.owlapi10.OWLAPIOntologyFactory</tt></td>
+</tr>
+<tr>
+<td><a href="http://owlapi.sourceforge.net/">OWL API</a></td><td>2.0</td><td>HeavyLoadedOntology</td><td></td><td>Discontinued (3.4-3.6)</td><td><tt>ow.owlapi20.OWLAPIOntologyFactory</tt></td>
+</tr>
+<tr>
+<td><a href="http://owlapi.sourceforge.net/">OWL API</a></td><td>3.0</td><td>HeavyLoadedOntology</td><td></td><td>4.0</td><td><tt>ow.owlapi30.OWLAPI3OntologyFactory</tt></td>
+</tr>
+<tr>
+<td><a href="http://skosapi.sourceforge.net/">SKOS
+    API</a></td><td></td><td>HeavyLoadedOntology</td><td>OWL API 2</td><td>4.1</td><td><tt>ow.skosapi.SKOSOntologyFactory</tt></td>
+</tr>
+<tr>
+<td>SKOSLite</td><td></td><td>HeavyLoadedOntology</td><td>Jena</td><td>4.1</td><td><tt>ow.skoslite.SKOSLiteOntologyFactory</tt></td>
+</tr>
+</table>
+</center>
+<tt>ow</tt> stands for <tt>fr.inrialpes.exmo.ontowrap</tt>.
+</p>
+
+<h2>Miscellaneous</h2>
+
+<p>Here are the historical <a href="owlapi.html">howto notes</a> for starting quickly with OWL-API (Outdated notes about the OWL API and its integration in the Alignment API).</p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/ontowrap.html</center>
+<hr />
+$Id: ontowrap.html 1717 2012-04-03 06:23:27Z euzenat $
+</small>
+</address>
+</body>
+</html>

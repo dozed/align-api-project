@@ -1,0 +1,377 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Extending the Alignment API with a new matcher</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" type="text/css" href="../../base.css" />
+<link rel="stylesheet" type="text/css" href="../../style.css" />
+<script type="text/javascript">
+<!--
+function show(id) {
+	var element = document.getElementById(id);
+	element.style.display = "block";
+}
+function hide(id) {
+	var element = document.getElementById(id);
+	element.style.display = "none";
+}
+-->
+</script>
+<style type="text/css">
+<!--
+div.logic {
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+-->
+</style>
+</head>
+<body style="background-color: #FFFFFF;">
+
+<h1>Extending the Alignment <abbr title="Application Programming Interface">API</abbr> with a new matcher</h1>
+
+<dl>
+<dt>This version:</dt>
+<dd>http://alignapi.gforge.inria.fr/tutorial/tutorial3/</dd>
+<dt>Author:</dt>
+<dd><a href="http://exmo.inrialpes.fr/people/euzenat/">J&eacute;r&ocirc;me
+    Euzenat</a> &amp; <a href="http://exmo.inrialpes.fr/people/trojahn/">Cassia Trojahn dos Santos</a>, INRIA &amp; LIG
+</dd>
+</dl>
+
+<p style="border-top: 2px solid #AAAAAA; padding-top: 15px;">
+This tutorial explains, step-by-step, how to add your own ontology
+matcher, existing or new, to the Alignment API.
+</p>
+<p style="padding-top: 15px;border-top: 2px solid #AAAAAA;">
+Other tutorials can be found <a href="../index.html">here</a>.
+</p>
+<div style="font-size: 75%;">This tutorial has been designed for the Alignment API version 4.0.</div>
+<p>
+Extending the Alignment API with your matcher will enable:
+<ul>
+<li>To output alignments in various formats,</li>
+<li>To be embeded within any program using the Alignment API, and, in
+  particular, the Alignment server,</li>
+<li>To manipulate your alignments (trimmed, composed) like any other alignment.</li>
+</ul>
+</p>
+<p>
+There are many different methods for computing alignments. However, they always need at least two ontologies as input and provide an alignment as output (or as an intermediate step because some
+algorithms are more focussed on merging the ontologies for instance). Sometimes they can take an
+alignment or various other parameters as input.
+</p>
+<p>
+The alignent API has been built around exactly this minimal interface, hence,
+it is easy to extend it by adding a new matcher. It is used by
+creating an alignment object, providing the two ontologies, calling the <tt>align</tt> method which takes  parameters and initial alignment as arguments. The alignment object then bears the result of the
+matching procedure.
+</p>
+
+<h2>Preparation</h2>
+	
+<p>
+First you must download the Alignment API and check that it works
+as indicated <a href="../index.html">here</a>.
+</p>
+<p>You will then go to the directory of this tutorial by doing:</p>
+<div class="terminal">
+$ cd tutorial3
+</div>
+<p>You can clean up previous trials by:</p>
+<div class="terminal">
+$ rm results/*
+</div>
+
+<p>
+We assume that you have developed a
+matcher <a href="MyMatcher.java"><tt>MyMatcher.java</tt></a>. 
+This will help understanding the way
+the Alignment API works. If you have your own matcher, you will have
+to substitute it for <tt>MyMatcher</tt>.
+</p>
+
+<p>
+<tt>MyMatcher</tt> can be compiled by:
+<div class="terminal">
+$ javac -classpath ../../../lib/align.jar:../../../lib/procalign.jar -d results MyMatcher.java
+</div>
+</p>
+
+<h2>Adding an existing matcher the straightforward way</h2>
+
+<p>
+Embedding your matcher is a very simple task. In general, you do not
+need to go further than this section to do it.
+Basically, adding your matcher within the Alignment API amounts to:
+<ol>
+<li>get the parameters, mainly the ontologies, for your matcher;</li>
+<li>run your matcher;</li>
+<li>output the results within the Alignment structure.</li>
+</ol>
+Because, the Alignment API already comes with a feature rich
+implementation, the most simple, and advised procedure, consists of
+taking advantage of the API.
+</p>
+<p>
+We will do this by simply pointing to an instance of your matcher
+class from a host Alignment class. This warrants the independence of
+both implementations whose interactions are limited to the above. If
+you want to achieve a deeper integration, please read also next
+section and see how it can be achieved.
+</p>
+
+<h3>Subclassing BasicAlignment</h3>
+
+<p>
+Adding new matching methods amounts to create a new <tt>AlignmentProcess</tt> class implementing the interface. Generally, this class can extend the proposed <tt>URIAlignment</tt> class, which extends the <tt>BasicAlignment</tt> class.
+The <tt>BasicAlignment</tt> class defines the storage structures for ontologies and alignment specification as well as the methods for dealing with alignment display. All methods can be refined (no one is final). The only method it does not implement is <tt>align</tt> itself. 
+</p>
+
+<p>
+So, the first thing to do is to create a subclass
+of <tt>URIAlignment</tt> implementing <tt>AlignmentProcess</tt>.
+</p>
+
+<div class="java">
+package fr.inrialpes.exmo.align.impl; 
+
+import java.util.Properties;
+
+import org.semanticweb.owl.align.Alignment;
+import org.semanticweb.owl.align.AlignmentProcess;
+import org.semanticweb.owl.align.AlignmentException;
+
+import fr.inrialpes.exmo.ontowrap.LoadedOntology;
+
+import fr.inrialpes.exmo.align.impl.URIAlignment;
+
+import my.domain.MyMatcher;
+
+public class MyAlignment extends URIAlignment implements AlignmentProcess
+{
+
+    public MyAlignment() {}
+
+    public void align( Alignment alignment, Properties params )
+       throws AlignmentException {
+      ... // to be replaced by the pieces of code below
+    }
+}
+</div>
+
+<h3>Retrieving ontologies</h3>
+
+<p>
+In order to align the ontologies, at least, <tt>MyMatcher</tt> needs to
+retrieve them. They have been provided to the <tt>Alignment</tt> at
+the moment of its initialisation through the <tt>init()</tt>
+method. The coordinate of these ontologies have been stored in
+the <tt>Alignment</tt> structure. It can be retrieved as URIs in the
+following way:
+<div class="java">
+  URI uri1 = getOntology1URI();
+  URI uri2 = getOntology2URI();
+</div>
+This provides the real URIs identifying the ontologies if they are
+available. But it may be preferable to use pointer to resources
+actually containing the ontologies. This is what the <tt>getFile</tt>
+methods do:
+<div class="java">
+  URI url1 = getFile1();
+  URI url2 = getFile2();
+</div>
+then, of course, if <tt>MyMatcher</tt> requires URIs, it is very
+simple to call it, like in:
+<div class="java">
+  MyMatcher matcher = new MyMatcher();
+  matcher.match( url1, url2 );
+</div>
+if the matcher requires parameters, it is also possible to obtain them
+from the properties passed withing the 
+<tt>align( Alignment, Property )</tt> method. They use the standard
+Java <tt>Property</tt> class.
+</p>
+
+<h3>Providing results</h3>
+
+<p>
+Now that the matcher has been run, in order for the <tt>Alignment</tt>
+to be aware of its result, it is necessary to communicate it. If
+the <tt>Matcher</tt> class provide its resulting correspondences as an
+iterator, it is possible to "fill" the <tt>Alignment</tt> with:
+<div class="java">
+  for ( Object[] c : matcher ){
+    addAlignCell( (URI)c[0], (URI)c[1], (String)c[2], ((Double)c[3]).doubleValue() );
+  } 
+</div>
+In this case, entities may be URIs, relation may be a string, e.g.,
+"=", and confidence a double, e.g., .375.
+</p>
+<p>
+That's it. 
+</p>
+<p>
+The new matcher is implemented
+as <a href="MyAlignment.java"><tt>MyAlignment</tt></a> using 
+<a href="MyMatcher.java"><tt>MyMatcher</tt></a>.
+It can be used in any situation in
+which a matcher is required by the Alignment API.
+Basically all the tutorials presented here can be
+played with your new class.
+</p>
+<p>
+<tt>MyAlignment</tt> can be compiled by:
+<div class="terminal">
+$ javac -classpath .:../../../lib/align.jar:../../../lib/procalign.jar -d results MyAlignment.java
+</div>
+and can be used in:
+<div class="terminal">
+$ java -classpath .:../../../lib/ontowrap.jar:../../../lib/procalign.jar:results fr.inrialpes.exmo.align.cli.Procalign -i MyAlignment file://$CWD/myOnto.owl file://$CWD/edu.mit.visus.bibtex.owl
+</div>
+</p>
+<p> 
+A more direct implementation of a matcher is also proposed in
+<a href="NewMatcher.java"><tt>NewMatcher.java</tt></a> which is a
+matcher based on the ObjectAlignment class and uses
+the <tt>Ontology</tt> interface to manipulate ontology content.
+</p>
+
+<h2>The full story</h2>
+
+<p>
+In reality, what has been achieved by the previous section is to
+implement the <tt>AlignmentProcess</tt> interface of the API.
+This interface declares only the <tt>align()</tt> method, but it is
+also a subinterface of the <tt>Alignment</tt> interface which requires
+you to implement many more methods and other classes.
+</p>
+
+<p>
+Maybe it is not enough, or not efficient enough.
+In this case, the best way is to start from one of our class
+implementing <tt>Alignment</tt>:
+<ul>
+<li><tt>fr.inrialpes.exmo.align.impl.BasicAlignment</tt></li>
+<li><tt>fr.inrialpes.exmo.align.impl.URIAlignment</tt></li>
+<li><tt>fr.inrialpes.exmo.align.impl.ObjectAlignment</tt></li>
+<li><tt>fr.inrialpes.exmo.align.impl.edoal.EDOALAlignment</tt></li>
+</ul>
+and extend it so that it implements your matcher.
+This is the example given in the
+<a href="NewMatcher.java"><tt>NewMatcher.java</tt></a> class.
+</p>
+
+<p>
+If this is still not sufficient,
+the API is declared at <tt>org.semanticweb.owl.align</tt>
+You are welcome to reimplement it.
+</p>
+
+<p>
+However, it will require to reimplement other types of objects
+(<tt>Cell</tt>, <tt>Relation</tt>) and to implement the
+full <tt>Alignement</tt> interface.
+</p>
+
+<div class="note"><p><b>Advanced:</b> You can develop a specialized matching algorithm by subclassing the Java programs provided in the Alignment <abbr>API</abbr> implementation (like DistanceAlignment).</p></div>
+
+<!--h3>DistanceAlignment class template</h3>
+
+<p>
+The API features a DistanceAlignment abstract class that can be specialised for creating a similarity or distance based matching method. This class offers a variety of methods for extracting alignments from distance matrix.
+</p-->
+
+<h2>Other natural extensions</h2>
+
+<p>
+There are other parts of the Alignment API which may be extended. The
+most natural ones are:
+<ul>
+<li><tt>Evaluator</tt>: for evaluating alignments;</li>
+<li><tt>Renderer</tt>: for serialising an alignment;</li>
+<li><tt>Relation</tt>: for declaring new types of relations.</li>
+</ul>
+</p>
+	
+<h2>Extending the alignment language</h2>
+
+<p>
+The Alignment format can be extended for introducing metadata in the
+alignments and correspondences. This is possible through the
+extensions of the Alignment API.
+Extensions in the Alignment API follows the API:
+<div class="java">
+    public Collection<String[]> getExtensions();
+    public String getExtension( String uri, String label );
+    public void setExtension( String uri, String label, String value );
+</div>
+so extenstions are identified by their namespace (uri) and their
+label. Their value is a String.
+We publish a list of <a href="../../labels.html">already
+declared extensions</a>. If they fill your needs, please use them; if
+you create new ones, please tell us.
+</p>
+<p>
+More advanced: not documented...
+</p>
+	
+<h2>Further packaging your matcher</h2>
+
+<p>
+Through slightly more work, it is possible to ease the use of the new
+class.
+</p>
+
+<h3>Packaging for evaluation in the SEALS platform</h3>
+
+<p>
+This is subject to change but you can find
+instruction <a href="http://oaei.ontologymatching.org/2011.5/seals-eval.html">here</a>.
+Check that these instructions are up-to-date.
+</p>
+
+<h3>Making the resulting class jar-launchable</h3>
+
+<p>
+In order to have this new class directly jar-launchable, it is sufficient to deliver it as a jar-file containing the new introduced classes plus a MANIFEST.MF file refering to all the necessary packages and launching <tt>Procalign</tt>:
+</p>
+
+<div class="java">
+Manifest-Version: 1.0
+Created-By: Jerome.Euzenat@inrialpes.fr
+Class-Path: align.jar ontowrap.jar procalign.jar mymatcher.jar
+Main-Class: fr/inrialpes/exmo/align/cli/Procalign
+</div>
+
+The jar may then be launched by:
+<div class="terminal">
+$ java -jar lib/mymatcher.jar file://$CWD/rdf/onto1.owl  file://$CWD/rdf/onto2.owl -i my.domain.MyAlignment
+</div>
+
+<h3>Preparing the class for the Alignment server</h3>
+
+<p>
+In order to be visible from the Alignment server, the class must not
+only implement the <tt>AlignmentProcess</tt> interface, but it must
+also declare that it implements it in the class header even if it
+extends a class that implements the interface. This is a limitation of
+Java support.
+</p>
+
+<h2>Further exercises</h2>
+	
+<p>More info: <a href="http://alignapi.gforge.inria.fr/tutorial/">http://alignapi.gforge.inria.fr/tutorial/</a></p>
+	
+<hr />
+<small>
+<div style="text-align: center;">http://alignapi.gforge.inria.fr/tutorial/tutorial3/</div>
+<hr />
+<div>$Id: index.html 1717 2012-04-03 06:23:27Z euzenat $</div>
+</small>
+</body>
+</html>

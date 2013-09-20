@@ -1,0 +1,407 @@
+<html>
+<head>
+<title>Alignment API: Implementation</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<center><h1>Alignment API: Implementation</h1></center>
+
+<p>
+This page describes the different classes available in the Alignment
+API implementation. For instructions how to use them, the reader is
+refered to the <a href="tutorial/index.html">tutorial pages</a>.
+</p>
+
+<h2>Basic alignment structures</h2>
+
+
+<p>A (default) implementation of this API can be found in the <tt>fr.inrialpes.exmo.align.impl</tt> package.
+It implements the API by providing the simple basic classes: <tt>BasicAlignment</tt>, <tt>BasicCell</tt>,
+<tt>BasicRelation</tt> and <tt>BasicEvaluator</tt>. These classes provide all the necessary implementation
+for the API but the algorithm specific methods (<tt>Alignment.align()</tt> and <tt>Evaluator.eval()</tt>).
+It also provides an RDF/XML parser that can parse the format into an <tt>Alignment</tt> object.
+</p>
+<p>
+It is thus advised to extend these basic implementations instead of
+reimplementing everything (of course, there may be good reasons for
+doing otherwise).
+</p>
+<p>
+Along with these basic classes the default implementation provides a library of other classes,
+mentioned below.
+</p>
+
+<h3>URI-based implementation</h3>
+
+<p>The URI-based implementation is a first concrete implementation of the Alignment API in which entities in correspondences are URI. It defines classes <tt>URIAlignment</tt> and <tt>URICell</tt>.
+</p>
+
+<h3>Object implementation</h3>
+
+<p>
+The Object implementation is an implementation of the Alignment API in
+which entities are OWL entities (classes, object properties, data
+properties, instances). It defines classes <tt>ObjectAlignment</tt>
+and <tt>ObjectCell</tt>. It is built on top of the abstract ontology
+layer <a href="ontowrap.html">Ontowrap</a> which is extensible. This layer allows to use different ontology APIs within the Alignment API.
+This implementation is useful for implementing matching algorithms which needs to have access to the actual ontologies. 
+</p>
+<p>
+It is possible to transform instances of these classes through two primitives:
+<dl>
+<dt><tt>toURIAlignment()</tt></dt><dd> in <tt>ObjectAlignment</tt> transforms an <tt>ObjectAlignment</tt> into and <tt>URIAlignment</tt>;</dd>
+<dt>static <tt>ObjectAlignment.toObjectAlignment(Alignment)</tt></dt><dd> which transforms an <tt>URIAlignment</tt> into an <tt>ObjectAlignment</tt> provided that it is possible to load the two ontologies</dd>
+<dt>static <tt>EDOALAlignment.toEDOALAlignment(Alignment)</tt></dt><dd>
+    which transforms an <tt>URIAlignment</tt>
+    or <tt>ObjectAlignment</tt> into an <tt>EDOALAlignment</tt>
+    provided that it is possible to load the two ontologies and
+    dereference their URIs.</dd>
+</dl>
+</p>
+<p>
+Useful abstract classes such as <tt>DistanceAlignment</tt> are built on top of this implementation as well as the old <tt>OWLAPIAlignment</tt> which has been maintained for compatibility purposes.
+</p>
+
+<h3>EDOAL alignments</h3>
+
+<p>
+The <a href="edoal.html">EDOAL language</a> is implemented as an extension of the Alignment API. It defines classes <tt>EDOALAlignment</tt> and <tt>EDOALCell</tt>.
+</p>
+
+<h2>Trimming</h2>
+
+<p>If neither ontology needs to be completely covered by the alignment, a threshold-based filtering
+would allows for retaining only the highest confidence entity pairs. Triming, for most of its actions, requires that the set <i>M</i> be a totally ordered set.
+Without the injectivity constraint, the pairs scoring above the threshold
+represent a sensible alignment.</p>
+
+<p>The easier way to proceed consists of selecting correspondences over a particular threshold. However, we implemented
+several methods. They are identified in the cut method by a following string switches:
+<dl>
+<dt>hard</dt><dd> retains all the correspondences above or equal to threshold <i>n</i>;</dd>
+<dt>span</dt><dd> retains all the correspondences which are above or equal to the best value minus <i>n</i>;</dd>
+<dt>prop</dt><dd> retains all the correspondences which are above or equal to <i>n</i>% of the best value;</dd>
+<dt>perc</dt><dd> retains the <i>n</i>% best values (beware, ex-aequos are drawn at random).</dd>
+</dl></p>
+
+<p>
+The method is invoked by:
+<div class="java">
+  Alignment al;
+  al.cut( "prop", .7 );
+</div>
+or, through the <a href="cli.html">command line interface</a> by:
+<div class="terminal">
+$ java -jar lib/procalign.jar fr.inrialpes.exmo.align.util.ParserPrinter -T prop -t .7 ./edna.rdf
+</div>
+</p>
+
+<h2>Parsing</h2>
+
+<p>
+This API implementation does provide support for manipulating alignments.
+It offers a number of services for manipulating the API. 
+The following primitives are available:
+<dl>
+<dt>parsing</dt><dd> an alignment from a file in RDF/XML (<tt>AlignmentParser.parse()</tt>);</dd>
+</dl>
+</p>
+<p>
+The method is invoked by:
+<div class="java">
+  AlignmentParser aparser = new AlignmentParser(0);
+  Alignment al = aparser.parse( new File( "./refalign.rdf" ).toURI() );
+</div>
+</p>
+<h2>Rendering</h2>
+
+<p>
+The obtained alignment can, of course, be generated in the RDF serialisation form of the Alignment format. However, there are other formats available.
+</p>
+<p>
+The method is invoked by:
+<div class="java">
+  PrintWriter writer = new PrintWriter (
+                        new BufferedWriter(
+                         new OutputStreamWriter( System.out, "UTF-8" )), true);
+  AlignmentVisitor renderer = new RDFRendererVisitor(writer);
+  al.render(renderer);
+  writer.flush();
+  writer.close();
+</div>
+or
+<div class="terminal">
+$ java -jar lib/procalign.jar fr.inrialpes.exmo.align.util.ParserPrinter -r fr.inrialpes.exmo.align.impl.OWLAxiomsRendererVisitor ./edna.rdf
+</div>
+</p>
+<p>
+The API provides the notion of a visitor of the alignment cells. These visitors are
+used in the implementation for rendering the alignments. So far, the implementation is provided with
+seven such visitors (in parenthesis is the minimal class from which renderer works):
+<dl>
+<dt>RDFRendererVisitor</dt><dd> displays the alignment in
+    the <a href="format.html">RDF format</a> as well as <a href="edoal.html">EDOAL</a>.
+An XSLT stylesheet is available for displaying the alignments in HTML from the RDF/XML format.</dd>
+<dt>OWLAxiomsRendererVisitor (ObjectAlignment)</dt><dd>generates an ontology merging both aligned ontologies and
+comprising OWL axioms for expressing the subsumption, equivalence and exclusivity relations.</dd>
+<dt>XSLTRendererVisitor</dt><dd> generates an XSLT stylesheet for transforming data expressed in the
+first ontology in data expressed in the second ontology;</dd>
+<dt>COWLMappingRendererVisitor (ObjectAlignment)</dt><dd>generates a C-OWL mapping, i.e., a set of relations expressed between elements (in fact classes) of two ontologies.</dd>
+<dt>SWRLRendererVisitor (ObjectAlignment)</dt><dd>generates a set of SWRL rules for inferring from data expressed in
+the first ontology the corresponding data with regard of the second ontology.</dd>
+<dt>SEKTMappingRendererVisitor (ObjectAlignment)</dt><dd>generates a mapping document as was defined in the SEKT document.</dd>
+<dt>SKOSRendererVisitor</dt><dd> generates a SKOS mapping document.</dd>
+</dl>
+
+<p>Some of these methods, like XSLT or SWRL, take the first ontology in the alignment as the source
+ontology and the second one as the target ontology.</p>
+
+<h3>Generating axioms</h3><a name="OWLAxioms"></a>
+
+<p><a href="http://www.w3.org/TR/owl-overview/">OWL</a> itself provides tools for expressing axioms corresponding to some relations that we are able to generate such as subsumption (<tt>subClassOf</tt>) or equivalence (<tt>equivalentClass</tt>). From an alignment, the <tt>OWLAxiomsRendererVisitor</tt> visitor generates an ontology that merges
+the previous ontologies and adds the bridging axioms corresponding to the cells of the alignment.
+</p>
+<p>
+This returns:
+<div class="owl"><pre>
+&lt;rdf:RDF
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+  &lt;owl:Ontology rdf:about="">
+    &lt;rdfs:comment>Aligned ontollogies&lt;/rdfs:comment>
+    &lt;owl:imports rdf:resource="http://www.example.org/ontology1"/>
+    &lt;owl:imports rdf:resource="http://www.example.org/ontology2"/>
+  &lt;/owl:Ontology>
+
+  &lt;owl:Class rdf:about="http://www.example.org/ontology1#reviewedarticle">
+    &lt;owl:equivalentClass rdf:resource="http://www.example.org/ontology2#article"/>
+  &lt;/owl:Class>
+
+  &lt;owl:Class rdf:about="http://www.example.org/ontology1#journalarticle">
+    &lt;owl:equivalentClass rdf:resource="http://www.example.org/ontology2#journalarticle"/>
+  &lt;/owl:Class>
+
+&lt;/rdf:RDF>
+</pre></div></p>
+
+<h3>Generating XSLT translations</h3><a name="xslt"></a>
+
+<p>Alignements may be used for translation as well as for merging. 
+Such a transformation can be made on a very syntactic level.
+The most neutral solution seems to generate translators in <a href="http://www.w3.org/TR/xslt">XSLT</a>.
+However, because it lacks deductive capabilities, this solution
+is only suited for transforming 
+data (i.e., individual descriptions) appearing in a regular form.</p>
+
+<P>The <tt>XSLTRendererVisitor</tt> generates transformations
+that recursively replace the names of classes and properties in individuals. The renderer
+produces stylesheets like:
+
+<div class="xslt">
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+  &lt;xsl:template match="http://www.example.org/ontology1#reviewedarticle">
+    &lt;xsl:element name="http://www.example.org/ontology2#article">
+      &lt;xsl:apply-templates select="*|@*|text()"/>
+    &lt;/xsl:element>
+  &lt;/xsl:template>
+
+  &lt;xsl:template match="http://www.example.org/ontology1#journalarticle">
+    &lt;xsl:element name="http://www.example.org/ontology2#journalarticle">
+      &lt;xsl:apply-templates select="*|@*|text()"/>
+    &lt;/xsl:element>
+  &lt;/xsl:template>
+
+  &lt;!-- Copying the root -->
+  &lt;xsl:template match="/">
+    &lt;xsl:apply-templates/>
+  &lt;/xsl:template>
+
+  &lt;!-- Copying all elements and attributes -->
+  &lt;xsl:template match="*|@*|text()">
+    &lt;xsl:copy>
+      &lt;xsl:apply-templates select="*|@*|text()"/>
+    &lt;/xsl:copy>
+  &lt;/xsl:template>
+
+&lt;/xsl:stylesheet>
+</div></p>
+
+<h3>Generating SWRL Rules</h3><a name="swrl"></a>
+
+<p>Finally, this transformation can be implemented as a set of rules which will ``interpret'' the correspondence. This is more adapted than XSLT stylesheets because, we can
+assume that a rule engine will work semantically (i.e., it achieves some degree of completeness
+with regard to the semantics) rather than purely syntactically.</p>
+
+<p>The <tt>SWRLRendererVisitor</tt> transforms the matching into a set
+  of <a href="http://www.w3.org/Submission/SWRL/">SWRL rules</a>. The result on the same example will be the following:
+
+<div class="swrl">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+
+&lt;swrlx:Ontology swrlx:name="generatedAl"
+                xmlns:swrlx="http://www.w3.org/2003/11/swrlx#"
+                xmlns:owlx="http://www.w3.org/2003/05/owl-xml"
+                xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+  &lt;owlx:Imports rdf:resource="http://www.example.org/ontology1"/>
+  
+  &lt;ruleml:imp>
+    &lt;ruleml:_body>
+      &lt;swrlx:classAtom>
+        &lt;owlx:Class owlx:name="http://www.example.org/ontology1#reviewedarticle"/>
+        &lt;ruleml:var>x&lt;/ruleml:var>
+      &lt;/swrlx:classAtom>
+    &lt;/ruleml:_body>
+    &lt;ruleml:_head>
+      &lt;swrlx:classAtom>
+        &lt;owlx:Class owlx:name="http://www.example.org/ontology2#journalarticle"/>
+        &lt;ruleml:var>x&lt;/ruleml:var>
+      &lt;/swrlx:classAtom>
+    &lt;/ruleml:_head>
+  &lt;/ruleml:imp>
+
+...
+&lt;/swrlx:Ontology>
+</div></p>
+
+<p>Of course, level 2 alignments would require specific renderers targeted at their
+particular languages.</p>
+
+<h3>Generating C-OWL mappings</h3><a name="cowl"></a>
+
+<p>The <tt>COWLMappingRendererVisitor</tt> transforms the alignment
+  into a set of <a href="http://disi.unitn.it/~bouquet/papers/ISWC2003-COWL.pdf">C-OWL mappings</a>. The result on the same example will be the following:
+
+<div class="cowl">
+&lt;rdf:RDF
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+    xmlns:cowl="http://www.itc.it/cowl#" 
+    xml:base="http://www.itc.it/cowl#" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+  &lt;cowl:Mapping rdf:ID="">
+    &lt;cowl:sourceOntology>
+      &lt;owl:Ontology rdf:about="http://www.example.org/ontology1"/>
+    &lt;/cowl:sourceOntology>
+    &lt;cowl:targetOntology>
+      &lt;owl:Ontology rdf:about="http://www.example.org/ontology2"/>
+    &lt;/cowl:targetOntology>
+    &lt;cowl:bridgeRule>
+     &lt;cowl:Equivalent>
+       &lt;cowl:source>
+         &lt;owl:Class rdf:about="http://www.example.org/ontology1#reviewedarticle"/>
+       &lt;/cowl:source>
+       &lt;cowl:target>
+         &lt;owl:Class rdf:about="http://www.example.org/ontology2#journalarticle"/>
+       &lt;/cowl:target>
+     &lt;/cowl:Equivalent>
+    &lt;/cowl:bridgeRule>
+  ...
+  &lt;/cowl:Mapping>
+&lt;/rdf:RDF>
+</div></p>
+
+<h3>Generating SEKT-ML mappings</h3>
+
+<p>The <tt>SEKTMappingRendererVisitor</tt> transforms the alignment
+  into a <a href=""></a>SEKT mapping document. The result on the same example is the following:
+
+<div class="owl">
+MappingDocument("">
+  source(&lt;"http://www.example.org/ontology1">)
+  target(&lt;"http://www.example.org/ontology2">)
+  classMapping( &lt;"#s44261">
+    bidirectional
+    &lt;"http://www.example.org/ontology1#reviewedarticle">
+    &lt;"http://www.example.org/ontology2#article">
+  )
+
+  classMapping( &lt;"#s4201">
+    bidirectional
+    &lt;"http://www.example.org/ontology1#journalarticle">
+    &lt;"http://www.example.org/ontology2#journalarticle">
+  )
+
+)
+</div></p>
+
+<p>Of course, level 2 alignments would require specific renderers targeted at their
+particular languages.</p>
+
+<h3>Generating SKOS</h3>
+
+<p>The <tt>SKOSRendererVisitor</tt> transforms the alignment into a
+  <a href="http://www.w3.org/TR/skos-reference">SKOS mappings</a>. The result on the same example is the following:
+
+<div class="skos">
+&lt;rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+
+  &lt;skos:Concept rdf:about="http://www.example.org/ontology1#journalarticle">
+    &lt;skos:related rdf:resource="http://www.example.org/ontology2#journalarticle"/>
+  &lt;/skos:Concept>
+
+  &lt;skos:Concept rdf:about="http://www.example.org/ontology1#reviewedarticle">
+    &lt;skos:related rdf:resource="http://www.example.org/ontology2#article"/>
+  &lt;/skos:Concept>
+
+&lt;/rdf:RDF>
+</div></p>
+
+<h2>Sample matchers</h2>
+
+<h3>DistanceAlignment class template</h3>
+
+<p>
+The API features a <tt>DistanceAlignment</tt> abstract class that can be specialised for creating a similarity or distance based matching method. This class offers a variety of methods for extracting alignments from distance matrix.
+</p>
+<p>
+<b>TO BE FURTHER DOCUMENTED</b>
+</p>
+
+<h3>Collection of predefined algorithms</h3>
+
+<p>The implementation of the Alignment API offers a small library of basic matchers. These are simply here as examples of matchers.
+Several of these algorithms have been run to provide the alignments between the two considered ontologies:
+<dl>
+<dt>NameEqAlignment</dt><dd> Simply compares the equality of local class and property names 
+(once downcased) and align those objects with the same name;</dd>
+<dt>EditDistNameAlignment</dt><dd> Uses an editing (or Levenstein) distance between (downcased) 
+entity names.  It thus has to build a distance matrix and to choose the alignment from the distance;</dd>
+<dt>SubsDistNameAlignment</dt><dd> Computes a substring distance on the (downcased) entity name;</dd>
+<dt>StrucSubsDistNameAlignment</dt><dd> Computes a substring distance on the (downcased) entity names and uses and aggregates this distance with the symmetric difference of properties in classes. This class is not available anymore within the API.</dd>
+</dl></p>
+
+<p>These simple algorithms should increase the accuracy of the matching results.</p>
+
+<p>All these simple demonstration algorithms of the Alignment API, sould be rewritten with regard to the more generic DistanceAlignment and StringDistAlignment abstract classes.</p>
+
+<h2>Evaluating</h2>
+
+<p>
+Evaluators are described in a <a href="eval.html">separate page</a>.
+</p>
+
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/builtin.html</center>
+<hr />
+$Id: builtin.html 1718 2012-04-03 06:24:54Z euzenat $
+</small>
+</body>
+</html>

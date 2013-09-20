@@ -1,0 +1,21 @@
+# dtd
+# examples
+# html
+# javadoc
+# lib
+# plugins
+
+.idea
+*.iml
+
+classes
+distrib
+
+mvn-repo
+out
+src
+test
+tools
+
+build.xml
+

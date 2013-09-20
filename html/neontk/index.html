@@ -1,0 +1,314 @@
+<html>
+<head>
+<title>Alignment API: NeOn Alignment plug-in</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="../base.css" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+</head>
+<body>
+
+<h1>NeOn Alignment plug-in</h1>
+
+<p>The Alignment server and API are available from the NeOn toolkit,
+  through a dedicated plug-in: the NeOn Alignment plug-in. This allows
+  manipulating alignments from the NeOn toolkit and sharing them
+  through the Alignment server.</p>
+<p>
+The NeOn Alignment plugin panel is obtained by selecting "Windows" ->
+"Show view" -> "Others..." -> "Alignment" -> "Alignment".
+</p>
+
+<h2>Description of the plug-in</h2>
+
+<p>The NeOn Alignment Plugin allows one to automatically compute and manage ontology alignments. More precisely, the NeOn Alignment Plugin offers the following functionalities:
+</p>
+<ul>
+<li>Find alignments between ontologies or those available on the server</li>
+<li>Match ontologies</li>
+<li>Trim alignments by applying thresholds to existing alignments</li>
+<li>Retrieve and render alignment in a particular format</li>
+<li>Store an alignment permanently on the server</li>
+</ul>
+
+<p>
+The figure below shows the available functions of the plugin.
+</p>
+<p style="text-align: center">
+<a href="Functions.png" class="image" title="Functions.png"><img alt="Functions.png" src="Functions.png" border="0" /></a>
+</p>
+
+<p>
+These functionalities support the alignment life-cycle which can be described as follows. Alignments are first created through a matching process (which may be manual) or reused from published alignments. Then they may go through an iterative loop of evaluation and enhancement. Again, evaluation can be performed either manually or automatically, it consists of assessing properties of the obtained alignment. Enhancement can be obtained either through manual change of the alignment or application of refinement procedures, e.g., selecting some correspondences by applying thresholds. When an alignment is deemed worth publishing, then it can be stored and communicated to other parties interested in such an alignment. Finally, the alignment is transformed into another form or interpreted for performing actions like mediation or merging.
+</p>
+
+<p>
+The NeOn Alignment Plugin can work in two modes: offline and
+online. The NeOn Alignment plug-in embedds the Alignment API
+that is used in the offline mode to accomplish the main functions of
+the plug-in. The online mode takes advantage of alignment servers to
+offer additionally mechanisms to store and reuse alignments. 
+</p>
+
+<h2>Installing the NeOn toolkit and the Alignment plug-in</h2>
+
+<h3>Getting the Neon Toolkit</h3>
+
+<p>A version of the NeonToolkit is available at <a href=http://www.neon-toolkit.org/>http://www.neon-toolkit.org</a>.</p>
+<p>From this site, you download a zipped NeonToolkit file according to your Operating System (OS). After unzipping this file, a new directory is created, and within it you have a directory "plug-ins" and an executable file.</p>
+
+<h3>Get the NeOn Alignment plug-in </h3>
+
+<p>
+In principle, the Alignment plug-in is avalable directly from the
+plug-in import mechanism of the toolkit.
+</p>
+<p>
+However, a version of NeOn Alignment plug-in is available at <a href=http://gforge.inria.fr/projects/alignapi/>http://gforge.inria.fr/projects/alignapi/</a> . From this site you donwload the jar file "neonalign.jar" and put it in the "plug-ins" directory of the NeOnToolkit.</p>
+
+<h3>Run NeonToolkit with the plug-in</h3>
+
+<p>To run NeonToolkit with the NeOn Alignment plug-in, you launch the
+  NeOnToolkit with the executable file (e.g. under Linux, you run the
+  "NeonToolKit.sh" script). You will see an interface screen like the
+  following (under Linux).</p>
+
+<p style="text-align: center;">
+<img src="neontk-launch.png"/>
+</p>
+
+<h2>Using the plugin in local mode (Step-by-step example)</h2>
+
+<p>
+In the offline mode, which is activated by clicking on button
+"Offline", the NeOn Alignment Plugin can access to NeOn Toolkit
+ontologies (i.e. opened ontologies in Ontology Navigator) and match
+any pair of them. Resulting alignments can be stored as local system
+files and imported to Ontology Navigator as OWL ontologies.
+</p>
+
+<a name="Show_the_Ontology_Navigator_view"
+   id="Show_the_Ontology_Navigator_view"></a>
+<h3 class="mw-headline">Show the Ontology Navigator view</h3>
+
+<p>From the Ontology Navigator, create a
+  project, for example "OntologyProject", in this view.</p>
+
+<a name="Open_working_OWL_ontologies"
+   id="Open_working_OWL_ontologies"></a>
+<h3 class="mw-headline">Open working OWL ontologies</h3>
+
+<p>From the menu bar of the NeonToolkit, open working OWL ontologies
+  in the project "OntologyProject" created above by "File -&gt;
+  Import... -&gt; Ontologies -&gt; ". You can select either "OWL2
+  Ontologies from the filesystem" or "Import ontology from the web"</p>
+
+<!--a name="Activate_the_Neon_Alignment_Plugin"
+   id="Activate_the_Neon_Alignment_Plugin"></a>
+
+<h3 class="mw-headline">Activate the Neon Alignment Plugin</h3>
+
+<p>From the menu bar or the button, activate the Neon Alignment Plugin
+  and a view for the plug-in will be openned.</p-->
+
+<!--a name="Define_an_alignment_project"
+   id="Define_an_alignment_project"></a>
+<h3 class="mw-headline">Define an alignment project</h3>
+
+<p>From the view for the plug-in, give a name in the field "Alignment
+  Project Name". This name will be used for an Ontology Navigator
+  project which includes all alignments created by the NeOn Alignment
+  plug-in later on.</p-->
+
+<a name="Matching_two_ontologies" id="Matching_two_ontologies"></a>
+<h3 class="mw-headline">Matching two ontologies</h3>
+
+<p>First we must fetch the working ontologies from Ontology Navigator
+  by clicking on the button "Refresh". All the working ontologies will
+  be added to two lists "Ontology 1" and "Ontology 2". Choose two
+  ontologies to match from the two lists. Next, choose an alignment
+  method from the list "Alignment methods". Click on "Match" to match
+  these two ontologies with the method chosen. The resulting alignment
+  will be  added to the list "Alignments found". See the figure below.
+</p>
+<p style="text-align: center">
+<a href="Matching.png" class="image" title="Matching.png"><img alt="Matching.png" src="Matching.png" border="0" /></a>
+</p>
+
+<a name="Importing_an_alignment" id="Importing_an_alignment"></a>
+<h3 class="mw-headline">Importing an alignment</h3>
+
+<p>Choose an alignment from the list "Alignments found" and click on
+  "Import to Ontology Navigator". The alignment chosen will be
+  imported as an OWL ontology to the alignment project which was
+  created in Ontology Navigator. Users can navigate the OWL alignment
+  imported in Ontology Navigator. See the figure below.</p>
+
+<p style="text-align: center;"><a href="ImporOWLAlign.png" class="image" title="ImporOWLAlign.png"><img alt="ImporOWLAlign.png" src="ImporOWLAlign.png" border="0" /></a>
+</p><p><br />
+</p>
+
+<h2>Using the plugin with the Alignment Server (step-by-step example)</h2>
+
+<p>
+In the online mode,  which is activated by clicking on button
+"Online", the NeOn Alignment Plugin provides all functions from the
+Alignment Server.  Resulting alignments are stored  on the server and
+exported to Ontology Navigator as OWL ontologies. This allows NeOn
+Toolkit users, with help of the Ontology Editor, to use, share or edit
+alignments.
+</p>
+
+<a name="Activate_the_on-line_mode"
+   id="Activate_the_on-line_mode"></a>
+<h3 class="mw-headline">Activate the on-line mode</h3>
+
+<p>From the view for the plugin, activate the on-line mode by clicking on the button "Online" and the button "Connect" becomes enabled.
+<p>
+
+<a name="Connecting" id="Connecting"></a>
+<h3 class="mw-headline">Connecting</h3>
+
+<p>To connect to the INRIA's Alignment Server from the NeOn Alignment Plugin, you have to type "aserv.inrialpes.fr" for hostname and "80" for port.<br />
+If the connection is successful, we can see the buttons "Refresh", "Match", "Import to Ontology Navigator", "Trim", "Find an alignment...", "Store an alignment..." and "Fetch available alignments..." become enable. In particular, a list of available alignment methods is visible at "Alignment methods". In addition, an Ontology Navigator project, whose name was defined above, is automatically created for alignments.
+</p>
+
+<a name="Fetch_available_alignments"
+   id="Fetch_available_alignments"></a>
+<h3 class="mw-headline">Fetch available alignments</h3>
+
+<p>This function allows users to obtain a list of all alignments
+  available on the Alignment Server. See the figure below.</p>
+
+<p style="text-align: center;">
+<a href="fetchAlign.png" class="image" title="fetchAlign.png"><img alt="fetchAlign.png" src="fetchAlign.png" border="0" /></a>
+</p>
+
+<!--h2>How to use the NeOn Alignment Plugin with Ontomap Plugin</h2-->
+
+<!--h2>How to use the NeOn Alignment plug-in with Ontomap plug-in</h2>
+
+<p>It should be possible at some point to use the NeOn Alignment
+  plug-in jointly with the Ontomap plug-in developed by Ontoprise.</p-->
+
+<!--h3>Visualize alignments with Ontomap plug-in </h3>
+<h3>Edit alignments with Ontomap plug-in </h3-->
+
+<h2>Commands</h2>
+
+<p>
+The commands which can be activated through the interface are as
+follows:
+</p>
+
+<h3>Online</h3>
+<p>
+Switch to the online mode in which the plug-in is connected to an
+Alignment server and can take advantage of its stored alignements and
+available matching methods. Only ontologies accessible on the web can be
+matched in this mode.
+</p>
+<h3>Offline</h3>
+<p>
+Switch to the offline mode in which local ontologies are matched with
+the matching methods available within the NeOn toolkit.
+</p>
+<h3>Refresh</h3>
+<p>
+Update the two ontology choosers (Ontology 1 and Ontology 2) with the
+ontology available in the toolkit.
+</p>
+<h3>Match</h3>
+<p>
+Match the ontologies selected in the ontology choosers with the method
+selected in the method chooser (a new alignment is created and is
+available in the chooser of server alignments or local alignments
+depending of the mode).
+</p>
+<h3>Trim (online)</h3>
+<p>
+Trims the correspondences in the alignment selected in the server
+alignment chooser whose confidence is below some threshold (a new
+alignment is created).
+</p>
+<h3>Import (online)</h3>
+<p>
+The alignment selected in the server alignment chooser is imported as
+an ontology in the NeOn toolkit.
+</p>
+<h3>Store (online)</h3>
+<p>
+Stores the alignment selected in the server alignment chooser on
+the server (it will be kept in the database and will survive any
+server shutdown).
+</p>
+<h3>Import (offline)</h3>
+<p>
+The alignment selected in the local alignment chooser is imported as
+an ontology in the NeOn toolkit.
+</p>
+<h3>Trim (offline)</h3>
+<p>
+Trims the correspondences in the alignment selected in the local
+alignment chooser whose confidence is below some threshold (a new
+alignment is created).
+</p>
+<h3>Upload (online)</h3>
+<p>
+Uploads the alignment selected in the local alignment chooser on
+the server.
+</p>
+<h3>Find alignments for ontologies (online)</h3>
+<p>
+Fills the server alignment chooser with all alignments available on
+the server.
+</p>
+<h3>Find all alignments from server (online)</h3>
+<p>
+Fills the server alignment chooser with all alignments between the two
+ontologies of the ontology choosers (Ontology 1 and Ontology 2)
+available on the server.
+</p>
+
+
+<h2>Version correspondences</h2>
+
+<p>Because the NeOn toolkit is developed at a steady pace,
+  correspondences between versions are very important.
+<center>
+<table border="0">
+<tr><td>NeOn toolkit</td><td>particular version</td><td>Alignment API</td></tr>
+<tr><td>1.0</td><td>open source</td><td>3.3</td></tr>
+<tr><td>1.1</td><td>open source</td><td>3.4</td></tr>
+<tr><td>1.2</td><td>open source</td><td>3.5</td></tr>
+<tr><td>2.3</td><td>open source</td><td>4.0</td></tr>
+</table>
+</center>
+</p>
+
+<h2>Documentation</h2>
+
+<p>
+There is an online documentation directly from the help menu of the
+toolkit.
+</p>
+<p>
+More details about the NeOn Alignment plug-in can be found
+in <i><a href="ftp://ftp.inrialpes.fr/pub/exmo/reports/neon-332.pdf">Matching
+      ontologies for context: The NeOn 
+Alignment plug-in</a></i>.
+</p>
+
+<p>There is a screencast available from <a href="ftp://ftp.inrialpes.fr/pub/exmo/media/ntkalign2.mp4">here</a>.
+Another older and mute screen cast, that can be seen
+  from <a href="ftp://ftp.inrialpes.fr/pub/exmo/media/neonalign-demo-owl-nosound.mpeg">here</a>.
+</p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/neontk/</center>
+<hr />
+$Id: index.html 1382 2010-03-28 16:11:31Z euzenat $
+</small>
+</body>
+</html>

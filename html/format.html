@@ -1,0 +1,278 @@
+<html>
+<head>
+<title>A format for ontology alignment</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcollor="#ffffff">
+
+<p style="background-color: yellow;">A more expressive format is offered as <a href="edoal.html">EDOAL</a>.</p>
+
+<h1  class="titre">A format for ontology alignment</h1>
+
+<p>The Alignment API use a general Alignment format. Its
+  goal is to be able to express an alignment in a consensual
+  format. It can then be manipulated by various tools which will use
+  it as input for further alignment methods, transform it into axioms
+  or transformations or compare different alignments.</p>
+<p>This is a first format that could be extended for accomodating
+  further needs. The Alignment API offers the <a href="edoal.html">Expressive and
+  Declarative Ontology Alignment Language (EDOAL)</a> for more
+  elaborate uses.</p>
+<p>We describe below its source descriptions, its specifications and
+  some implementations.</p>
+
+<h2>Specifications</h2>
+
+<p>
+The Alignment format was initially described as an XML format. It was
+given a DTD. It has since been transformed into an RDF format and
+given a corresponding OWL ontology. These are currently obsolete due
+to the introduction of the EDOAL format.
+</p>
+
+<!--p>There are two specifications of the format:
+The Alignment format has been given an OWL ontology and a DTD for validating it in RDF/XML.
+It can be manipulated through the Alignment API which is presented below. 
+<dl compact="1">
+<dt><a href="align.owl">OWL Ontology</a></dt>
+<dd>An OWL description of the format which can then be described in
+  RDF. This is the reference description of the format.</dd>
+<dt><a href="align.dtd">DTD</a></dt>
+<dd>A DTD for expressing the same format in RDF/XML. It is useful for
+  tools which wants to have a more fixed format than RDF.</dd>
+</dl>
+</p-->
+
+<p>The namespace used by these formats is <tt>http://knowledgeweb.semanticweb.org/heterogeneity/alignment#</tt>.</p>
+
+<h2>Format description</h2>
+
+<h3><tt>Alignment</tt> element</h3>
+
+<p>The <tt>Alignment</tt> element describes a particular alignment. Its
+  attributes are the following:
+<dl compact="1">
+<dt>xml</dt><dd>(value: "yes"/"no") indicates if the alignment can be
+    read as an XML file compliant with the DTD;</dd>
+<dt>level</dt><dd>(values: "0", "1", "2EDOAL") the level of
+    alignment, characterising its type;</dd>
+<dt>type</dt><dd>(values:
+    "11"/"1?"/"1+"/"1*"/"?1"/"??"/"?+"/"?*"/"+1"/"+?"/"++"/"+*"/"*1"/"*?"/"?+"/"**";
+    default "11") the type or arity of alignment. Usual notations are 1:1, 1:m, n:1 or n:m. We prefer to note if the mapping is injective, surjective and total or partial on both side. 
+We then end up with more alignment arities (noted with, 1 for injective and total, ? for injective, + for total and * for none and each sign concerning one mapping and its converse);</dd>
+<dt>onto1</dt><dd>(value: Ontology) the first aligned ontology;</dd>
+<dt>onto2</dt><dd>(value: Ontology) the second aligned ontology;</dd>
+<dt>map</dt><dd>(value: Cell) a correspondance between
+    entities of the ontologies.</dd>
+</dl></p>
+
+<div class="align">
+&lt;?xml version='1.0' encoding='utf-8' standalone='no'?>
+&lt;rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:xsd='http://www.w3.org/2001/XMLSchema#'
+         xmlns:align='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'>
+&lt;Alignment>
+  &lt;xml>yes&lt;/xml>
+  &lt;level>0&lt;/level>
+  &lt;type>**&lt;/type>
+  &lt;align:method>fr.inrialpes.exmo.align.impl.method.StringDistAlignment&lt;/align:method>
+  &lt;align:time>7&lt;/align:time>
+  &lt;onto1>...  &lt;/onto1>
+  &lt;onto2>...  &lt;/onto2>
+
+  ...
+
+&lt;/Alignment>
+&lt;/rdf:RDF>
+</div>
+
+<h3><tt>Ontology</tt> element</h3>
+<p>
+Ontology elements provide information concerning the matched
+ontologies. It contains three attributes:
+<dl>
+<dt>rdf:about</dt><dd>contains the URI identifying the ontology;</dd>
+<dt>location</dt><dd>contains the URL corresponding to a location
+    where the ontology may be found;</dd>
+<dt>formalism</dt><dd>describes the language in which the ontology is
+    expressed through its name and URI.</dd>
+</dl>
+</p>
+
+<div class="align">
+    &lt;Ontology rdf:about="http://www.example.org/ontology2">
+      &lt;location>file:examples/rdf/onto2.owl&lt;/location>
+      &lt;formalism>
+        &lt;Formalism align:name="OWL1.0" align:uri="http://www.w3.org/2002/07/owl#"/>
+      &lt;/formalism>
+    &lt;/Ontology>
+</div>
+
+<p>
+A lighter form of the <tt>onto1</tt> and <tt>onto2</tt> values is
+still correctly parsed but its use is discouraged.
+</p>
+
+<h3><tt>Cell</tt> element</h3>
+<p>
+In first approximation, an alignment is a set of pairs of entities
+from each ontology. Each such pair, called a correspondence, is
+identified by the Cell element in alignments. A cell has the following attributes:
+<dl compact="1">
+<dt>rdf:about</dt><dd>(value: URI; optional) an identifier for the cell;</dd>
+<dt>entity1</dt><dd>(value: URI or edoal:Expression) the first aligned ontology entity;</dd>
+<dt>entity2</dt><dd>(value: URI or edoal:Expression) the second
+    aligned ontology entity;</dd>
+<dt>relation</dt><dd>(value: String; default: =; see below) the
+    relation holding between the two entities. It is not restricted to
+    the equivalence relation, but can be more sophisticated (see below);</dd>
+<dt>measure</dt><dd>(value: float between 0. and 1., default: 1.) the confidence
+    that the relation holds between the first and
+    the second entity. Since many matching methods compute a strength
+    of the relation between entities, this strength can be provided as
+    a normalised measure. The measure should belong to an ordered set <i>M</i> including a maximum
+element &top; and a minimum element &bot;. Currently, we restrict
+this value to be a float value between 0. and 1.. If found useful,
+this could be generalised into any lattice domain.</dd> 
+</dl></p>
+denotes the confidence held in this correspondence. 
+
+<div class="align">
+  &lt;map>
+    &lt;Cell>
+      &lt;entity1 rdf:resource='http://www.example.org/ontology1#reviewedarticle'/>
+      &lt;entity2 rdf:resource='http://www.example.org/ontology2#journalarticle'/>
+      &lt;relation>fr.inrialpes.exmo.align.impl.rel.EquivRelation&lt;/relation>
+      &lt;measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>0.4666666666666667&lt;/measure>
+    &lt;/Cell>
+  &lt;/map>
+  &lt;map>
+    &lt;Cell rdf:about="#veryImportantCell">
+      &lt;entity1 rdf:resource='http://www.example.org/ontology1#journalarticle'/>
+      &lt;entity2 rdf:resource='http://www.example.org/ontology2#journalarticle'/>
+      &lt;relation>=&lt;/relation>
+      &lt;measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0&lt;/measure>
+    &lt;/Cell>
+  &lt;/map>
+</div>
+
+<h3><tt>Relation</tt> element</h3>
+
+<p>The relation element only contains the name identifying a relation
+  between ontology entities. This relation may be given:
+<ul>
+<li>through a symbol: &gt; (subsumes), < (is subsumed), 
+= (equivalent), % (incompatible), HasInstance, InstanceOf.</li>
+<li>through a fully qualified classname of the relation
+  implementation. If this class is available
+  under the Java environment, then the relation will be an instance
+  of this class.</li>
+</ul>
+<p>
+Hence,
+<div class="align">
+      &lt;relation>=&lt;/relation>
+</div>
+is equivalent to:
+<div class="align">
+      &lt;relation>fr.inrialpes.exmo.align.impl.rel.EquivRelation&lt;/relation>
+</div>
+</p>
+
+<h2>Metadata (extensions)</h2>
+
+<p>
+So far, alignments contain information about:
+<ul>
+<li>the kind of alignment it is (1:1 or n:m for instance);</li>
+<li>the algorithm that provided it (or if it has been provided by hand);</li>
+<li>the language level used in the alignment (level 0 for the first example, level 2Horn for the second one);</li>
+<li>the confidence value in each correspondence.</li>
+</ul>
+</p>
+<p>
+The format as implemented here supports extensions both on
+Alignments and on Cells. Extensions are additional string-valued
+qualified attributes added to cell and alignments. They will be
+preserved through the implementation. This extensions allows for
+adding metadata in the alignment.
+</p>
+<p>
+These attributes must belong to a different namespace than the
+Alignment format namespace. Otherwise, errors will be raised.
+</p>
+<p>
+Other valuable information that may be added to the alignment format are:
+<ul>
+<li>the parameters passed to the generating algorithm;</li>
+<li>the properties satisfied by the correspondences (and their proof if necessary);</li>
+<li>the certificate from an issuing source;</li>
+<li>the limitations of the use of the alignment;</li>
+<li>the arguments in favour or against a correspondence, etc.</li>
+</ul>
+</p>
+<p>
+Many standard extensions have already been defined and are
+<a href="labels.html">documented</a>.
+</p>
+
+<h2>Levels</h2>
+
+<p>
+In order to be able to evolve, the Alignment format is provided on
+several levels, which depend on more elaborate alignment definitions.
+So, far here are the identified levels:
+<dl>
+<dt>0</dt><dd>is reserved to alignments in which matched entities
+    are identified by URIs. This corresponds to the alignment
+    presented here.</dd>
+<dt>1</dt><dd>was intended to alignments in which correspondences
+    match sets of entities identified by URIs. This has never been
+    used.</dd>
+<dt>2</dt><dd>is used for more structured entities that may be
+    represented in RDF/XML. It is necessary to further identify the
+    structure of entities, hence advised to use a qualified level
+    name such as 2EDOAL. <a href="edoal.html">EDOAL</a> mandates
+    level 2 alignments.</dd>
+</dl>
+</p>
+
+<h2>JAVA implementation</h2>
+
+<p>
+The <a href="index.html">Alignment API</a> implements this format. 
+In particular it provides tools for:
+<ul compact="1">
+<li>Outputing the RDF/XML format from the API, through
+  the <tt>RDFRendererVisitor</tt> renderer;</li>
+<li>Parsing the RDF/XML format into the API, through
+  the <tt>AlignmentParser</tt> parser.</li>
+</ul>
+</p>
+
+<p>
+The <tt>AlignmentParser</tt> is itself made of an <tt>XMLParser</tt>
+based on SAX and an <tt>RDFParser</tt> based on Jena. They are tried
+in a row starting from the <tt>XMLParser</tt>.
+</p>
+
+<p>There is a <a href="cli.html">command</a> that parses an alignment and
+  displays it ($CWD is the directory where you are):
+<div class="terminal">
+$ java -jar lib/procalign file://$CWD/rdf/onto1.owl file://$CWD/rdf/onto2.owl 
+</div>
+</p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/format.html</center>
+<hr />
+$Id: format.html 1717 2012-04-03 06:23:27Z euzenat $
+</small>
+</address>
+</body>
+</html>

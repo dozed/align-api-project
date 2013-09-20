@@ -1,0 +1,375 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Manipulating alignments in Java programs (and embedding the Alignment API within an application</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" type="text/css" href="../../base.css" />
+<link rel="stylesheet" type="text/css" href="../../style.css" />
+<script type="text/javascript">
+<!--
+function show(id) {
+	var element = document.getElementById(id);
+	element.style.display = "block";
+}
+function hide(id) {
+	var element = document.getElementById(id);
+	element.style.display = "none";
+}
+-->
+</script>
+<style type="text/css">
+<!--
+div.logic {
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+-->
+</style>
+</head>
+<body style="background-color: #FFFFFF;">
+
+<h1>Manipulating alignments in Java programs (and embedding the Alignment <abbr title="Application Programming Interface">API</abbr> within an application)</h1>
+
+<dl>
+<dt>This version:</dt>
+<dd>http://alignapi.gforge.inria.fr/tutorial/tutorial2/</dd>
+<dt>Author:</dt>
+<dd><a href="http://exmo.inrialpes.fr/people/euzenat">J&eacute;r&ocirc;me Euzenat</a>, INRIA &amp; LIG
+</dd>
+</dl>
+
+<p style="border-bottom: 2px solid #AAAAAA; border-top: 2px solid
+	  #AAAAAA; padding-top: 15px; padding-bottom: 15px;">Here is a
+  tutorial for embedding the alignment <abbr>API</abbr> within your
+	  own applications. 
+</p>
+<p>
+<small>This tutorial has been designed for the Alignment API version 4.0.</small>
+</p>
+<p>Of course, the goal of the Alignment <abbr>API</abbr> is not to be used at the command line level (even if it can be very useful). So if you are ready for it, you can develop in Java your own application that takes advantage of the <abbr>API</abbr>.</p>
+
+<h2>Starting point</h2>
+	
+<p>A skeleton of program using the Alignment <abbr>API</abbr> is <a href="Skeleton.java">Skeleton.java</a>. It can be compiled by invoking:</p>
+<div class="terminal">
+$ javac -classpath ../../../lib/align.jar:../../../lib/procalign.jar -d results Skeleton.java
+</div>
+<p>and run by:</p>
+<div class="terminal">
+$ java -cp ../../../lib/Procalign.jar:results Skeleton file://$CWD/myOnto.owl file://$CWD/edu.mit.visus.bibtex.owl
+</div>
+
+<p>Now considering the <abbr>API</abbr> (that can be consulted through its
+ thin <a href="../../../javadoc/org/semanticweb/owl/align/Alignment.html">Javadoc</a>
+ for instance), the goal is to modify the Skeleton program so that it performs the following:</p>
+<ul>
+<li>Run two different alignment methods (e.g., ngram distance and smoa);</li>
+<li>Merge the two results;</li>
+<li>Trim at various thresholds;</li>
+<li>Evaluate them against the reference alignment and choose the one with the best F-Measure;</li>
+<li>Displays it as <acronym title="The web ontology language OWL">OWL</acronym> axioms.</li>
+</ul>
+
+<p>Of course, you can do it progressively.</p>
+
+<h2>Call an alignment method</h2>
+
+<p>
+Matching two ontologies is achieved with three steps:
+<ul>
+<li>creating an instance of the class implementing the expected method
+  (implementing the <tt>AlignmentProcess</tt> interface);</li>
+<li>providing the two ontologies to match to this instance (<tt>init</tt>);</li>
+<li>calling the matching method (<tt>align</tt>).</li>
+</ul>
+The matching method takes two arguments: an eventual alignment to
+improve on (which can be null) a set of parameters. So, the three
+lines below match ontologies <tt>onto1</tt> and <tt>onto2</tt> with
+the <tt>StringDistAlignment</tt> matcher:
+<div class="java">
+  AlignmentProcess a = new StringDistAlignment();
+  a.init ( onto1, onto2 );
+  a.align( (Alignment)null, new BasicParameters() );
+</div>
+</p>
+
+<p>
+Now, the first step is to run two different instances
+of <tt>StringDistAlignment</tt> with different <tt>stringFunction</tt>
+parameters corresponding to "smoaDistance" and "ngramDistance".
+</p>
+<div class="button">
+  <input type="button" onclick="show('qu1')" value="Show result"/>
+  <input type="button" onclick="hide('qu1')" value="Hide result"/>
+</div>
+<div class="explain" id="qu1">
+<div class="java">
+  Properties params = new BasicParameters();
+  // Run two different alignment methods (e.g., ngram distance and smoa)
+  AlignmentProcess a1 = new StringDistAlignment();
+  params.setProperty("stringFunction","smoaDistance");
+  a1.init ( onto1, onto2 );
+  a1.align( (Alignment)null, params );
+  AlignmentProcess a2 = new StringDistAlignment();
+  a2.init ( onto1, onto2 );
+  params = new BasicParameters();
+  params.setProperty("stringFunction","ngramDistance");
+  a2.align( (Alignment)null, params );
+</div>
+</div>
+
+<p>
+After this step, the two matching methods have been processed and the
+result is available within the alignment instances (<tt>a1</tt>
+and <tt>a2</tt>).
+</p>
+
+<h2>Manipulate alignments (merge and trim)</h2>
+
+<p>
+Alignments offer methods to manipulate these alignments. In
+particular, it is possible to
+<ul>
+<li>clone alignments (<tt>clone()</tt>),</li>
+<li>invert alignments (change the order of ontologies, <tt>inverse()</tt>),</li>
+<li>merge alignments (put all their correspondences together, <tt>ingest(Alignment)</tt>),</li>
+<li>trim them under various threshold and threshold modalities (<tt>cut(threshold)</tt>).</li>
+</ul>
+Of these, cloning and inverting creates a new alignment while the
+other operations modify the alignment.
+</p>
+	
+<p>
+The goal of the excercise is to create a copy of
+alignment <tt>a1</tt>, merge it with <tt>a2</tt> to invert the
+order of their ontologies and to finally trim the result under a
+threshold of .5. At each step, display the number of
+corresondences in the resulting alignment.
+</p>
+<div class="button">
+  <input type="button" onclick="show('qu2')" value="Show result"/>
+  <input type="button" onclick="hide('qu2')" value="Hide result"/>
+</div>
+<div class="explain" id="qu2">
+<div class="java">
+  // Clone a1
+  System.err.println( a1.nbCells() );
+  BasicAlignment a3 = (BasicAlignment)(a1.clone());
+  System.err.println( a3.nbCells() );
+  
+  // Merge the two results.
+  a3.ingest( a2 );
+  System.err.println( a3.nbCells() );
+
+  // Invert the alignement
+  Alignment a4 = a3.inverse();
+  System.err.println( a4.nbCells() );
+  
+  // Trim above .5
+  a4.cut( .5 );
+  System.err.println( a4.nbCells() );
+</div>
+</div>
+
+<div class="note"><p><b>More work:</b> You can consider the more
+    elaborate versions of <tt>cut()</tt> and compare the results.</p></div>
+
+
+<h2>Evaluating alignments</h2>
+
+<p>
+Alignments can also be evaluated. For that purpose, the API provides
+the <tt>Evaluator</tt> interface. Similarly,
+to <tt>AlignmentProcess</tt>, this interface is called by:
+<ul>
+<li>creating an instance of a particular <tt>Evaluator</tt> taking as
+  argument a reference alignment and the alignment to evaluate;</li>
+<li>processing the evaluation (<tt>eval()</tt>) eventually with a parameter.</li>
+</ul>
+</p>
+
+<p>
+Below the provided code first creates a parser for loading the
+reference alignment, then creates an instance
+of <tt>PRecEvaluator</tt> for computing precision and recall between
+the alignment <tt>a1</tt> above with respects to the reference alignment.
+<div class="java">
+  // Load the reference alignment
+  AlignmentParser aparser = new AlignmentParser(0);
+  Alignment reference = aparser.parse( new File( "../refalign.rdf" ).toURI() );
+
+  Evaluator evaluator = new PRecEvaluator( reference, a1 );
+  evaluator.eval();
+</div>
+As previously, results are stored within the <tt>Evaluator</tt> object
+and are accessed through specific accessors.
+</p>
+
+<p>
+As an excercise, one could try to trim the alignment <tt>a1</tt> with
+thresholds of 0., .2, .4, .6, .8, and 1., to evaluate these results
+for precision and recall and to select the one with the best
+F-measure.
+</p>
+<div class="button">
+  <input type="button" onclick="show('qu5')" value="Show result"/>
+  <input type="button" onclick="hide('qu5')" value="Hide result"/>
+</div>
+<div class="explain" id="qu5">
+<div class="java">
+  // Trim at various thresholds
+  // Evaluate them against the references
+  // and choose the one with the best F-Measure
+  double best = 0.;
+  Alignment result = null;
+  Properties p = new BasicParameters();
+  for ( int i = 0; i <= 10 ; i += 2 ){
+    a1.cut( ((double)i)/10 );
+    // This operation must be repeated because the modifications in a1
+    // are not taken into account otherwise
+    Evaluator evaluator = new PRecEvaluator( reference, a1 );
+    evaluator.eval( p );
+    System.err.println("Threshold "+(((double)i)/10)+" : "+((PRecEvaluator)evaluator).getFmeasure()+" over "+a1.nbCells()+" cells");
+    if ( ((PRecEvaluator)evaluator).getFmeasure() > best ) {
+      result = (BasicAlignment)((BasicAlignment)a1).clone();
+      best = ((PRecEvaluator)evaluator).getFmeasure();
+    }
+  }
+</div>
+</div>
+
+<h2>Displaying an alignment</h2>
+
+<p>
+Finally, alignments can be displayed in a variety of formats
+through the <tt>AlignmentVisitor</tt> abstraction. Alignment are
+displayed by:
+<ul>
+<li>creating a <tt>PrintWriter</tt> in which the visitor will print,</li>
+<li>creating the <tt>AlignmentVisitor</tt> on this writer, and</li>
+<li>rendering the alignment (through the <tt>render()</tt> metthod).</li>
+</ul>
+</p>
+<p>
+
+<p>
+For instance, it is possible to print on the standard output the
+alignment selected at the previous exercise as a set of OWL axioms.
+</p>
+<div class="button">
+  <input type="button" onclick="show('qu6')" value="Show result"/>
+  <input type="button" onclick="hide('qu6')" value="Hide result"/>
+</div>
+<div class="explain" id="qu6">
+<div class="java">
+  // Displays it as OWL Rules
+  PrintWriter writer = new PrintWriter (
+                        new BufferedWriter(
+                         new OutputStreamWriter( System.out, "UTF-8" )), true);
+  AlignmentVisitor renderer = new OWLAxiomsRendererVisitor(writer);
+  result.render(renderer);
+  writer.flush();
+  writer.close();
+</div>
+</div>
+
+<h2>Putting these together</h2>
+	
+<p>Do you want to see a possible solution?</p>
+<div class="button">
+  <input type="button" onclick="show('qu7')" value="Cheat"/>
+  <input type="button" onclick="hide('qu7')" value="Teacher is comming"/>
+</div>
+<div class="explain" id="qu7"><p>The main piece of code in Skeleton.java is replaced by:</p>
+<div class="java">
+  // Run two different alignment methods (e.g., ngram distance and smoa)
+  AlignmentProcess a1 = new StringDistAlignment();
+  params.setProperty("stringFunction","smoaDistance");
+  a1.init ( onto1, onto2 );
+  a1.align( (Alignment)null, params );
+  AlignmentProcess a2 = new StringDistAlignment();
+  a2.init ( onto1, onto2 );
+  params = new BasicParameters();
+  params.setProperty("stringFunction","ngramDistance");
+  a2.align( (Alignment)null, params );
+
+  // Merge the two results.
+  ((BasicAlignment)a1).ingest(a2);
+
+  // Load the reference alignment
+  AlignmentParser aparser = new AlignmentParser(0);
+  // Changed by Angel for Windows
+  //Alignment reference = aparser.parse( "file://"+(new File ( "../refalign.rdf" ) . getAbsolutePath()) );
+  Alignment reference = aparser.parse( new File( "../refalign.rdf" ).toURI() );
+
+  // Trim at various thresholds
+  // Evaluate them against the references
+  // and choose the one with the best F-Measure
+  double best = 0.;
+  Alignment result = null;
+  Properties p = new BasicParameters();
+  for ( int i = 0; i <= 10 ; i += 2 ){
+    a1.cut( ((double)i)/10 );
+    // This operation must be repeated because the modifications in a1
+    // are not taken into account otherwise
+    Evaluator evaluator = new PRecEvaluator( reference, a1 );
+    evaluator.eval( p );
+    System.err.println("Threshold "+(((double)i)/10)+" : "+((PRecEvaluator)evaluator).getFmeasure()+" over "+a1.nbCells()+" cells");
+    if ( ((PRecEvaluator)evaluator).getFmeasure() > best ) {
+      result = (BasicAlignment)((BasicAlignment)a1).clone();
+      best = ((PRecEvaluator)evaluator).getFmeasure();
+    }
+  }
+
+  // Displays it as OWL Rules
+  PrintWriter writer = new PrintWriter (
+                        new BufferedWriter(
+                         new OutputStreamWriter( System.out, "UTF-8" )), true);
+  AlignmentVisitor renderer = new OWLAxiomsRendererVisitor(writer);
+  result.render(renderer);
+  writer.flush();
+  writer.close();
+</div></div>
+
+<p>
+This can be compiled and used through:
+</p>
+<div class="terminal">
+$ javac -classpath ../../../lib/align.jar:../../../lib/procalign.jar -d results MyApp.java
+$ java -cp ../../../lib/Procalign.jar:results MyApp file://$CWD/myOnto.owl file://$CWD/edu.mit.visus.bibtex.owl > results/MyApp.owl
+</div>
+
+<p>The execution provides an insight about the best threshold:
+<pre>
+Threshold 0.0 : 0.4999999999999999 over 140 cells
+Threshold 0.2 : 0.5529411764705882 over 122 cells
+Threshold 0.4 : 0.5802469135802468 over 114 cells
+Threshold 0.6 : 0.6861313868613137 over 89 cells
+Threshold 0.8 : 0.7692307692307693 over 69 cells
+Threshold 1.0 : 0.5230769230769231 over 17 cells
+</pre>
+<p>
+<p>A full working solution is <a href="MyApp.java">MyApp.java</a>.</p>
+
+<div class="note"><p><b>Advanced question:</b> Can you tell why the stored alignment does not seem to contain 69 cells? (Hint: try to render the alignments in RDF and see what happens)</p></div>
+	
+<div class="note"><p><b>More work:</b> You can add a switch like the <tt>-i</tt> switch of <tt>Procalign</tt> so that the main class of the application can be passed at commant-line.</p></div>
+
+<div class="note"><p><b>Advanced:</b> What about writing an editor for the alignment <abbr>API</abbr>?</p></div>
+	
+<h2>Further exercises</h2>
+	
+<p>More info: <a href="http://alignapi.gforge.inria.fr/tutorial/">http://alignapi.gforge.inria.fr/tutorial/</a></p>
+	
+<hr />
+<small>
+<div style="text-align: center;">http://alignapi.gforge.inria.fr/tutorial/tutorial2/</div>
+<hr />
+<div>$Id: index.html 1717 2012-04-03 06:23:27Z euzenat $</div>
+</small>
+</body>
+</html>

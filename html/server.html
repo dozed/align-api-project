@@ -1,0 +1,220 @@
+<html>
+<head>
+<title>Alignment API: Server</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+</head>
+<body bgcolor="#ffffff">
+
+<h1 class="titre">Alignment Server</h1>
+
+<p>
+The goal of the Alignment server is that different actors can share available alignments and methods for finding alignments. Such a server will enable to match ontologies, store the resulting alignment, store manually provided alignments, extract merger, transformer, mediators from those alignments.
+</p>
+<p>
+We present here the architecture of the Alignment server and its first
+functions as well as a short introduction to the extension of the
+server by communication plug-ins. There is a tutorial showing the
+server in action as well as a sample server
+at <a href="http://aserv.inrialpes.fr">http://aserv.inrialpes.fr</a>.
+For deploying your own server, see our <a href="aserv.html">Quick
+start guide</a>.
+</p>
+
+<h2>Architecture</h2>
+
+<p>
+The Alignment server is built around the Alignment API  (see Figure). It thus provides access to all the features of this API. 
+</p>
+<div class="figure">
+<img src="img/aserv-archi.png" />
+<div class="caption">
+The Alignment server is built around the Alignment API that is seated on top of a relational database repository for alignment and is wrapped around a simple protocol. Each access method is a plug-in that interacts with the server through the protocol. Currently, HTML, agent and web service plug-in are available.</div>
+</div>
+<p>
+The server architecture is made of three layers (shown in the figure):
+<dl>
+<dt>A storage system</dt><dd>providing persistent storage and retrieval of alignments. It implements only basic storage and runtime memory caching functions. The storage is made through a DBMS interface and can be replaced by any database management system as soon as it is supported by jdbc.</dd>
+<dt>A protocol manager</dt><dd>which handles the server protocol. It accepts the queries from plug-in interfaces and uses the server resources for answering them. It uses the storage system for caching results.</dd>
+<dt>Protocol plugs-in</dt><dd>which accept incoming queries in a particular communication system and invoke the protocol manager in order to satisfy them. These plugs-in are ideally stateless and only translator for the external queries.</dd>
+</dl>
+</p>
+<p>
+Currently, four plug-ins are available for the server:
+<ul>
+<li>HTTP/HTML plug-in for interacting through a browser;</li>
+<li>JADE/FIPA ACL for interacting with agents;</li>
+<li>HTTP/SOAP and HTTP/REST plug-in for interacting as a web service.</li>
+</ul>
+</p>
+
+<p>
+There is no constraint that the alignments are computed online or off-line (i.e., they are stored in the alignment store) or that they are processed by hand or automatically. This kind of information can however be stored together with the alignment in order for the client to be able to discriminate among them.
+For applications, the server can be available:
+<dl>
+<dt>at design time</dt><dd>through invocation by design and engineering environments: It can be integrated either as an Eclipse plug-in that embarks the Alignment API or as an Eclipse plug-in that connects through web services to some alignment server.</dd>
+<dt>at run time</dt><dd>through the web service access of the server
+    (or any other available plug-in).</dd>
+</dl>
+</p>
+
+<div class="figure">
+<img src="img/aserv-dist.png" />
+<div class="caption">Distribution of the components using the Alignment server: all can
+  run on different machines.</div>
+</div>
+
+<p>
+The components of the Alignment server as well as the connected
+clients can be distributed in different machines as presented in
+the figure above. Several servers can share the same databases
+(the server works in write once mode: it never modifies an alignment
+but always creates new ones; not all the created alignments being
+stored in the database <i>in fine</i>). Applications can reach the
+Alignment server by any way they want, e.g., starting by using Jade and then turning to web service interface.
+</p>
+<p>
+Alignment servers must be found on the semantic web. For that purpose
+they can be registered by service directories, e.g., UDDI for web services, Oyster for ontology metadata. These directories are abstrated in a class called <tt>Directory</tt> and it is possible to add new directories to which registering Alignment servers.
+</p>
+
+<!--p>
+In this first version the Alignment server is called in a wired mode. However, we plan to develop protocols for the server to be registered by directories (this is already possible for Jade directories) and that servers can communicate in order to help each others (see Figure). Services or other agents should also be able to subscribe some particular results of interest by these services.
+</p>
+
+<div class="figure">
+<img src="img/aserv-network.png" />
+<div class="caption">Protocol extension for registering and cooperating. It can work as a subscribe/notify protocol or as a direct invocation.</div>
+</div>
+
+<p>
+These directories are useful for other web services, agents, peers to find the Alignment server. They are even more useful for Alignment servers to basically outsource some of their tasks. In particular, it may happen that:
+<ul>
+<li>they cannot render an alignment in a particular format;</li>
+<li>they cannot process a particular matching method;</li>
+<li>they cannot access a particular ontology;</li>
+<li>a particular alignment is already stored by another service.</li>
+</ul>
+In these events, the concerned Alignment server will be able to call other Alignment servers.
+This is especially useful when the client is not happy with the alignments provided by the current service, it is then possible to either deliver alignments provided by other services or to redirect the client to these services.
+</p>
+<p>
+Moreover, this opens the door to value-added Alignment servers which use the results of other services as a pre-processing for their own treatments or which aggregate the results of other services in order to deliver a better alignment.
+</p-->
+
+<h2>Functions</h2>
+
+<p>
+This infrastructure is able to store and retrieve alignments as well as providing them on the fly. We call it an infrastructure because it will be shared by the applications using ontologies on the semantic web. However, it may be seen as a directory or a service by web services, as an agent by agents, as a library in ambient computing applications, etc.
+</p>
+<p>
+Services that are provided by the Alignment server are:
+<ul>
+<li>storing alignments, whether they are provided by automatic means or by hand;</li>
+<li>storing annotations in order for the clients to evaluate alignments and to decide to use one of them or to start from it (this starts with the information about the matching algorithms, the justifications for correspondences that can be used in agent argumentation, as well as properties of the alignment);</li>
+<li>producing alignments on the fly through various algorithms that can be extended and parametrised;</li>
+<li>manipulating alignments by inverting them, applying thresholds;</li>
+<li>generating knowledge processors such as mediators, transformations, translators, rules as well as to process these processors if necessary;</li>
+<li>finding similar ontologies and contacting other such services in order to ask them for operations that the current service cannot provide by itself.</li>
+</ul>
+</p>
+<p>
+These tasks are summarised in the following table:
+<div class="figure">
+<center>
+<table>
+<tr><td>Service</td><td>Syntax</td></tr>
+<tr><td>Finding a similar ontology</td><td><i><O'</i> &lArr; Match(<i>O</i>,<i>t</i>)</td></tr>
+<tr><td>Match two ontologies</td><td><i>A'</i> &lArr; Align(<i>O</i>, <i>O'</i>, <i>A</i>, <i>p</i>)</td></tr>
+<tr><td>Trimming</td><td><i>A'</i> &lArr; Threshold(<i>A</i>, <i>V</i>)</td></tr>
+<tr><td>Generating code</td><td><i>P</i> &lArr; Render(<i>A</i>,<i>language</i>)</td></tr>
+<tr><td>Translating a message</td><td><i>m'</i> &lArr; Translate(<i>m</i>, <i>A</i>)</td></tr>
+<tr><td>Storing alignment</td><td><i>n</i> &lArr; Store(<i>A</i>,<i>O</i>,<i>O'</i>)</td></tr>
+<!--tr><td>Suppressing alignment</td><td><i>Delete(n)</i></td></tr-->
+<tr><td>Finding (stored) alignments</td><td>{<i>n</i>} &lArr; Find(<i>O</i>,<i>O'</i>)</td></tr>
+<tr><td>Retrieving alignment</td><td>&lang;<i>O</i>, <i>O'</i>, <i>A</i>&rang; &lArr; Retrieve(n)</td></tr>
+</table>
+</center>
+<div class="caption">Services provided by the Alignment server and corresponding API primitives (<i>O</i> denotes an ontology, <i>A</i> an alignment, <i>p</i> parameters, <i>n</i> an index denoting an alignment, <i>P</i> a program realising the alignment and <i>t</i> and <i>m</i> some expressions, namely, terms to be matched and messages to be translated).</div>
+</div>
+</p>
+<p>
+Most of these services correspond to what is provided by any implementation of the Alignment API.
+The main principle of the Alignment API is that it can always be extended. In particular, it is possible to add new matching algorithms and mediator generators that will be accessible through the API. They will also be accessible through the Alignment servers. They can thus be extended to new needs without breaking the infrastructure. 
+</p>
+<p>
+A detailed presentation of how to access these functions is available
+for <a href="tutorial/tutorial1/server.html">HTML</a>
+and <a href="rest.html">REST and SOAP</a>.
+</p>
+
+<h2>Writing a protocol plug-in</h2>
+
+<p>
+In order to implement a new communication channel as a plug-in, what has to be done is to define a new <tt>AServProfile</tt> that will invoke the <tt>AServProtocolManager</tt> with:
+<div class="java">
+Message answer = manager.load( 
+                  new Message( ID, REPLY-WITH, FROM, TO, CONTENT, PARAMETERS ) );
+</div>
+The plug-in receives input from the outside (through its particular communication channel) and trasnmits this input to the protocol manager through such calls. It does the same thing in the opposite direction: encoding the answers so that they are understood by the outside.
+This is what is dispayed in the following figure:
+</p>
+<div class="figure">
+<img src="img/aserv-plugin.png" />
+<div class="caption">Plug-in incorporation.</div>
+</div>
+
+<p>
+So, it is necessary to:
+<ol>
+<li>identify in the incoming queries the value of the fields to be transmitted to the server (especially CONTENT);</li>
+<li>build the answer message with the same fields as those contained in the <tt>Message</tt> object. The fields have already been set so that the message is ready to be returned (in particular, the TO and FROM fields have been reversed).</li>
+</ol>
+</p>
+<p>
+A good idea to start with is to take example on the HTML interface as well as its display in order to see what is working and not. The code of this interface should be far more complex than that of the new plug-in (which should rather be translation of the messages).
+</p>
+<p>
+The hierarchy of message types and the content of these messages are:
+<pre>
+Message
+|- Success
+|  |- AlignmentId              -> alignment id
+|  |- AlignmentIds             -> alignment ids
+|  |- EntityList               -> entity URIs
+|  |- OntologyURI              -> ontology URI
+|  |- TranslatedMessage        -> translated message
+|  |- RenderedAlignment        -> rendering
+|  |- AlignmentMetadata        -> metadata
+|  |- EvalResult               -> evaluation results
+|- ErrorMsg
+|  |- UnreachableOntology      -> faulty Ontology URI
+|  |- UnreachableAlignment     -> faulty alignment URI
+|  |- UnknownAlignment         -> faulty alignment id
+|  |- UnknownMethod            -> faulty method (Java method)
+|  |- NonConformParameters     -> unspecified
+|  |- RunTimeError             -> error message
+<!-- Not used
+|  |- CannotRenderAlignment    -> 
+|  |- EvaluationId             -> 
+-->
+</pre>
+<center><b>Message classes returned by <tt>AServProtocolManager</tt> and their
+content.</b></center>
+</p>
+<p>
+The use of message aims at facilitating the distribution of the plugs-in (if necessary) and the network of servers.
+</p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/server.html</center>
+<hr />
+$Id: server.html 1721 2012-04-26 19:58:33Z euzenat $
+</small>
+</address>
+</body>
+</html>

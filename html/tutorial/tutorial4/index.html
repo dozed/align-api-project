@@ -1,0 +1,420 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Exploiting alignments and reasoning</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet" type="text/css" href="../../base.css" />
+<link rel="stylesheet" type="text/css" href="../../style.css" />
+<script type="text/javascript">
+<!--
+function show(id) {
+	var element = document.getElementById(id);
+	element.style.display = "block";
+}
+function hide(id) {
+	var element = document.getElementById(id);
+	element.style.display = "none";
+}
+-->
+</script>
+<style type="text/css">
+<!--
+div.logic {
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+-->
+</style>
+</head>
+<body style="background-color: #FFFFFF;">
+
+<h1>Exploiting alignments and reasoning: advanced tutorial on the Alignment <abbr title="Application Programming Interface">API</abbr> and server</h1>
+
+<p>
+<dl>
+<dt>This version:</dt>
+<dd>http://alignapi.gforge.inria.fr/tutorial/tutorial4/</dd>
+<dt>Author:</dt>
+<dd><a href="http://exmo.inrialpes.fr/people/euzenat">J&eacute;r&ocirc;me Euzenat</a>, INRIA  &amp; LIG
+</dd>
+</dl>
+</p>
+
+<p style="border-top: 2px solid
+	  #AAAAAA; padding-top: 15px; padding-bottom: 15px;">
+Here is a more advanced tutorial for the
+alignment <abbr>API</abbr> which explains how to interface the API
+with other components.
+This tutorial will show how to:
+<ul>
+<li>communicate the alignment server
+through its REST web service API,</li>
+<li>manipulate alignments with the Alignment API in Java,</li>
+<li>perform OWL reasoning on aligned ontologies and compose
+  alignments.</li>
+</ul>
+This time, the tutorial is based on Java programming and using various
+related APIs.
+</p>
+<p>
+Other tutorials are <a href="../index.html">available</a>.</p>
+<p  style="border-top: 2px solid #AAAAAA;">
+<small>This tutorial has been initially designed for the Alignment API 4.0 using Jena, Pellet and IDDL. 
+It has been reengineered in the Alignment API 4.5 to use Jena, HermiT and IDDL 1.4.</small></p>
+	
+<h2>Preparation</h2>
+	
+<p>Just:
+<div class="terminal">
+$ cd tutorial4
+</div>
+</p>
+	
+<h2>Data</h2>
+	
+<p>
+We have two ontologies, <a href="ontology1.owl">ontology1.owl</a>
+and <a href="ontology2.owl">ontology2.owl</a>, under which two sets of
+students are described. Unfortunately, the
+administration started to record participants with their own ontology
+before finding that using <a href="http://foaf-project.org">FOAF</a>
+would be a better idea. We now end up with two incomplete lists of
+participants.
+</p>
+<p>
+The goal is to have a unified view of these participants. For that
+purpose, we will match the two ontologies and reason with the result
+in order to view participants from boths ontologies under the other
+ontology. This is not a difficult task, the goal here is only to show
+how this could be achieved.
+</p>
+
+<p>For that purpose, you have to develop a program in Java. 
+We first define the CLASSPATH because a lot of external software is required
+<div class="terminal">
+$ setenv CLASSPATH ../../../lib/align.jar:../../../lib/procalign.jar:../../../lib/jena/jena.jar:../../../lib/jena/arq.jar:../../../lib/iddl/iddl.jar:../../../lib/hermit/hermit.jar:../../../lib/ontosim/ontosim.jar:../../../lib/log4j/commons-logging.jar:../../../lib/log4j/log4j.jar:../../../lib/xerces/xercesImpl.jar:../../../lib/jena/iri.jar:../../../lib/jena/icu4j_3_4.jar:../../../lib/jena/concurrent.jar:../../../lib/xsdlib/relaxngDatatype.jar:../../../lib/xsdlib/xsdlib.jar:results
+</div>
+The list of jars is long, but at least it is explicit and you
+should be safe with this one.
+This programme can be compiled by:
+<div class="terminal">
+$ javac -d results Skeleton.java
+</div>
+</p>
+<p>This programme can be run by:
+<div class="terminal">
+$ java Skeleton
+</div>
+It provides no output for the moment.
+</p>
+
+<h2>Matching ontologies</h2>
+
+<p>
+This can be achieved:
+<ul>
+<li>by finding an alignment from the web/server</li>
+<li>by running a matcher locally</li>
+<li>by running a matcher on the alignment server</li>
+<li>by finding a chain of alignments from the web/server</li>
+</ul>
+</p>
+
+<p>
+Write a program that does try to find an alignment on the alignment
+server <a href="http://aserv.inrialpes.fr">http://aserv.inrialpes.fr</a>
+and, if none is found, computes one.
+</p>
+<div class="button">
+  <input type="button" onclick="show('qu0')" value="Various variables"/>
+  <input type="button" onclick="show('qu1')" value="Show server searching"/>
+  <input type="button" onclick="show('qu2')" value="Show local matching"/>
+  <input type="button" onclick="show('qu3')" value="Show server matching"/>
+  <input type="button" onclick="hide('qu0');hide('qu1');hide('qu2');hide('qu3');" value="Hide solutions"/>
+</div>
+<div class="explain" id="qu0">
+<p>After introducing the main variables:</p>
+<div class="java">
+String myId = "Test";
+Alignment al = null;
+URI uri1 = null;
+URI uri2 = null;
+String u1 = "file:ontology1.owl";
+String u2 = "file:ontology2.owl";
+String method = "fr.inrialpes.exmo.align.impl.method.StringDistAlignment";
+Properties params = new BasicParameters();
+try {
+  uri1 = new URI( u1 );
+  uri2 = new URI( u2 );
+} catch (URISyntaxException use) { use.printStackTrace(); }
+</div>
+</div>
+<div class="explain" id="qu1">
+<p>The programme will invoke the alignment server:</p>
+<div class="java">
+// (Sol1) Try to find an alignment between two ontologies from the server
+// ask for it
+String found = getFromURLString( RESTServ+"find?onto1="+u1+"&onto2="+u2, false );
+</div>
+<p>Retrieve the alignment itself:</p>
+<div class="java">
+// retrieve it
+// If there exists alignments, ask for the first one
+NodeList alset = extractFromResult( found, "//findResponse/alignmentList/alid[1]/text()", false );
+</div>
+<p>And parse it:</p>
+<div class="java">
+// parse it as an alignment
+AlignmentParser aparser = new AlignmentParser(0);
+Alignment alu = aparser.parseString( xmlString );
+al = ObjectAlignment.toObjectAlignment((URIAlignment)alu);
+</div>
+</div>
+<div class="explain" id="qu2">
+<p>Just create an instance of AlignmentProcess and call it:</p>
+<div class="java">
+// (Sol2) Match the ontologies with a local algorithm
+if ( al == null ){ // Unfortunatelly no alignment was available
+  AlignmentProcess ap = new StringDistAlignment();
+  ap.init( uri1, uri2 );
+  params.setProperty("stringFunction","smoaDistance");
+  params.setProperty("noinst","1");
+  ap.align( (Alignment)null, params );
+  al = ap;
+}
+</div>
+</div>
+<div class="explain" id="qu3"><p>Match on the server:</p>
+<div class="java">
+// (Sol3) Match the ontologies on the server
+if ( alset.getLength() == 0 ) {
+  // call for matching
+  String match = getFromURLString( RESTServ+"match?onto1="+u1+"&onto2="+u2+"&method="+method+"&pretty="+myId+"&action=Match", true );
+}
+</div>
+<p>The remainder is the same as in the first solution.</p>
+</div>
+<div class="note">
+<p><b>More work:</b> You can also store localy computed alignments on
+  the alignment server.</p>
+</div>
+<div class="button">
+  <input type="button" onclick="show('qu4')" value="Show how to store on server"/>
+  <input type="button" onclick="hide('qu4');" value="Hide solution"/>
+</div>
+<div class="explain" id="qu4"><p>Not ready yet (but not difficult)</p>
+<pre>
+</pre>
+</div>
+
+<h2>Manipulating data</h2>
+
+<p>
+Again, this is either:
+<ul>
+<li>generating OWL axioms from the alignments and merge the ontologies</li>
+<li>transforming data from one ontology to another</li>
+</ul>
+</p>
+<p>
+This can be done with the alignment API support.
+</p>
+
+<div class="button">
+  <input type="button" onclick="show('qu5')" value="Show generating OWL"/>
+  <!--input type="button" onclick="show('qu6')" value="Show solution 2"/-->
+  <input type="button" onclick="hide('qu5');hide('qu6');" value="Hide solutions"/>
+</div>
+<div class="explain" id="qu5">
+<p>In fact everything is done in one step:</p>
+<div class="java">
+// (Sol1) generate a merged ontology between the ontologies (OWLAxioms)
+File merged = File.createTempFile( "MyApp-results",".owl");
+PrintWriter writer = new PrintWriter ( new FileWriter( merged, false ), true );
+AlignmentVisitor renderer = new OWLAxiomsRendererVisitor(writer);
+al.render(renderer);
+writer.flush();
+writer.close();
+</div>
+<p>You can look at the result in <a href="results/myresult.owl">results/myresult.owl</a>.</p>
+</div>
+<div class="explain" id="qu6"><p>Not ready yet</p>
+<pre>
+</pre>
+</div>
+
+<h2>Generating answers</h2>
+
+<p>
+This can be done in three ways:
+<ul>
+<li>using SPARQL</li>
+<li>using an OWLReasoner such as HermiT to answer these queries against
+  the merged ontologies.</li>
+<li>using a "distributed" reasoner, in our case IDDL, to answer these
+  queries against non merged aligned ontologies.</li>
+</ul>
+</p>
+<p>
+In case you go for SPARQL please, take care of the inference regime
+and observe what are the differences in this case. You can of course
+run various queries and start by running them in one of the initial
+ontologies instead of the merged one.
+</p>
+</p>
+<div class="button">
+  <input type="button" onclick="show('qu7')" value="Show SPARQL solution"/>
+  <input type="button" onclick="show('qu8')" value="Show HermiT solution"/>
+  <input type="button" onclick="show('qu9')" value="Show IDDL solution"/>
+  <input type="button" onclick="hide('qu7');hide('qu8');hide('qu9');" value="Hide solutions"/>
+</div>
+<div class="explain" id="qu7">
+<p>Prepare the system:</p>
+<div class="java">
+// (Sol1) Use SPARQL to answer queries (at the data level)
+InputStream in = new FileInputStream( merged );
+Model model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RULE_INF,null);
+model.read( in, "file:"+merged.getPath() );
+in.close();
+</div>	
+<p>Query (please play by changing the query)</p>
+<div class="java">
+// Create a new query
+String queryString = 
+		"PREFIX foaf: <http://xmlns.com/foaf/0.1/> " +
+		"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+		"PREFIX aa: <http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology1.owl#> " +
+		"SELECT ?fn ?ln ?t ?s " +
+		"WHERE {" +
+                "      ?student rdf:type aa:Estudiante . " +
+		"      ?student aa:firstname  ?fn. " +
+		"      ?student aa:lastname  ?ln. " +
+		"OPTIONAL   {   ?student aa:affiliation ?t . } " +
+		"OPTIONAL   {   ?student aa:supervisor ?s . } " +
+		"      }";
+
+Query query = QueryFactory.create(queryString);
+
+</div>	
+<p>Evaluation:</p>
+<div class="java">
+// Execute the query and obtain results
+QueryExecution qe = QueryExecutionFactory.create(query, model);
+ResultSet results = qe.execSelect();
+
+// Output query results	
+ResultSetFormatter.out(System.out, results, query);
+</div>
+</div>
+<div class="explain" id="qu8">
+<p>Create Reasoner instance and load the merged ontologies:</p>
+<div class="java">
+OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+// Load the ontology 
+OWLOntology ontology = manager.loadOntology( IRI.create( "file:"+merged.getPath() ) );
+OWLReasoner reasoner = new Reasoner( ontology );
+</div>
+<p>Get the instances of "Estudiantes":</p>
+<div class="java">
+// get the instances of a class
+OWLClass estud = manager.getOWLDataFactory().getOWLClass( IRI.create( "http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology1.owl#Estudiante" ) );   
+OWLClass person = manager.getOWLDataFactory().getOWLClass( IRI.create( "http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology2.owl#Person" ) );   
+OWLClass student = manager.getOWLDataFactory().getOWLClass( IRI.create( "http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology2.owl#Student" ) );   
+Set&lt;OWLNamedIndividual> instances  = reasoner.getInstances( estud, false ).getFlattened();
+System.err.println("OWLReasoner(Merged): There are "+instances.size()+" students ("+clname(estud)+")");
+</div>
+<p>Some subsumption tests:</p>
+<div class="java">
+testOWLReasonerSubClass( manager, reasoner, estud, person );
+testOWLReasonerSubClass( manager, reasoner, estud, student );
+</div>
+<p>Such that:</p>
+<div class="java">
+private String clname( OWLClassExpression cl ) {
+  return cl.asOWLClass().getIRI().getFragment();
+}
+
+public void testOWLReasonerSubClass( OWLOntologyManager manager, OWLReasoner reasoner, OWLClassExpression d1, OWLClassExpression d2 ) {
+  OWLAxiom axiom = manager.getOWLDataFactory().getOWLSubClassOfAxiom( d1, d2 );
+  if ( reasoner.isEntailed( axiom ) ) {
+    System.out.println( "OWLReasoner(Merged): "+clname(d1)+" is subclass of "+clname(d2) );
+  } else {
+    System.out.println( "OWLReasoner(Merged): "+clname(d1)+" is not necessarily subclass of "+clname(d2) );
+  }
+}
+</div>
+</div>
+<div class="explain" id="qu9">
+<p>Load the two ontologies and the alignment in the IDDL reasoner:</p>
+<div class="java">
+	ArrayList<Alignment> allist = new ArrayList<Alignment>();
+	allist.add( al );
+	IDDLReasoner dreasoner = new IDDLReasoner( allist, Semantics.DL );
+</div>
+<p>Test consistency and check if a particular correspondence is a consequence:</p>
+<div class="java">
+	if ( dreasoner.isConsistent() ) {
+	    System.out.println( "IDDL: the alignment network is consistent");
+	    testIDDLSubClass( dreasoner, uri1, uri2, estud, person );
+	    testIDDLSubClass( dreasoner, uri1, uri2, estud, student );
+         } else {
+	    System.out.println( "IDDL: the alignment network is inconsistent");
+	}
+</div>
+<p>Such that:</p>
+<div class="java">
+    public void testIDDLSubClass( IDDLReasoner dreasoner, URI onto1, URI onto2, OWLDescription d1, OWLDescription d2 ) {
+	Alignment al2 = new ObjectAlignment();
+	try {
+	    al2.init( onto1, onto2 );
+	    // add the cell
+	    al2.addAlignCell( d1, d2, "&lt;", 1. );
+	} catch (AlignmentException ae) { ae.printStackTrace(); }
+	if ( dreasoner.isEntailed( al2 ) ) {
+	    System.out.println( "IDDL: "+d1+" <= "+d2+" is entailed" );
+	} else {
+	    System.out.println( "IDDL: "+d1+" <= "+d2+" is not entailed" );
+	}
+    }
+</div>
+</div>
+The results for these execution are, for SPARQL:
+<pre>
+---------------------------------------------------------------------------------------
+| fn      | ln      | t                            | s                                |
+=======================================================================================
+| "Miles" | "Davis" | "JOHANNISBEER RESEARCH"      | "Univ.-Prof. Dr. Paolo Carciofo" |
+| "Chet"  | "Baker" | "University Pie XXIII"       |                                  |
+| "McCoy" | "Tyner" | "University of Soupaloignon" | "Dr Nanni Girasole"              |
+...
+</pre>
+for OWLReasoner:
+<pre>
+OWLReasoner(Merged): There are 47 students (Estudiante)
+OWLReasoner(Merged): Estudiante is not necessarily subclass of Person
+OWLReasoner(Merged): Estudiante is subclass of Student
+</pre>
+and for IDDL:
+<pre>
+IDDL: the alignment network is consistent
+IDDL: Estudiante <= Person is not entailed
+IDDL: Estudiante <= Student is entailed
+</pre>
+	
+<h2>Full solution</h2>
+	
+<p>Do you want to see a possible solution?</p>
+<p>A full working solution is <a href="MyApp.java">MyApp.java</a>.</p>
+
+<hr />
+<small>
+<p style="text-align: center;">http://alignapi.gforge.inria.fr/tutorial/tutorial4/</p>
+</small>
+<hr />
+<p>$Id: index.html 1842 2013-03-24 17:42:41Z euzenat $</p>
+</body>
+</html>

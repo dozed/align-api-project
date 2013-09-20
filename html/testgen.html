@@ -1,0 +1,434 @@
+<html>
+<head>
+<title>Alignment API: test generation framework</title>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcollor="#ffffff">
+
+<h1  class="titre">Alignment API: test generation framework</h1>
+
+<p>The Alignment API implementation offers facilities to
+  automatically generate test sets that can be used for
+  evaluating alignments.</p>
+<p>These facilities work only on OWL ontologies and are dependent on
+  the Jena API (which is included in the API lib directory).</p>
+<p>It allows for generating altered ontologies from a seed ontology
+  and generating the reference alignment between the two ontologies).</p>
+
+<h2>Generating tests</h2>
+
+<h3>Generating tests from the command line</h3>
+
+<p>
+It is possible to use the command line command <tt>TestGen</tt> in
+order to generate tests.
+</p>
+<p>
+It can be invoked for generating only one test:
+<div class="terminal">
+$ java -Xmx1200m -cp $JAVALIB/procalign.jar fr.inrialpes.exmo.align.cli.TestGen -u outputurl -o outputdir -Dparameter=value seedontology
+</div>
+such that:
+<ul>
+<li>seed ontology is the ontology which is altered for producing the test;</li>
+<li>outputurl is the url prefix that will be used for the generated ontology;</li>
+<li>outputdir is the directory in which the test will be generated;</li>
+<li>-Dparameter=value are the parameters used for generating this tests (see <tt>Alterator</tt> section below).</li>
+</ul>
+For instance:
+<div class="terminal">
+$ java -Xmx1200m -cp $JAVALIB/procalign.jar fr.inrialpes.exmo.align.cli.TestGen -u http://example.com/mynewtest -o mynewtest -DremoveClasses=.4 -DnoHierarchy=1. -DrenameProperties=1. biblio.owl
+</div>
+applies the modification of the following figure:
+</p>
+<center>
+<img width="72%" src="img/testgeneration.png">
+</center>
+<p>
+It may also be used for generating a whole test set (see below) by:
+<div class="terminal">
+$ java -Xmx1200m -cp $JAVALIB/procalign.jar fr.inrialpes.exmo.align.cli.TestGen -t testsetclass -u outputurl -o outputdir seedontology
+</div>
+In which, testsetclass is the class name of an implementation
+of <tt>TestSet</tt> (see below) to be used for generating a testset. 
+For instance:
+<div class="terminal">
+$ java -Xmx1200m -cp $JAVALIB/procalign.jar fr.inrialpes.exmo.align.cli.TestGen -t fr.inrialpes.exmo.align.gen.BenchmarkGenerator -u http://example.com/mynewtestset -o mynewtestset -Dcontinuous=1 biblio.owl
+</div>
+generates part of the initial <a href="http://oaei.ontologymatching.org">OAEI</a> benchmarks.
+</p>
+
+<h3>Generating tests from Java</h3>
+
+<p>
+The equivalent to the command line invokations may be obtained in Java
+by the simple:
+<div class="java">
+TestGenerator tg = new TestGenerator();
+tg.setDirPrefix( dir );
+tg.setURLPrefix( url );
+tg.modifyOntology( fileName, (Properties)null, testNumber, params );
+</div>
+for generating only one test, and
+<div class="java">
+TestSet gb = new BenchmarkGenerator();
+gb.generate( params );
+</div>
+for generating a test set (here <tt>BenchmarkGenerator</tt>).
+</p>
+
+<h2>Ontology alterators</h2>
+
+<p>
+The tests are generated from the notion of <tt>Alterators</tt>, instances of
+the <tt>fr.inrialpes.exmo.align.gen.Alterator</tt>.
+Ontology alterators are classes, implementing
+the <tt>Alterator</tt> interface.
+</p>
+<center>
+<img width="36%" src="img/alterator.png">
+</center>
+<p>
+An alterator, takes as input an ontology (Jena <tt>OntModel</tt>) and an
+alignment (<tt>Alignment</tt>) and generates an altered ontology and
+alignment. Following the schema of the figure.
+</p>
+
+<h3>Predefined alterators</h3>
+
+<p>
+We provide a description of the alterators currently implemented in the Alignment API. 
+</p>
+<p>
+Their functional description is given at the level of OWL, however, the actual implementation largely differs by taking advantage of different internal structures referring to an actual ontology model. Hence, sometimes modifications are applied on the OWL structure, and sometimes they are applied at the level of triples. However, the final model and alignments are generated at the end of the process. This is only at the end of the process that the entities are assigned a final URI.
+</p>
+<p>
+Parameters are key-value pairs defining the degree or modalities of alteration.
+The priority is expressed by a level such that modifications of lower level must be applied before modifications of higher level.
+</p>
+<dl>
+<dt>EmptyModification</dt><dd>
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.EmptyModification</tt>
+<br /><b>No parameters</b>
+<br /><b>Result:</b> generates a test in which the initial ontology is not altered. This test is used in test sets, for generating as initial identity alignment.
+<br /><b>Functional description:</b> For each class and each property in the input ontology, creates a correspondence with equivalence between this entity and itself.
+<br /><b>Priority:</b> 0
+
+</dd><dt>RemoveClasses</dt><dd>
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.RemoveClasses</tt>
+<br /><b>Parameters:</b> removeClasses=<i>p</i>
+<br /><b>Result:</b> removes <i>p</i>% of classes.
+<br /><b>Functional description:</b> Selects randomly <i>p</i>% of classes to suppress from the ontology.
+For each of these classes, 
+% removeClass
+	attaches, directly, its subclasses to its superclasses (including constraints, i.e., anonymous <tt>Restriction</tt> classes);
+	attaches, directly, its instances to its superclasses;
+	converts all restrictions involving it (<tt>allValuesFrom</tt>, <tt>someValueFrom</tt>) with its superclasses; 
+% changeDomainRange
+	converts all property restrictions involving it (<tt>domain</tt>, <tt>range</tt>) with its superclasses;
+	remove the class.
+% alignment.remove
+Updates the alignment by suppressing all correspondences involving the suppressed classes.
+<br /><b>Priority:</b> 1
+
+</dd><dt>RemoveComments</dt><dd> 
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.RemoveComments</tt>
+<br /><b>Parameters:</b> removeComments=<i>p</i>
+<br /><b>Result:</b> removes <i>p</i>% of comments.
+<br /><b>Functional description:</b> Selects randomly and independently from the ontology <i>p</i>% of classes, properties and individuals whose comments will be suppressed. Removes the comments of each selected entity.
+The alignment is not modified.
+<br /><b>Priority:</b> 2
+
+</dd><dt>RemoveIndividuals</dt><dd> 
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.RemoveIndividuals</tt>
+<br /><b>Parameters:</b> removeIndividuals=<i>p</i>
+<br /><b>Result:</b> removes <i>p</i>% of individuals.
+<br /><b>Functional description:</b> Selects randomly <i>p</i>% of individuals to suppress from the ontology.
+Suppresses from the ontology model all statements using these individuals, either as subject or object.
+The alignment is not modified, because it does not contain individuals.
+<br /><b>Priority:</b> 2
+
+</dd><dt>RemoveProperties</dt><dd> 
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.RemoveProperties</tt>
+<br /><b>Parameters:</b> removeProperties=<i>p</i>
+<br /><b>Result:</b> removes <i>p</i>% of properties.
+<br /><b>Functional description:</b> Selects randomly <i>p</i>% of properties to suppress from the ontology.
+For each of these properties,
+	remove all restrictions (<tt>allValuesFrom</tt>, <tt>someValuesFrom</tt>) involving it,
+	remove all assertions involving it.
+% alignment.remove
+Updates the alignment by suppressing all correspondences involving the suppressed properties.
+<br /><b>Priority:</b> 2
+
+</dd><dt>RemoveRestrictions</dt><dd> 
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.RemoveRestrictions</tt>
+<br /><b>Parameters:</b> removeRestrictions=<i>p</i>
+<br /><b>Result:</b> removes <i>p</i>% of restriction.
+<br /><b>Functional description:</b> Selects randomly <i>p</i>% of properties restrictions to suppress from the ontology.
+For each of these restrictions, remove it from the model.
+The alignment is not modified.
+<br /><b>Priority:</b> 3
+
+</dd><dt>RenameClasses</dt><dd> 
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.RenameClasses</tt>
+<br /><b>Parameters:</b> renameClasses=<i>p</i>, renameMethod=<i>m</i>
+<br /><b>Result:</b> renames <i>p</i>% of classes depending on the requested method <i>m</i> (random strings, translation, synonyms) [default: random]
+<br /><b>Functional description:</b> Selects randomly <i>p</i>% of classes from the ontology to rename.
+For each of these classes, create a new name depending on the selected <i>m</i> and replace its <tt>rdfs:label</tt> by the new name.
+For each triple of the model, all URI fragments are replaced if necessary by the corresponding new name.
+Each correspondence of the alignment involving a renamed class is replaced by the corresponding new URI.
+<br /><b>Priority:</b> 4
+
+</dd><dt>RenameProperties</dt><dd> 
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.RenameProperties</tt>
+<br /><b>Parameters:</b> renameProperties=<i>p</i>, renameMethod=<i>m</i>
+<br /><b>Result:</b> renames <i>p</i>% of properties depending on the requested method <i>m</i> (random strings, translation, synonyms) [default: random]
+<br /><b>Functional description:</b> Selects randomly <i>p</i>% of properties from the ontology to rename.
+For each of these properties, create a new name depending on the selected <i>m</i>.
+For each triple of the model, all URI fragments are replaced if necessary by the corresponding new name.
+Each correspondence of the alignment involving a renamed property is replaced by the corresponding new URI.
+<br /><b>Priority:</b> 4
+
+</dd><dt>AddClasses</dt><dd>
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.AddClasses</tt>
+<br /><b>Parameters:</b> addClasses=<i>p</i>
+<br /><b>Result:</b> adds <i>p</i>% classes.
+<br /><b>Functional description:</b> Selects randomly <i>p</i>% of classes from the ontology to add a subclass to.
+For each of these classes, generates randomly a new name; creates a new subclass of the selected class with this name.
+The alignment is not modified.
+<br /><b>Priority:</b> 5
+
+</dd><dt>AddProperties</dt><dd>
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.AddProperties</tt>
+<br /><b>Parameters:</b> addProperties=<i>p</i>
+<br /><b>Result:</b> adds <i>p</i>% properties.
+<br /><b>Functional description:</b> Selects randomly <i>p</i>% of properties from the ontology to add. 
+For each of these properties, generates randomly a new name. 
+For half of these new properties, creates an <tt>ObjectProperty</tt>: selects randomly a <tt>domain</tt> and <tt>range</tt> among the classes and assign them to this property.
+For the other half of these new properties, creates a <tt>DatatypeProperty</tt>: selects randomly a <tt>domain</tt> among the classes and assign it to this property. <tt>range</tt> is set to <tt>xsd:string</tt>.
+The alignment is not modified.
+<br /><b>Priority:</b> 5
+
+</dd><dt>FlattenLevel</dt><dd>
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.FlattenLevel</tt>
+<br /><b>Parameters:</b> levelFlattened=<i>n</i>
+<br /><b>Result:</b> removes all classes of level <i>n</i> (their subclasses are directly connected to their superclasses).
+<br /><b>Functional description:</b>
+% This code should be fully rewrited!
+For each class of that level,
+	attaches, directly, its subclasses to its superclasses (including constraints, i.e., anonymous <tt>Restriction</tt> classes);
+	attaches, directly, its instances to its superclasses;
+% checkClassesRestrictions
+	converts all restrictions involving it (<tt>allValuesFrom</tt>, <tt>someValueFrom</tt>) with its superclasses; 
+% changeDomainRange
+	converts all property restrictions involving it (<tt>domain</tt>, <tt>range</tt>) with its superclasses;
+	remove the class.
+Updates the alignment by suppressing all correspondences involving the suppressed classes.
+<br /><b>Priority:</b> 6
+
+</dd><dt>SuppressHierarchy</dt><dd> 
+<b>Class:</b> <tt>fr.inrialpes.exmo.align.gen.alt.SuppressHierarchy</tt>
+<br /><b>No parameter</b>%noHierarchy
+<br /><b>Result:</b> suppresses all subclasses relations (but to <tt>owl:Thing</tt>)
+<br /><b>Functional description:</b> Suppresses all <tt>subClassOf</tt> assertions towards other named classes (assertions towards <tt>Restriction</tt>s remain).
+The alignment is not modified.
+<br /><b>Priority:</b> 7
+</dd>
+</dl>
+
+<h3>Adding new alterators</h3>
+
+<p>
+The alterator interface is rather complex.
+However, most of the functions of alterators are available in
+the <tt>BasicAlterator</tt>, so that creating a new alterator requires
+only to write the <tt>modify( Properties )</tt> method if it extends 
+<tt>BasicAlterator</tt>.
+</p>
+<p>
+An alterator follows a particular lifecycle:
+</p>
+<h4>Creation</h4>
+<p>
+The <tt>Alterator</tt> is created either:
+<ul>
+<li>from a seed ontology and generate the alignment between this ontology itself</li>
+<li>from a previous alterator from which it will take the output ontology and alignment as input.</li>
+</ul>
+So a "virtual" constructor should be provided in which the alterator
+is created from a previous alterator:
+<div class="java">
+public Alterator( Alterator om );
+</div>
+</p>
+<p>
+Once this has been done, it is possible to retrieve the namespace of
+the input ontology (which is the target of the previous alignment if
+an alterator has been used for creating the alignment):
+<div class="java">
+public String getNamespace();
+</div>
+and the namespace of the source ontology in the input alignment
+<div class="java">
+public String getBase();
+</div>
+</p>
+
+<h4>Modification</h4>
+
+<p>The <tt>modify</tt> method applies the alteration to the input:
+<div class="java">
+public Alterator modify( Properties params );
+</div>
+The results are kept in internal structures which, in the case
+of <tt>BasicAlterator</tt> have the following accessors:
+<div class="java">
+public Properties getProtoAlignment();
+public OntModel getProtoOntology();
+public ClassHierarchy getHierarchy();
+</div>
+</p>
+
+<h4>Relocation</h4>
+
+<p>
+It is often useful to relocate the results, i.e., to change their
+namespaces in both the ontologies and alignments to output. This is
+achieved with the following methods (the namespaces are those of the
+source and target ontologies respectively):
+<div class="java">
+public void relocateTest( String namespace1, String namespace2 );
+public void relocateTest( String namespace2 );
+</div>
+</p>
+
+<h4>Exporting the results</h4>
+
+<p>
+Finally, results can be obtained through the two following primitives:
+<div class="java">
+public Alignment getAlignment();
+public OntModel getModifiedOntology();
+</div>
+</p>
+
+<h2>Test sets</h2>
+
+<p>
+Full test sets can be generated from one seed ontology (see Figure). For that
+purpose, the test set is defined through a
+structure which describes how a test is generated from scratch or from
+other tests in the test set.
+</p>
+<center>
+<img width="72%" src="img/testset.png">
+</center>
+<p>
+From this structure it is possible to generate the test set with
+different modalities which are specified through parameters.
+</p>
+
+<h3>Predefined test sets</h3>
+
+<h4>Benchmark generator</h4>
+
+<p>
+The <tt>BenchmarkGenerator</tt> class is an example of a whole test set
+defined at once. 
+It combines various alterators in a specified way.
+This can be applied to any seed ontology (that Jena
+is able to parse).
+</p>
+
+<h4>Adaptive benchmark generator</h4>
+
+<p>
+The <tt>DiscriminatGenerator</tt> class is a template to generate
+a test set altering regularly one or several dimensions (each one
+represented by an alterator).
+</p>
+
+<h4>Hidden ontology generator</h4>
+
+<p>Not available yet.</p>
+
+<h3>Adding new test sets</h3>
+
+<p>
+Designing a whole test set can be achieved, as it is done for
+Benchmarks, by extending the <tt>TestSet</tt> abstract class and creating
+a hierarchy of tests (each one built from another; but this can be
+achieved by having all tests generated from the init ontology).
+</p>
+<p>
+The only abstract method is:
+<div class="java">
+public abstract void initTestCases( Properties params );
+</div>
+It creates a structure comprising the test cases as a hierarchy with
+an initial test (which will bear the initial ontology):
+<div class="java">
+TestCase initTests( String labelInitTest );
+</div>
+and other tests derived from the initial one through alterations:
+<div class="java">
+void addTestChild( String labelParentTest, String labelNewTest, 
+                           Properties alterationSpecification );
+</div>
+<tt>initTestCases</tt> is only used for creating this structure which
+will be later processed to generate a particular test set from a precise
+seed ontology and various modalities (in particular if each test will
+be generated intependently of the others (random) or if they will be
+generated incrementally by further alterating previous tests (continuous).
+</p>
+
+<h2>Ontology network alterators</h2>
+
+<p>
+Ontology network alterators obey to the <tt>OntologyNetworkWeakener</tt> interface.
+This interface is very simple since it consists of one single
+method: <tt>weaken</tt> taking as argument an onology network, an int
+(absolute value) or a double (percentage) characterising the amount of
+alteration and a set of optional parameters in a <tt>Properties</tt>
+object.
+Each alterator returns a brand new ontology network with eventually
+modified alignments.
+</p>
+<p>
+Ontology network alterators cannot be used from command line.
+</p>
+<h3>Predefined network alterators</h3>
+<p>
+Some alterators are available with the Alignment API implementation:
+<dl>
+<dt>NetworkAlignmentDropper</dt>
+<dd>randomly drops <i>n</i>% of all alignments in the network. <i>n</i> is a number between 0. and 1.
+</dd>
+<dt>NetworkAlignmentWeakener</dt>
+<dd>suppresses <i>n</i>% of the correspondences at random in each alignments. <i>n</i> is a number between 0. and 1.
+A <tt>threshold</tt> parameter tells if the corrrespondences are suppressed at random (false) of by suppressing the <i>n</i>% of lower confidence (true)
+</dd>
+<dt>NetworkCorrespondenceDropper</dt>
+<dd>suppresses <i>n</i>% of the correspondences at random in all alignments (globally). <i>n</i> is a number between 0. and 1. a <tt>threshold</tt> parameter tells if the corrrespondences are suppressed at random (false) of by suppressing the <i>n</i>% of lower confidence (true).
+</dd>
+<dt>NetworkDeconnector</dt>
+<dd>(Not implemented) suppresses alignments in the ontology network so that it retain <i>n</i>-connectivity, i.e., any pairs of ontologies connected by less than <i>n</i> alignments are still connected through at most <i>n</i> alignments. 
+</dd>
+<!--dt>OntologyNetworkGenerator</dt>
+<dd></dd-->
+</dl>
+</p>
+
+<!--h3>Adding new network alterators</h3-->
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/testgen.html</center>
+<hr />
+$Id: testgen.html 1789 2012-11-05 22:48:10Z euzenat $
+</small>
+</address>
+</body>
+</html>

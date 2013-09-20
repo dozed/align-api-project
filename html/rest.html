@@ -1,0 +1,417 @@
+<html>
+<head>
+<title>Alignment API: REST interface</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<h1>Web service interface for the Alignment server</h1>
+
+<h2>REST interface</h2>
+<p>
+The Alignment server provides a REST interface for accessing the
+functions available on the server. Each request is an URL starting
+with a prefix, e.g., http://aserv.inrialpes.fr/rest/. The request type
+is identified by a string followed by a question mark, e.g., match?,
+and parameters are given in the classical URL syntax, e.g.,
+debug=true&amp;level=1.
+</p>
+<p>
+The result of these requests are provided in XML.
+In the sequel, we describe the various request types.
+They can be obtained by:
+<div class="terminal">
+$ curl -L -H "Content-Type: text/xml" '&lt;URL&gt;'
+</div>
+</p>
+<p>
+The <tt>msgid</tt> and <tt>in-reply-to</tt> elements are not
+compulsory and may not be present in messages.
+</p>
+
+<p style="background-color: yellow;">
+Beware: URIs within the &lt;URL&gt; above should be URLEncoded.
+This is particularly true of '#' that do not pass through Java URL decoding.
+</p>
+
+<h3>listalignments<a name="listalignments"></a></h3>
+
+<p>Gets the list of the alignments available on the server.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>listalignments</b> ?</p>
+<p>Parameters: none</p>
+<p>Result:<br />
+<div class="xml">
+&lt;listalignmentsResponse>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    &lt;alignmentList>
+        &lt;alid> URI &lt;/alid>
+	...
+    &lt;/alignmentList>
+&lt;/listalignmentssResponse>
+</div>
+</p>
+
+<h3>listmethods<a name="listmethods"></a></h3>
+<p>Gets the list of matching methods available on the server.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>listmethods</b> ?</p>
+<p>Parameters: none</p>
+<p>Result:<br />
+<div class="xml">
+&lt;listmethodsResponse>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    &lt;classList>
+        &lt;classname> Classname &lt;/classname>
+	...
+    &lt;/classList>
+&lt;/listmethodsResponse>
+</div>
+</p>
+
+<h3>listrenderers<a name="listrenderers"></a></h3>
+<p>Gets the list of renderer methods available on the server.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>listrenderers</b> ?</p>
+<p>Parameters: none</p>
+<p>Result:<br />
+<div class="xml">
+&lt;listrenderersResponse>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    &lt;classList>
+        &lt;classname> Classname &lt;/classname>
+	...
+    &lt;/classList>
+&lt;/listrenderersResponse>
+</div>
+</p>
+
+<h3>listservices<a name="listservices"></a></h3>
+<p>Gets the list of communication services available (and running) on the server.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>listservices</b> ?</p>
+<p>Parameters: none</p>
+<p>Result:<br />
+<div class="xml">
+&lt;listservicesResponse>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    &lt;classList>
+        &lt;classname> Classname &lt;/classname>
+	...
+    &lt;/classList>
+&lt;/listservicesResponse>
+</div>
+</p>
+
+<h3>listevaluators<a name="listevaluators"></a></h3>
+<p>Gets the list of evauators available on the server.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>listevaluators</b> ?</p>
+<p>Parameters: none</p>
+<p>Result:<br />
+<div class="xml">
+&lt;listevaluatorsResponse>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    &lt;classList>
+        &lt;classname> Classname &lt;/classname>
+	...
+    &lt;/classList>
+&lt;/listevaluatorsResponse>
+</div>
+</p>
+
+<h3>match<a name="match"></a></h3>
+<p>Matches two ontologies.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>match</b> ? <b>onto1</b> =
+  &lt;URI&gt; &amp; <b>onto2</b> = &lt;URI&gt; &amp; method =
+  &lt;classname&gt; &amp; force = &lt;boolean&gt;</p>
+<p>Parameters:
+<br /><b>onto1</b> and <b>onto2:</b> the URLs of ontologies to be matched,
+<br /><b>method:</b> the name of a matching method available on the server,
+  see <a href="#listmethods">listmethods</a> (default: fr.inrialpes.exmo.align.impl.method.StringDistAlignment).
+<br /><b>force:</b> a boolean (default: false) which forces the server to
+  create a new alignment even if one is already available.<br />
+otherwise, the server first tries to find
+  an existing alignment for the two ontologies. If no alignment is
+found a new alignment will be produced.
+<br /><b>async:</b> a boolean (default: false) requiring the matching
+to be asynchronous, in which case the server immediately returns the
+URI that will be assigned to the resulting alignment. The alignment
+will be available at a later moment. By default, matching is
+synchronous, i.e., the server answers only once the alignment process
+has returned an alignment.
+<br /><b>pretty:</b> a string that will name the resulting alignment.
+<br /><b>id:</b> the URI of an initial alignment.
+<br /><b>paramn<i>n</i></b> and <b>paramv<i>n</i>:</b> the name
+and value of parameter <i>n</i>.
+</p>
+<p>Result:<br />
+<div class="xml">
+&lt;matchResponse>
+    &lt;msgid> MessageId &lt;/msgid>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    &lt;alid> URI &lt;/alid>
+&lt;/matchResponse> 
+</div>
+</p>
+
+<h3>find<a name="find"></a></h3>
+<p>Finds alignments related to one or two ontologies.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>find</b> ? <b>onto1</b>
+  = &lt;URI&gt; &amp; <b>onto2</b> = &lt;URI&gt;</p>
+<p>Parameters:<br />
+ <b>onto1</b> and <b>onto2:</b> the URI of ontologies. One of them may be not provided.
+</p>
+
+<p>Result:<br />
+<div class="xml">
+&lt;findResponse>
+    &lt;msgid> MessageId &lt;/msgid>
+    &lt;in-reply-to> messageId &lt;/in-reply-to>
+    &lt;alignmentList>
+        &lt;alid> URI &lt;/alid> 
+        ...
+    &lt;/alignmentList>
+&lt;/findResponse>
+</div>
+<p>
+
+<h3>corresp<a name="corresp"></a></h3>
+<p>Finds the concepts corresponding to a concept in a particular alignment.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>corresp</b> ? <b>id</b>
+  = &lt;URI&gt; &amp; <b>entity</b> = &lt;URI&gt; &amp; strict = &lt;boolean&gt;</p>
+<p>Parameters:<br />
+ <b>id</b>  the URI of the alignment,<br />
+ <b>entity</b> the URI of of the entity, and<br />
+ <b>strict</b> a boolean (default: false) indicating (if present) that only equivalent entities are retrieved.
+</p>
+
+<p>Result:<br />
+<div class="xml">
+&lt;correspResponse>
+    &lt;msgid> MessageId &lt;/msgid>
+    &lt;in-reply-to> messageId &lt;/in-reply-to>
+    &lt;entityList>
+        &lt;entity> URI &lt;/entity> 
+        ...
+    &lt;/entityList>
+&lt;/correspResponse>
+</div>
+<p>
+
+<h3>retrieve<a name="retrieve"></a></h3>
+<p>Retrieves an alignment in a specific format.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>retrieve</b> ? <b>id</b> =
+  &lt;URI&gt; &amp; <b>method</b> = &lt;classname&gt;</p>
+<p>Parameters:
+<br /><b>id:</b> the URI of the alignment to be retrieved.
+<br /><b>method:</b> indicates the format in which the alignment will be
+  serialised this is a classname taken from those provided
+  by <a href="#listrenderers">listrenderers</a> request.
+</p>
+<p>Result:<br />
+<div class="xml">
+&lt;retrieveResponse>
+  &lt;result>
+  Alignment in required format	
+  &lt;/result>
+&lt;/retrieveResponse>
+</div>
+</p>
+
+<h3>trim<a name="trim"></a></h3>
+<p>Trims an alignment with a threshhold.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>trim</b> ? <b>id</b> =
+  &lt;URI&gt; &amp; <b>threshold</b> = &lt;float&gt; &amp; type = &lt;label&gt; </p>
+<p>Parameters:
+<br /><b>id:</b> the URI of the alignment to be trimmed.
+<br /><b>threshold:</b> the threshold for trimming.
+<br /><b>type:</b> the method used for trimming (values: hard, perc, best,
+span, prop; default: hard).
+</p>
+<p>Result:<br />
+<div class="xml">
+&lt;trimResponse>
+    &lt;msgid> MessageId &lt;/msgid>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    &lt;alid> URI &lt;/alid>
+&lt;/trimResponse> 
+</div>
+</p>
+
+<h3>invert<a name="invert"></a></h3>
+<p>Inverts an alignment.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>invert</b> ? <b>id</b> =
+  &lt;URI&gt; </p>
+<p>Parameters:
+<br /><b>id:</b> the URI of the alignment to be inverted.
+</p>
+<p>Result:<br />
+<div class="xml">
+&lt;invertResponse>
+    &lt;msgid> MessageId &lt;/msgid>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    &lt;alid> URI &lt;/alid>
+&lt;/invertResponse> 
+</div>
+</p>
+
+<h3>store<a name="store"></a></h3>
+<p>Stores an alignment on the server.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>store</b> ? <b>id</b> = &lt;URI&gt;</p>
+<p>Parameters:
+<br /><b>id:</b> the URI of the alignment to be stored.
+</p>
+<p>Result:<br />
+<div class="xml">
+&lt;storeResponse>
+    &lt;msgid> MessageId &lt;/msgid>
+    &lt;in-reply-to>  MessageId &lt;/in-reply-to>
+    &lt;alid> URI &lt;/alid>
+&lt;/storeResponse>
+</div>
+</p>
+
+<h3>load<a name="load"></a></h3>
+<p>Uploads an alignment to the server.</p>
+<p>
+This function can work in two ways: either with a url parameter
+which contains a publicly accessible URL that the server will use
+for uploading the file, or by using a POST request method, in which
+the alignment is in the message content (e.g., a loadfile java script, see <a href="http://aserv.inrialpes.fr/html/prmload?">here</a>).</p>
+<p>URI: http://aserv.inrialpes.fr/rest/ <b>load</b> ? <b>url</b> = &lt;URL&gt &amp; pretty = &lt;string&gt;</p>
+or
+<p>URI: http://aserv.inrialpes.fr/rest/ <b>load</b> ? pretty = &lt;string&gt;</p>
+<p>Parameters: 
+<br /><b>url:</b> the accessible URL where to find the alignment to upload.
+<br /><b>pretty:</b> a string that will name the resulting alignment.
+</p>
+<p>Result:<br />
+<div class="xml">
+&lt;loadResponse>
+    &lt;msgid> MessageId &lt;/msgid>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    &lt;alid> URI &lt;/alid>
+&lt;/loadResponse>
+</div>
+</p>
+
+<h2>Unsupported features</h2>
+
+<p>These features may have been implemented and may become standard at
+  some point. For the moment, they are not.
+</p>
+
+<h3>metadata<a name="metadata"></a></h3>
+<p>Gets metadata of an alignment, i.e., avoid downloading all correspondences.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>metadata</b> ? <b>id</b> = &lt;URI&gt;</p>
+<p>Parameters:
+<br /><b>id:</b> the URI of the alignment from which metadata is retrieved.
+</p>
+<p>Result:<br />
+<div class="xml">
+&lt;metadataResponse>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    Metadata in RDF
+&lt;/metadataResponse> 
+</div>
+</p>
+
+<h3>translate<a name="translate"></a></h3>
+<p>Translates a message (resp. a query) with regard to an alignment.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>translate</b> ? <b>id</b> = &lt;URI&gt;</p>
+<p>Parameters:
+<br /><b>id:</b> the URI of the alignment used for the translation.
+</p>
+<p>Result:<br />
+<div class="xml">
+&lt;translateResponse>
+    &lt;in-reply-to> MessageId &lt;/in-reply-to>
+    Metadata in RDF
+&lt;/translateResponse> 
+</div>
+</p>
+
+<h3>align<a name="align"></a></h3>
+<p>Matches two ontologies and directly returns the RDF rendering of the result.</p>
+<p>URL: http://aserv.inrialpes.fr/rest/ <b>align</b> ? </p>
+<p>Parameters:
+<br /><b>onto1</b> and <b>onto2:</b> the URLs or URIs of the ontology
+to be matched.
+</p>
+<p>Result: the alignment in RDF/XML.
+<div class="xml">
+&lt;alignResponse>
+    &lt;msgid> MessageId &lt;/msgid>
+    &lt;in-reply-to>  MessageId &lt;/in-reply-to>
+    &lt;result> The alignment in RDF/XML &lt;/result>
+&lt;/alignResponse>
+</div>
+</p>
+
+<h2>Note about the SOAP interface</h2>
+
+<p>
+As of version 4.0 of the Alignment API, the SOAP and REST interface
+are aligned: the arguments are the same and the message answers are
+the same.
+</p>
+
+<p>
+The SOAP protocol is described in a WSDL file available from the
+server through the wsdl request.
+</p>
+
+<p>
+Form of requests:
+<pre>
+</pre>...
+and answers:
+<div class="xml">
+&lt;SOAP-ENV:Envelope
+   xmlns='http://exmo.inrialpes.fr/align/service'
+   xml:base='http://exmo.inrialpes.fr/align/service'
+   xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'
+   xmlns:xsi='http://www.w3.org/1999/XMLSchema-instance'
+   xmlns:xsd='http://www.w3.org/1999/XMLSchema'>
+  &lt;SOAP-ENV:Body>
+    ...
+  &lt;/SOAP-ENV:Body>
+&lt;/SOAP-ENV:Envelope>
+</div>
+</p>
+
+<h3>wsdl<a name="wsdl"></a></h3>
+
+<p>Gets the Web Service Description Language description of the SOAP interface.</p>
+<p>URL: <a href="http://aserv.inrialpes.fr/wsdl?">http://aserv.inrialpes.fr/ <b>wsdl</b> ?</a> </p>
+<p>Parameters: none</p>
+<p>Result: WSDL file in XML
+</p>
+
+<h2>Changes introduced in version 4<a name="version4"></a></h2>
+
+<ul>
+<li>The content of <tt>classList</tt> is now <tt>classname</tt>
+  (instead of <tt>method</tt>, <tt>service</tt>, or <tt>renderer</tt>) (REST &amp; SOAP);</li>
+<li><tt>cut</tt> is now <tt>trim</tt> (REST &amp; SOAP);</li>
+<li><tt>method</tt> in <tt>trim</tt> is now <tt>type</tt> (REST &amp; SOAP);</li>
+<li>All primitives may return <tt>in-reply-to</tt> and may send <tt>msgid</tt> (REST);</li>
+<li><tt>listevaluators</tt> has been added (REST &amp; SOAP);</li>
+<li>The <tt>alid</tt> parameter for identying alignment ids in requests is now replaced by <tt>id</tt> (SOAP);</li>
+<li>The <tt>id</tt> parameter for identying messages is now replaced by <tt>msgid</tt> (SOAP);</li>
+</ul>
+
+<p>
+In the examples/wservice directory, there is a sample application,
+AlignmentClient, that shows how to implement a web service client for
+the Alignement server. It is able to work with both the REST and the
+SOAP interface.
+</p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/rest.html</center>
+<hr />
+$Id: rest.html 1736 2012-07-15 10:04:28Z euzenat $
+</small>
+</body>
+</html>

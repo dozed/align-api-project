@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>Alignment API: Maven</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<center><h1>Alignment API: To our Maven users</h1></center>
+
+<p>
+The Alignment API is not a native Maven project.
+It is built using Ant.
+There are reason for that: we think that maven is putting too much
+hassle to developpers with respect to delivered benefits.
+</p>
+<p>
+However, we have no reason to not help our Maven users as long as
+this is not too difficult.
+</p>
+
+<h2>Generating a local repository</h2>
+
+<p>
+You can generate a local maven repository by simply applying:
+<div class="terminal">
+$ ant mavenize
+Buildfile: /Java/alignapi/build.xml
+
+bind:
+
+init:
+
+mavenize:
+     [echo] Mavenizing...
+   [delete] Deleting directory /Java/alignapi/mvn-repo
+    [mkdir] Created dir: /Java/alignapi/mvn-repo
+[artifact:install] [INFO] Installing /Java/alignapi/lib/align.jar to /Java/alignapi/mvn-repo/org/semanticweb/owl/align/4.4/align-4.4.jar
+            ...
+
+BUILD SUCCESSFUL
+Total time: 1 second
+</div>
+This will generate a directory <tt>mvn-repo</tt> which is a local maven repository. 
+</p>
+<p>
+It can be used in your project <!--tt>settings.xml</tt> by including:
+<div class="rdfxml">
+&lt;localRepository>mvn-repo&lt;/localRepository>
+</div>
+or in you project--> POM, by including:
+<div class="rdfxml">
+  &lt;repository>
+    &lt;id>in-project&lt;/id>
+    &lt;name>local maven repository&lt;/name>
+    &lt;url>file://${project.basedir}/mvn-repo&lt;/url>
+  &lt;/repository>
+
+</div>
+</p>
+<p>
+This is obtained by using maven-ant-tasks ant plug-ins, but it could
+have been achieved from the command line by using maven directly:
+<div class="terminal">
+$ mvn -Dmaven.repo.local=mvn-repo install:install-file -Dfile=lib/align.jar -DpomFile=lib/align.pom -Dpackaging=jar
+...
+</div>
+</p>
+
+<h2>About POM files</h2><a name="pom"></a>
+
+<p>
+We are using the <a href="http://maven.apache.org/pom.html">POM format</a>, not exactly as Maven but as a practical
+way to record information about shipped libraries. We ship 
+<a href="lib.html">external libraries</a> because we want users to be
+ready to work right away.
+</p>
+<p>
+Included libraries and associated POM files are maintained by hand.
+They do not contain dependency information because we think that the
+way Maven maintains dependency information both in the POM file, in
+the directory structure and in the JAR name is too much. Moreover, we
+think that maintaining this information at the exact version level
+defeats the purpose of modular software.
+</p>
+<p>
+The Alignment API POM files themselves are generated on the fly from
+ant from the templates found in the <tt>distrib</tt> repository.
+</p>
+
+<h2>We need your help</h2>
+
+<p>
+Any constructive feedback for improving the process, improving the
+content of our POM files (especially if it is for allowing you to do
+better things) is welcome.
+</p>
+<p>
+If you know of a good way to replace some component of our local
+repository by officially well maintained versions of global repository
+we want to hear you. If you know how to generate better Alignment API
+POM files, we want to hear you.
+</p>
+<p>
+The best for us is if you can just do it (particularly in ant or
+shell, but even maven command lines should be OK) and send us the procedure.
+</p>
+<p>
+If you want to publish the Alignment API in a repository, then you are
+welcome, but in the current state of Maven and its repositories, do
+not count on us to maintain it.
+</p>
+
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/maven.html</center>
+<hr />
+$Id: maven.html 1816 2013-03-04 09:22:56Z euzenat $
+</small>
+</body>
+</html>

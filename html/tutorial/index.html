@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Tutorials on the Alignment API</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta name="Contributor" content="Antoine Zimmermann" />
+<link rel="stylesheet" type="text/css" href="../base.css" />
+<link rel="stylesheet" type="text/css" href="../style.css" />
+<script type="text/javascript">
+<!--
+function show(id) {
+	var element = document.getElementById(id);
+	element.style.display = "block";
+}
+function hide(id) {
+	var element = document.getElementById(id);
+	element.style.display = "none";
+}
+-->
+</script>
+<style type="text/css">
+<!--
+div.logic {
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+-->
+</style>
+</head>
+<body style="background-color: #FFFFFF;">
+
+<h1>Tutorials and documentation on the Alignment <abbr title="Application Programming Interface">API</abbr> and server</h1>
+
+<dl>
+<dt>This version:</dt>
+<dd>http://alignapi.gforge.inria.fr/tutorial/</dd>
+<dt>Author:</dt>
+<dd><a href="http://exmo.inrialpes.fr/people/euzenat">J&eacute;r&ocirc;me Euzenat</a>, INRIA  &amp; LIG
+</dd>
+</dl>
+
+<p style="border-top: 2px solid
+	  #AAAAAA; padding-top: 15px; padding-bottom: 15px;">
+We have developed a series a tutorials so that any kind of user can
+take advatage of that API:
+<dl>
+<dt><a href="tutorial1/index.html">Using the Alignment API</a></dt>
+<dd>Explains how to use the API as a user for matching ontologies and
+  manipulating alignments. It is based on a command line interface.</dd>
+<dt><a href="tutorial1/server.html">Manipulating alignments through a Web client</a></dt>
+<dd>Does most of what is done in the former tutorial but through an
+  Web (HTTP) client using the Alignment server only.</dd>
+<dt><a href="tutorial2/index.html">Manipulating alignments in Java programs (and embedding the Alignment API within an application</a></dt>
+<dd>Explains how an aplication
+  developer can embed the Alignment API within an application.</dd>
+<dt><a href="tutorial4/index.html">Exploiting alignments and reasoning</a></dt>
+<dd>This tutorial will learn you to:
+<ul>
+<li>communicate the alignment server
+through its REST web service API,</li>
+<li>manipulate alignments with the Alignment API in Java,</li>
+<li>answer SPARQL queries based on the resulting alignment,</li>
+<li>perform OWL reasoning on aligned ontologies and compose
+  alignments.</li>
+</ul>
+It is based on Java programming and using various
+related APIs.</dd>
+<dt><a href="tutorial3/index.html">Extending the Alignment API with a new matcher</a></dt>
+<dd>Explains how an ontology matching developer can easily integrate
+  its matcher within the Alignment API.</dd>
+<dt><a href="tutorial5/index.html">Offering a matcher as a web service</a></dt>
+<dd>Explains how an ontology matching developer can expose it as a web
+  service.</dd>
+</dl>
+</p>
+<p>
+A (mute) soundcast presents the <a href="ftp://ftp.inrialpes.fr/pub/exmo/media/neonalign-demo-owl-nosound.mpeg">use of the Alignment API from the
+NeOn toolkit</a>.
+</p>
+<p>
+Other sources of information are the example directory of the
+Alignment API and the source code (with its moderately explicit
+Javadoc).
+</p>
+
+<h2>Preparation</h2>
+
+<p>This preparation phase, is common to all tutorials (but the second
+  one which only requires a web browser).</p>
+
+<p>For running the alignment <abbr>API</abbr>, you must have a Java
+  interpreter available. We will call it <tt>java</tt>. For compiling
+  your application, you will also need a java compiler, hereby
+  called <tt>javac</tt>.</p>
+
+<p>Download the last version of the Alignment <abbr>API</abbr> from <a href="http://gforge.inria.fr/frs/?group_id=117">http://gforge.inria.fr/frs/?group_id=117</a>. Unzip it and go to the created directory:</p>
+<div class="terminal">
+$ mkdir alignapi
+$ cd alignapi
+$ unzip align*.zip
+</div>
+
+<p>You can check that everything works by only typing:</p>
+<div class="terminal">
+$ java -jar lib/procalign.jar --help
+</div>
+<!--div class="button"><form><input type="button" value="Show
+output" onclick="show('qu3')"/><input type="button" value="Hide
+output" onclick="hide('qu3')"/></form></div-->
+
+<div class="button">
+	<input type="button" onclick="show('qu3')" value="Show output"/>
+	<input type="button" onclick="hide('qu3')" value="Hide output"/>
+</div>
+<div class="explain" id="qu3"><pre>
+Alignment API implementation 4.0
+usage: Procalign [options] URI1 URI2
+options are:
+	--impl=className -i classname		Use the given alignment implementation.
+	--renderer=className -r className	Specifies the alignment renderer
+	--output=filename -o filename	Output the alignment in filename
+	--params=filename -p filename	Reads parameters from filename
+	--alignment=filename -a filename Start from an XML alignment file
+	--threshold=double -t double	Filters the similarities under threshold
+	--cutmethod=hard|perc|prop|best|span -T hard|perc|prop|best|span	method for computing the threshold
+	--debug[=n] -d [n]		Report debug info at level n
+	-Dparam=value			Set parameter
+	--help -h			Print this message
+</pre></div>
+
+<p>The above command outputs the command line usage of the Procalign class. We do not detail it here, this tutorial will present it entirelly.</p>
+
+<!--p>You can <a href="../align.html">modify the Alignment <abbr>API</abbr> and its implementation</a>. In this tutorial, we will simply learn how to use it.</p-->
+
+<p>You will then go to the tutorial directory by doing:</p>
+<div class="terminal">
+$ cd html/tutorial
+</div>
+<p>You can clean up previous trials by:</p>
+<div class="terminal">
+$ rm */results/*
+</div>
+
+<p>The goal of this tutorial is only to help you realize the possibilities of the Alignment <abbr>API</abbr> and implementation. It can be played by invoking each command line from the command-line interpreter. In this example we use the <tt>tcsh</tt> syntax but the main specific syntax is the first one:</p>
+<div class="terminal">
+$ setenv CWD `pwd` 
+</div>
+<p>which puts in variable <tt>$CWD</tt> the name of the current
+  directory (for these using Bourne shell instead of C-shell, this is <tt>CWD=`pwd`</tt>).</p>
+
+<p>
+Now you can go back to any of the tutorials:
+<ul>
+<li><a href="tutorial1/index.html">Using the Alignment API</a></li>
+<li><a href="tutorial1/server.html">Manipulating Alignments through a Web client</a></li>
+<li><a href="tutorial2/index.html">Manipulating alignments in Java
+    programs (and embedding the Alignment API within an application)</a></li>
+<li><a href="tutorial4/index.html">Exploiting alignments and reasoning</a></li>
+<li><a href="tutorial3/index.html">Extending the Alignment API with a new matcher</a></li>
+<li><a href="tutorial5/index.html">Offering a matcher as a web service</a></li>
+</ul>
+</p>
+
+<!--p>Beside a Java interpreter, if one wants to generate the <abbr title="HyperText Markup Language">HTML</abbr> translations of the alignments, this can be done with the help of an <abbr title="XML Stylesheet Language Trasnformation">XSLT</abbr> 1.0 processor like <tt>xsltproc</tt>. Hence:</p>
+<div class="terminal">
+$ xsltproc ../form-align.xsl results/file.rdf > results/file.html
+</div>
+<p>generates <tt>results/file.html</tt> from the alignment file <tt>results/file.rdf</tt>.</p-->
+
+<h2>Acknowledgements</h2>
+	
+<p>The format of these tutorials has been shamelessly borrowed from Sean Bechhofer's <a href="http://owl.man.ac.uk/2005/07/sssw/"><acronym>OWL</acronym> tutorial</a>.</p>	
+
+<hr />
+<small>
+<div style="text-align: center;">http://alignapi.gforge.inria.fr/tutorial/</div>
+<hr />
+$Id: index.html 1783 2012-10-16 11:01:49Z euzenat $
+</small>
+</body>
+</html>

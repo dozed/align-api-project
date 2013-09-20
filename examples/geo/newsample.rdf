@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xml:base='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:xsd='http://www.w3.org/2001/XMLSchema#'
+	 xmlns:kha='http://www.example.com/newTagnamespace#'
+>
+<Alignment>
+  <xml>yes</xml>
+  <level>0</level>
+  <type>**</type>
+  <time>7</time>
+  <pretty>SDNAlignment between onto1 and onto2</pretty>
+  <method>fr.inrialpes.exmo.align.impl.method.StringDistAlignment</method>
+  <kha:myTag>Testing extension tags in alignments</kha:myTag>
+  <onto1>
+    <Ontology rdf:about="http://www.example.org/ontology1">
+      <location>file:examples/rdf/onto1.owl</location>
+      <formalism>
+	<Formalism name="OWL1.0" uri="http://www.w3.org/2002/07/owl#"/>
+      </formalism>
+    </Ontology>
+  </onto1>
+  <onto2>
+    <Ontology rdf:about="http://www.example.org/ontology2">
+      <location>file:examples/rdf/onto2.owl</location>
+      <formalism>
+	<Formalism name="OWL1.0" uri="http://www.w3.org/2002/07/owl#"/>
+      </formalism>
+    </Ontology>
+  </onto2>
+  <map>
+    <Cell>
+      <entity1 rdf:resource='http://www.example.org/ontology1#reviewedarticle'/>
+      <entity2 rdf:resource='http://www.example.org/ontology2#journalarticle'/>
+      <relation>=</relation>
+      <kha:myCorrespondenceTag>Testing tags in correspondences</kha:myCorrespondenceTag>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>46.66666666666667E-2</measure>
+      <!--invalidTag>This tag would be ignored</invalidTag-->
+    </Cell>
+  </map>
+  <map>
+    <Cell>
+      <entity1 rdf:resource='http://www.example.org/ontology1#journalarticle'/>
+      <entity2 rdf:resource='http://www.example.org/ontology2#journalarticle'/>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+</Alignment>
+</rdf:RDF>

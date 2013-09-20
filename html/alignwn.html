@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Using the Alignment API with Wordnet</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+<h1 class="titre">Using the Alignment API with Wordnet</h1>
+
+<p>We explain how to use the API with wordnet. This is also useful when
+using OLA.</p>
+
+<h2>Getting the required software</h2>
+
+<p>Different pieces of software are necessary for this integration:
+<dl compact="1">
+<dt><a href="index.html">Alignment API</a></dt>
+<dd>as well as the OWL API are necessary. Its lib directory
+contains the alignwn.jar file.</dd>
+<dt><a href="">Wordnet</a></dt>
+<dd>version 2.0 is used; it seems to work flawlessly with 3.0.</dd>
+<dt>The <a href="">Java WordNet Library (JWNL)</a></dt>
+<dd>whose jar-file should be put in the same directory as alignwn.jar.</dd>
+<dt>Apache <a href="">common-loggings</a></dt>
+<dd>commons-logging.jar should be put there as well.</dd>
+</dl>
+</p>
+
+<h2>Installing wordnet and configuring</h2>
+
+<p>First Wordnet must be compiled if this is not already done.
+This will depend on your distribution and will not be further 
+detailed here.</p>
+
+<p>Once installed, Wordnet usually has a "dict" directory whose path
+  is $WNDIR.
+<!--The file_properties.xml provided with jwnl must be put in the 
+current directory with the "dictionary_path" parameter set to
+the path of this dict directory:
+<pre>
+&lt;param name="dictionary_path" value="$dict$"/&gt;
+</pre-->
+</p>
+
+<h2>Running</h2>
+
+<p>This usually can be obtained by:
+<div class="terminal">
+$ setenv CWD `pwd`
+$ java -jar lib/alignwn.jar -Dwndict=$WNDIR file://$CWD/examples/rdf/edu.umbc.ebiquity.publication.owl file://$CWD/examples/rdf/edu.mit.visus.bibtex.owl -i fr.inrialpes.exmo.align.ling.JWNLAlignment -o examples/rdf/JWNL.rdf
+</div>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/alignwn.html</center>
+<hr />
+$Id: alignwn.html 1717 2012-04-03 06:23:27Z euzenat $
+</small>
+</address>
+</body>
+</html>

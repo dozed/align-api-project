@@ -1,0 +1,13 @@
+/* For command-line display, they cannot be printed correctly */
+
+div.terminal {
+    color: black
+    //background: black;
+    //margin: 0.9em 0;
+    padding: 5px;
+    width: 98%;
+    border: 1pt solid;
+    font-family: monospace;
+    //white-space: pre;
+    overflow: visible;
+}

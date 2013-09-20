@@ -1,0 +1,775 @@
+<html>
+<head>
+<title>Alignment API: Systems</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<center><h1>Alignment API: Systems using the Alignment API</h1></center>
+
+<p>
+If you use the Alignment API and/or the Alignment server and are
+willing to be included here (this certainly help supporting this work), do not
+hesitate to contact us.
+</p>
+<p style="font-size: 80%">
+This list is obviously incomplete. Most of the systems have at least a
+published reference. They are not necessarily independent from our work.
+</p>
+
+<h2>Systems embedding the Alignment API</h2>
+
+<p>These systems can use any implementation of the API and thus take
+  advantage of all matching system extending the API.
+
+<dl>
+
+<!--dt>[<a href=""></a>]</dt>
+<dd>
+
+<br /><small>
+<a href=""></a>
+</small>
+</dd-->
+
+<dt>[<a href="http://www.neon-toolkit.org/">NeOn toolkit</a>]</dt>
+<dd>
+The NeOn toolkit has an Alignment plug-in based on the Alignment
+API and Alignment server. It allows to match ontologies loaded in
+the toolkit as well as search existing alignments in an Alignment
+server. The plug-in for the NeOn toolkit is shiped with the Alignment
+API and available through the NeOn toolkit plug-in installer.
+<!--br /><small>
+, <a href=""></a>, 
+</small-->
+</dd>
+
+<dt>[<a href="http://krono.act.uji.es/people/Ernesto/contentmap">ContentMap</a>]</dt>
+<dd>
+ContentMap is a tool to help users anticipate the effect of merging
+ontologies through alignments. For that purpose, it is able to
+generate the consequences entailed by aligned ontologies and to detect
+inconsistencies. It uses the Alignment API for expressing alignments.
+<br /><small>
+Ernesto Jimenez Ruiz, Bernardo Cuenca Grau, Ian Horrocks and Rafael
+Berlanga, <a href="http://krono.act.uji.es/people/Ernesto/contentmap/ContentMapTechReport.pdf">Ontology Integration Using Mappings: Towards Getting the
+Right Logical Consequences</a>, Proc. 6th ESWC, Heraklion (GR), LNCS 5554:173-187, 2009
+</small>
+</dd>
+
+<dt>[<a href="http://cupboard.open.ac.uk">Cupboard</a>]</dt>
+<dd>
+Cupboard is a personal repository for ontologies and alignments. It
+allows to find ontlogies from Watson and alignments from the Alignment
+server and to register them to the user's personal space. These
+resources also share metadata through Oyster and ratings through OTS.
+<br /><small>
+Mathieu d'Aquin, Holger Lewen, <a href="http://watson.kmi.open.ac.uk/DownloadsAndPublications_files/eswc09D.pdf">Cupboard - A Place to Expose your Ontologies to Applications and 
+the Community</a>, Proc. 6th ESWC demo paper, Heraklion (GR), LNCS 5554:907-910, 2009
+</small>
+</dd>
+
+<dt>[<a href="http://www.webcontent.fr/">WebContent platform</a>]</dt>
+<dd>
+The WebContent project aims to offer a platform for taking adavantage
+of the resources from the semantic web. It offers an alignment service
+based on the Alignment server. The WebContent service is shipped with
+the Alignment API.
+<br /><!--small>
+, <a href=""></a>, 
+</small-->
+</dd>
+
+<dt>[<a href="http://align.deri.org"></a>OWL Ontology Aligner]</dt>
+<dd>A server built around the API for processing, editing and
+  rendering alignments (University of Innsbruck).<br />
+<small>
+Anna Zhdanova, Pavel Shvaiko, <a href="http://www.springerlink.com/index/p814uu7005251361.pdf">Community-Driven Ontology
+    Matching</a>, Proc. 3rd ESWC, LNCS 4011:34-39, 2006
+</small>
+</dd>
+
+<dt>[<a href="http://www.stylid.org/">StYLiD</a>]</dt>
+<dd>
+StYLiD aims at offering a consolidated view of ontologies in the
+semantic web. For that purpose it has to record relations between
+concerts from different ontologies and uses the Alignment API.
+<br /><small>
+Aman Shakya, Hideaki Takeda, Vilas Wuwongse, <a href="http://www.springerlink.com/index/lg82m301u7h52r61.pdf">Consolidating User-Defined Concepts with StYLiD</a>, The Semantic Web: 3rd Asian
+Semantic Web Conference (ASWC), LNCS 5367:287-301, 2008
+</small>
+</dd>
+
+<dt>[<a href="http://wsmt.sourceforge.net/">Web Service Modeling Toolkit</a>]</dt>
+<dd>The Web Service Modelling Toolkit allows to define and execute
+  semantic web services in the WSMX framework. For implementing
+  mediators it uses the OMWG Expressive alignment format which is now
+  an extension of the Alignment API (see below).
+<br /><small>
+Mick Kerrigan, Adrian Mocan, Martin Tanler and Dieter
+Fensel, <a href="http://www.eswc2007.org/pdf/eswc07-kerrigan.pdf">The Web Service Modeling Toolkit - An Integrated
+    Development Environment for Semantic Web Services </a>, Proc. 4th ESWC
+  System description, Innsbruck (AT), LNCS 4519:789-798, 2007
+</small>
+</dd>
+
+<dt>[<a href="http://sourceforge.net/projects/malasco/">Malasco</a>]</dt>
+<dd>A system that automatically partitions ontologies with various
+  strategies and feed them into a matcher, including one using the
+  Alignment API.
+<br /><small>
+Heiko Paulheim, <a href="http://ceur-ws.org/Vol-431/om2008_poster1.pdf">On
+    applying matching tools to large-scale ontologies</a>, Proc. 3rd
+Ontology matching workshop, Karlsruhe (DE), pp214-218, 2008
+</small>
+</dd>
+<!--dt>[<a href="https://gforge.inria.fr/projects/ontosim/</a>]</dt>
+<dd>A Java package for computing similarity between ontologies.
+<br /><small></small-->
+</dd>
+
+<dt>[<a href="http://VisOn.gforge.inria.fr">VisOn</a>]</dt>
+<dd>The VisOn ontology visualizer now works with any implementation of
+  the API. It provides the opportunity to load and display
+  ontologies, load, run, display and compare alignment algorithms.</dd>
+
+<dt>[<a href="http://www.dei.isep.ipp.pt/~pmaio/goals/">Goals</a>]</dt>
+<dd>The Goals system is a framework for matching ontology and
+  combining matchers. As such, it embeds the Alignment API for
+  integrating new matchers and for using its formats and evaluators.</dd>
+
+<dt>[<a href=""></a>Knowfuss]</dt>
+<dd>
+Knowfuss is a linked data generation system that takes advantage
+of alignments provided in input in the Alignment format.
+<br /><small>
+Andryi Nikolov, Victoria Uren, Enrico Motta, Anne de Roeck, KnoFuss: A
+comprehensive architecture for knowledge fusion, Proc. 4th
+international conference on Knowledge capture(K-CAP), Whistler
+(CA), pp185-186, 2007
+</small>
+</dd>
+
+<dt>[<a href="http://www.big.tuwien.ac.at/static/projects/smartmatcher/index.html">SmartMatcher</a>]</dt>
+<dd>
+SmartMatcher is a system that take advantage of a corpus of matched
+instances and external matchers to decide which correspondences are
+the most accurate (by using them to transform data and compare the
+result to the corpus). It uses the Alignment API for representing
+alignments.
+<br /><small>
+Horst Kargl, Manuel Wimmer, <a href="http://doi.ieeecomputersociety.org/10.1109/CISIS.2008.110">SmartMatcher -How Examples and a Dedicated
+Mapping Language can Improve the Quality of Automatic Matching
+Approaches</a>, Proc. International Conference on Complex, Intelligent and
+Software Intensive Systems (CISIS), pp.879-885, 2008</small>
+</dd>
+
+<dt>[<a href="https://sites.google.com/site/charbelweb/ontologies">ATOPAI</a>]</dt>
+<dd>
+ATOPAI (Alignment and annotation Tool framewOrk for Plug and plAy
+Interoperability) is a graphical interface on top of the Alignment API for
+matching ontologies, manipulating alignments and extracting patterns
+from the Alignments.
+<br />
+<small>Charbel El Kaed, Yves Denneulin, François Ottogalli, <a href="http://www.computer.org/portal/web/csdl/doi/10.1109/MDM.2011.47">On the Fly Proxy Generation for Home Devices
+    Interoperability</a>, Proc. 12th IEEE International Conference on
+  Mobile Data Management (Industrial Track), Lulea (SW), pp299-302, 2011</small>
+</dd>
+
+<dt>[<a href="http://www.mondeca.com/Products/ITM/">ITM</a>]</dt>
+<dd>
+The ITM terminology management tool developed and commercialised by
+Mondeca embeds a version of the Alignment API together of a version of
+Aroma parameterised for SKOS thesauri matching.
+<!--br />
+<small></small-->
+</dd>
+<dt>[<a href="https://github.com/correndo/mediation">OntoMediate/Mediation toolkit</a>]</dt>
+<dd>
+OntoMediate is an environment for collaborative ontology matching.
+The Mediation toolkit is a lightweight toolkit to implement ontological mediation over RDF. It uses ontology alignments in order to rewrite SPARQL SELECT queries and to generate SPARQL CONSTRUCT queries to import an external data set.
+<br />
+<small>Gianlucca Correndo, Manuel Salvadores, Ian Millard, Hugh Glaser, Nigel Shadbolt, <a href="http://eprints.ecs.soton.ac.uk/18370/ ">SPARQL Query rewriting for implementing data integration over linked data</a>, Proc. 1st International Workshop on Data Semantics (DataSem), Lousanne (CH), 2010</a><br />
+</small>
+</dd>
+<dt>[<a href="https://github.com/correndo/mediation"></a>NONAME]</dt>
+<dd>
+This system experimented context-based matching and user feed-back
+using the Alignment API for managing alignments.
+<br />
+<small>Thiago Pachêco, Andrade Pereira, Carlos Eduardo Pires, Ana Carolina Salgado, Exploring web semantic knowledge and user feedback to improve ontology matching, Proc. 10th DEXA International Workshop on Web Semantics (WebS), Toulouse (FR), pp234-238, 2011 <a href="http://doi.ieeecomputersociety.org/10.1109/DEXA.2011.31">http://doi.ieeecomputersociety.org/10.1109/DEXA.2011.31</a><br />
+</small>
+</dd>
+<dt>[<a href=""></a>CLONTY]</dt>
+<dd>
+The CLONTY-FR system is an infrastructure for involving users to
+collaboratively improve alignments. It uses the alignment API as his
+common format..
+<br /><small>
+Supun Pansilu Dewaraja, <a href="http://www.iit.ac.lk/academic/37-research/254-clonty.html">CLONTY: A scalable approach to
+  collaborative ontology alignment</a>, BSc thesis, Informatics
+Institute of Technology, 2010
+</small>
+</dd>
+<dt>[CrowdMap (not <a href="https://crowdmap.com/">that CrowdMap</a>)]</dt>
+<dd>
+Uses the Alignment API evaluation capabilities in order to evaluate
+crowdsourced alignments.
+<br /><small>
+Cristina Sarasua, Elena Simperl, Natalya Noy, <a href="http://www.stanford.edu/~natalya/papers/iswc2012_crowdmap.pdf">CrowdMap: Crowdsourcing
+ontology alignment with microtasks</a>, Proc. 11th ISWC, Boston (MA US),
+pp525-541, 2012
+</small>
+</dd>
+<dt>[SPARQLoid]</dt>
+<dd>
+Uses alignments (from the Alignment API) to transform and answer to a query.
+<br /><small>
+Takahisa Fujino, Naoki Fukuta, <a href="http://iswc2012.semanticweb.org/sites/default/files/paper_57.pdf">SPARQLoid - a querying
+system using own ontology and ontology mappings with reliability</a>,
+Proc. 11th ISWC Demo sesion, 2012
+</small>
+</dd>
+
+
+</dl></p>
+
+
+<h2>Systems implementing the Alignment API</h2>
+
+<p>These systems offer the interface of the API and can take place in
+  any system using the API. We do not know any other implementation
+  of the API but ours..</p>
+
+<h2>Systems extending the Alignment API</h2>
+
+<p>These systems usually implement some matching algorithm on top of
+  the API implementation (and benefit from all implemented
+  services).</p>
+
+<dl>
+<dt>[<a href="http://ola.gforge.inria.fr">OLA</a>]</dt>
+<dd>A matching algorithm for OWL-Lite that measures distance between
+  all ontology components and perform an iterative fixpoint search.
+<br /><small>
+Jean-Fran&ccedil;ois Djoufak-Kengue, J&eacute;r&ocirc;me Euzenat, Petko Valtchev, <a href="http://ceur-ws.org/Vol-304/paper16.pdf">OLA in the OAEI 2007 evaluation contest</a>, in: Pavel Shvaiko, J&eacute;r&ocirc;me Euzenat, Fausto Giunchiglia, Bin He (eds), Proc. 2nd ISWC 2007 workshop  on ontology matching (OM), Busan (KR), pp188-195, 2007
+</small>
+</dd>
+
+<dt>[<a href="http://www.eurecom.fr/~troncy/software.html">oMap</a>]</dt>
+<dd>oMap is a tool for combining matchers using fuzzy techniques.
+<br /><small>
+Umberto Straccia, Rapha&euml;l Troncy: oMAP: Combining Classifiers for
+Aligning Automatically OWL Ontologies. Proc. WISE, pp133-147, 2005<br />
+</small>
+</dd>
+
+<dt>[<a href=""></a>DSSim]</dt>
+<dd>
+DSSim is an ontology matcher based on the Dempster-Shafer theory and
+fuzzy voting model for combining the results of several base matchers.
+<br /><small>
+Miklos Nagy, Maria Vargas-Vera, Enrico Motta, <a href="http://ftp.informatik.rwth-aachen.de/Publications/CEUR-WS/Vol-225/paper10.pdf">DSSim-ontology mapping with uncertainty</a>, 
+Proc. 1st Ontology matching workshop, Athens (GA US), pp115-123, 2006.
+</small>
+</dd>
+
+<dt>[<a href="http://sourceforge.net/projects/mediation/">OMWG Expressive alignment format</a>]</dt>
+<dd>
+The OMWG Expressive alignement format is a format designed in the SEKT
+and Knowledge web European projects for expressing elaborate correspondencs to
+be processed in web service mediation. 
+<br /><small>
+Fran&ccedil;ois Scharffe, Jos de
+Bruijn, <a href="http://www.u-bourgogne.fr/SITIS/05/download/Proceedings/Files/f142.pdf">A
+    language to specify mappings between ontologies</a>, Proc. 1st
+International Conference on Signal-Image Technology and Internet-Based
+Systems, Yaounde (CM), pp267-271, 2005
+</small>
+</dd>
+
+<dt>[<a href=""></a>Prior]</dt>
+<dd>
+Prior uses the Alignment API to parse ontologies and generate alignments.
+<br /><small>
+Ming Mao, Yefei
+Peng, <a href="http://ceur-ws.org/Vol-304/paper19.pdf">The PRIOR+:
+    Results for OAEI Campaign 2007</a>, Proc. 2nd Ontology Matching workshop, Busan (KR), pp219-226, 2007
+</small>
+</dd>
+
+<dt>[<a href=""></a>Cider]</dt>
+<dd>
+CIDER is prototype matcher developed in Java, extending
+the Alignment API. It computes a representation of concepts as a bag
+of words obtained from the concepts and its neighborhood. These
+representations are compared in a vector space.
+<br /><small>
+Jorge Gracia, Eduardo Mena, <a href="http://ceur-ws.org/Vol-431/oaei08_paper4.pdf">Ontology Matching with CIDER: Evaluation
+    Report for the OAEI 2008</a>, Proc. 3rd Ontology Matching worshop,
+Karlruhe (DE), pp140-146, 2008
+</small>
+</dd>
+
+<dt>[<a href="http://aroma.gforge.inria.fr">Aroma</a>]</dt>
+<dd>
+Aroma is an ontology matchers using the association rule mining from
+the data. It is now ported on top of the Alignment API.
+<br /><small>
+J&eacute;r&ocirc;me David, Fabrice Guillet, Henri Briand, <a href="http://www.igi-pub.com/articles/details.asp?ID=7154">Association rule ontology
+matching approach</a>, <i>International Journal on Semantic Web and Information Systems</i> 3(2):27-49, 2007.
+</small>
+</dd>
+
+<dt>[<a href="http://ontoware.org/projects/mappso/">MapPSO</a>]</dt>
+<dd>
+MapPSO is a tool for ontology matching which uses discrete Particle
+Swarm Optimisation. Revisiting the matching problem as an optimisation
+problem, MapPSO uses a particle swarm to search for the optimal
+alignment. The algorithm is massively parallel and adapts naturally on
+parallel architectures. It is an extension of the Alignment API.
+<br /><small>
+Jürgen Bock, Jan Hettenhausen,
+<a href="http://www.dit.unitn.it/~p2p/OM-2008/oaei08_paper8.pdf">MapPSO results for OAEI 2008</a> (poster),
+Proc. 3rd Ontology matching workshop, Karlsruhe (DE), 2008
+</small>
+</dd>
+<dt>[<a href=""></a>SOCOM]</dt>
+<dd>
+The Alignment API is used in multilingual ontology matching, in which
+first one ontology is translated in a common natural language and then
+matching algorithms are applied to these translated versions.
+<br /><small>
+Bo Fu, Rob Brennan, Declan
+O'Sullivan, <a href="http://www.springerlink.com/content/06m05447rt1726h4/">Cross-Lingual Ontology Mapping - An Investigation of the Impact of Machine Translation</a>, Proc. 4th Asian Semantic Web Conference (ASWC), Shanghai (CN), LNCS 5926:1-15, 2009
+</small>
+</dd>
+<dt>[<a href=""></a>OMViaUO]</dt>
+<dd>
+The Alignment API has been extended for experimenting with
+context-based matching with upper-level ontologies. Three different
+types of matchers have been implemented depending on their use of
+upper level ontologies. They have been compared with three such
+ontologies (SUMO, DOLCE and OpenCyc).
+<br /><small>
+Viviana Mascardi, Angela Locoro, Paolo
+Rosso, <a href="http://www.disi.unige.it/person/MascardiV/Download/TKDE-maggio-2009.pdf">Automatic ontology matching via upper ontologies: a systematic evaluation</a>, <i>IEEE Transactions on knowledge and data engineering</i>, 22(5):609-623, 2010
+</small>
+</dd>
+<dt>[<a href="http://wiki.knoesis.org/index.php/BLOOMS">Blooms</a>]</dt>
+<dd>
+The Blooms approach for matching ontologies from linked open data
+sources extends the Alignment API. Not only it is implemented on top
+of the API but it also uses some methods for generating obvious
+matches and applying thresholds.
+<br /><small>
+Prateek Jain, Pascal Hitzler, Amit Shet, Kunal Verma, Peter
+Yeh, <a href="http://knoesis.wright.edu/faculty/pascal/resources/publications/BLOOMS.pdf">Ontology
+    alignment for linked open data</a>, Proc 9th ISWC, Shanghai (CN), LNCS 6496:401-416, 2010.
+</small>
+</dd>
+<dt>[<a href="http://www.dhpanel.eu/humboldt-framework/hale.html">HUMBOLDT Alignment Editor</a> (HALE)]</dt>
+<dd>
+HALE is an alignment editor dedicated to geospatial applications.
+It uses and extends the Alignment format, and OML the precursor of
+EDOAL, for expressing mappings and mismatches between geographic
+schematas. HALE does not seem to reuse any of the Alignent API code.
+<br /><small>
+Thorsten Reitz, <a href="http://dx.doi.org/10.1007/978-3-642-15300-6_15">A Mismatch Description Language for Conceptual 
+Schema Mapping and Its Cartographic Representation </a>, Proc. 6th
+GIScience, Zurich (CH), LNCS 6292:204-218, 2010.
+</small>
+</dd>
+</dl>
+</p>
+
+
+
+<h2>Systems outputing the Alignment format</h2>
+
+<p>These systems are able to generate alignments in the Alignment
+  format that the Alignment API can handle. This is in fact the case
+  of most of the system participating
+  to <a href="http://oaei.ontologymatching.org">OAEI</a> since the
+  evaluation is made from this format.
+<dl>
+<!--dt>[<a href=""></a>]</dt>
+<dd>
+<br /><small>
+, <a href=""></a>, 
+</small>
+</dd-->
+<dt>[<a href="http://lsdis.cs.uga.edu/projects/sensormap/index.php?page=5">Optima</a>]</dt>
+<dd>
+Optima is an alignment editor and matching tool which can output, and
+hopefully read, the Alignment format.
+<br /><small>
+Ravikanth Kolli, Prashant Doshi, <a href="http://www.cs.uga.edu/%7Ekolli/Optima_paper.pdf">Optima: Tool for ontology alignment with application to semantic reconciliation of sensor metadata for publication in sensormap</a>, Proc. IEEE International Conference on Semantic Computing, Santa-Clara (CA US), pp484-485, 2008 (demo paper)
+</small>
+</dd>
+
+<dt>[<a href="http://sourceforge.net/projects/onagui/">OnAGUI</a>]</dt>
+<dd>
+OnAGUI is a graphic user interface for creating and visualising
+alignments. It offers the opportunity to run matchers and to load and save
+alignments under the Alignment API.
+<br /><small>
+Laurent Mazuel, Jean Charlet, <a href="http://ic2009.inria.fr/docs/posters/MazuelCharlet_Poster_IC2009.pdf">SPIM-AlignmentGUI - un
+ logiciel d'aide &agrave; la r&eacute;alisation d'alignements entre
+ ontologies</a>, Proc. IC Poster session, Hammamet (TN), 2009
+</small>
+</dd>
+
+<dt>[<a href="http://www.aifb.uni-karlsruhe.de/WBS/meh/foam/">FOAM</a>]</dt>
+<dd>
+FOAM is a framework for matching OWL ontologies offering various
+parameters. It is able to output the Alignment format.
+<br /><small>
+Marc Ehrig, York
+Sure, <a href="http://sunsite.informatik.rwth-aachen.de/Publications/CEUR-WS/Vol-156/paper11.pdf">FOAM - Framework for Ontology Alignment and Mapping</a>, Proc. 1st Ontology matching
+workshop, Athens (GA US), pp72-76, 2005
+</small>
+</dd>
+
+<dt>[<a href="http://iws.seu.edu.cn/projects/matching/">Falcon-AO</a>]</dt>
+<dd>
+Falcon-AO is an automatic ontology matching system based on both
+terminological and structural methods. It also features a partitioning
+algorithm for matching large ontologies.
+<br /><small>
+Wei Hu, Yuzhong  Qu, <a href="http://portal.acm.org/citation.cfm?id=1412999">Falcon-AO: A practical ontology matching
+    system</a>, Journal of web semantics 6(3):237-239, 2008
+</small>
+</dd>
+
+<dt>[<a href="http://www.aktors.org/crosi/deliverables/downloads/">CMS</a>]</dt>
+<dd>
+The Crosi Mapping System is a framework for expressing and solving
+matching problems. It integrates the Alignment API as an external
+matcher. It is also able to generate the Alignment format.
+<br /><small>
+Yannis Kalfoglou, Bo Hu, Dave Reynolds, Nigel Shadbolt, <a href="http://eprints.ecs.soton.ac.uk/11717/">Crosi
+project, final report</a>,  School of Electronics and Computer
+Science, University of Southhampton, Tech. Rep., 2005
+</small>
+</dd>
+
+<dt>[<a href=""></a>MDSS]</dt>
+<dd>
+MDSS is a framework for the integration of matching
+tools. It uses the Alignment format for representing alignments and
+exchanging between tools.
+<br /><small>
+Gabriele Marcelli, Tania Di Mascio, Fulvio
+D'Antonio, <a href="http://ftp.informatik.rwth-aachen.de/Publications/CEUR-WS/Vol-201/27.pdf">MDSS: A framework for the integration of ontology mapping tools</a>, Proc. 3rd Italian Semantic Web Workshop, Pisa (IT), 2006
+</small>
+</dd>
+<!--dt>[<a href=""></a>]</dt>
+<dd>
+<br /><small>
+, <a href=""></a>, 
+</small>
+</dd-->
+
+<dt>[<a href=""></a>Lucene Ontology Matcher]</dt>
+<dd>
+The Lucene ontology matcher uses the Lucene search engine for
+matching ontologies. It generates alignments in the Alignment format
+and uses the evaluation facilities of the Alignment API.
+<br /><small>
+Giuseppe Pirro,
+Domenico Talia, <a href="http://www2.computer.org/portal/web/csdl/doi/10.1109/DEXA.2007.29">Towards a Scalable and Collaborative Information Integration Platform and Methodology</a>, Proc. 18th International Conference on Database and Expert Systems Applications (DEXA 2007), pp407-411, 2007
+</small>
+</dd>
+
+<dt>[noname]</dt>
+<dd>
+The authors developed a mapping platform made of a server and a client
+allowing to match ontologies and to store the result a server. The
+client allow to edit alignments and export them on the Alignment format.
+<br /><small>
+Felix van de Maele, Alic&iacute;a Díaz, <a href="http://www.emn.fr/x-info/emoose/alumni/thesis/fvandemaele.pdf">Towards a Scalable and
+    Collaborative Information Integration Platform and
+    Methodology</a>, Proc. OTM, Monterrey (MX), LNCS 5333:220-229, 2008
+</small>
+</dd>
+
+<dt>[<a href="http://www.cs.vu.nl/STITCH/repository/">Repository for vocabularies and alignments</a>]</dt>
+<dd>
+The STITCH project provides a repository of SKOS vocabularies and
+alignment accessible through web services. For that purpose they took
+inspiration of the Alignment format (that they call the OAEI format)
+that they took as their data model and they use the Alignment format
+as their external representation.
+<br /><small>
+Lourens van der Meij, Antoine Isaac, and Claus Zinn, <a href="http://www.few.vu.nl/~aisaac/papers/STITCH-Repository-ESWC10.pdf">A
+    Web-Based Repository Service for Vocabularies and 
+    Alignments in the Cultural Heritage Domain</a>, Proc. 7th European
+Semantic Web Conference, Hersonissos (GR), LNCS 6088:394-409, 2010.
+</small>
+</dd>
+
+<dt>[<a href="http://www4.wiwiss.fu-berlin.de/bizer/silk/">Silk 2</a>]</dt>
+<dd>
+Silk is a framework for automatically generating links for linked
+datasets. Since version 2, it is able to export links in the 
+Alignment format (that they also call the OAEI format... this is
+certainly our mistake ;-).
+<!--br /><small>
+Certainly submitted to ISWC-2010.
+</small-->
+</dd>
+
+<dt>[<a href="http://web.informatik.uni-mannheim.de/alcomo/">Alcomo</a>]</dt>
+<dd>
+Alcomo (Applying logical constraints on matching ontologies) is a
+system that takes an alignment as input and delivers a consistent and
+coherent alignment as output.
+<br /><small>Christian Meilicke, <a href="http://ki.informatik.uni-mannheim.de/fileadmin/publication/meilicke_thesis.pdf">Alignment incoherence in
+    ontology matching</a>, PhD thesis, University of Mannheim,
+  Mannheim (DE), 2011</small>
+</dd>
+
+
+
+</dl>
+</p>
+
+<h2>Experiments using the Alignment API</h2>
+
+<p>
+These experiments that have used the Alignment API, for instance
+for evaluation of alignments but do not provide a system per se.
+
+<dl>
+
+<dt>[<a href="http://oaei.ontologymatching.org">OAEI</a>]</dt>
+<dd>
+The Ontology Alignment Evaluation Initiative organises evaluation of
+ontology matchers based on measuring the alignments returned by
+matchers. The matchers are required to return the Alignment format and
+evaluation is performed by evaluators from the Alignment API.
+<br /><small>
+Caterina Caracciolo, J&eacute;r&ocirc;me Euzenat, Laura Hollink, Ryutaro Ichise, Antoine Isaac, V&eacute;ronique Malais&eacute;, Christian Meilicke, Juan Pane, Pavel Shvaiko, Heiner Stuckenschmidt, Ondrej Sv&aacute;b-Zamazal, Vojtech Sv&aacute;tek,
+<a href="http://ceur-ws.org/Vol-431/oaei08_paper0.pdf">Results of the Ontology Alignment Evaluation Initiative
+  2008</a>, Proc. 3rd Ontology matching workshop, Karlsruhe (DE),
+  pp73-119, 2008
+</small>
+</dd>
+
+<dt>[<a href="http://nb.vse.cz/~svatek/ontofarm.html">OntoFarm</a>]</dt>
+<dd>
+OntoFarm is a collection of ontologies about the same topic:
+conference organisation. The collection has been used in the OAEI
+evaluations and further exploited for refining and analysing
+alignments between ontologies. The alignments are manipulated through
+the Alignment API.
+<br /><small>
+Ondrej Sv&aacute;b, Vojtech Sv&aacute;tek, Heiner Stuckenschmidt, <a href="http://nb.vse.cz/~svatek/eswc07su.pdf">A Study in
+Empirical and 'Casuistic' Analysis of Ontology Mapping Results</a>, Proc. 4th ESWC, LNCS 4519:655-669,
+2007
+</small>
+</dd>
+
+<dt>[<a href="http://www.modelcvs.org/">ModelCVS</a>]</dt>
+<dd>
+The ModelCVS project aims at providing a network of software models and
+alignments between these that can be used for model-driven
+operations. It uses the Alignment format and API for manipulating alignments.
+<br /><small>
+Gerti Kappel, Horst Kargl, Gerhart Kramler, Andrea Schauerhuber, Martina Seidl, Michael Strommer, Manuel Wimmer, <a href="http://dbs.cs.uni-duesseldorf.de/BTW2007/KappelKargl-et-al.pdf">Matching Metamodels with Semantic Systems - An Experience Report</a>, In Workshop Proc. of Datenbanksysteme in Business, Technologie und Web
+(BTW'07), pp38-52, Germany, 2007 
+</small>
+</dd>
+
+<dt>[noname<a href=""></a>]</dt>
+<dd>
+The alignment API has been used for negotiation of mappings between agents.
+<br /><small>
+Cassia Trojahn, Marcia Moraes, Paulo Quaresma, Renata
+Vieira, <a href="http://portal.acm.org/citation.cfm?id=1194659">A
+negotiation model for ontology mapping</a>, Proc. IEEE/WIC/ACM
+international conference on Intelligent Agent Technology, pp762-768, 2006
+</small>
+</dd>
+
+<dt>[<a href="http://www.few.vu.nl/~andreas/projects/dam2/"></a>DAM]</dt>
+<dd>
+DAM is a hybrid terminological/structural matcher that extract the
+best match beween concepts seeded by terminological measures based on the Alignment
+API.
+<br /><small>
+Andrea He&beta;, <a href="http://www.andreas-hess.info/publications/hess-eswc06.pdf">An Iterative Algorithm for Ontology Mapping Capable of Using Training Data</a>, Proc. 3rd ESWC, LNCS 4011:19-33, 2006
+</small>
+</dd>
+
+<dt>[<a href=""></a>noname]</dt>
+<dd>
+The Alignment API has been used for comparing modularisation
+strategies in the context of alignment negotiation for agents.
+<br /><small>
+Paul Doran, Valentinna Tamma, Terry Payne, Ignazio
+Palmisano, <a href="http://eprints.ecs.soton.ac.uk/17241/1/Doran-CRC.pdf">Dynamic selection of ontological alignments: a
+    space resolution problem</a>, Proc. 21st IJCAI, Pasadena (CA US), pp2028-2033, 2009
+</small>
+</dd>
+
+<dt>[noname]</dt>
+<dd>
+The Alignment API has been used for generating alignments in
+peer-to-peer systems experiments to evaluate the fiability of correspondences.
+<br /><small>
+Philippe Cudre-Mauroux, Karl Aberer, Andras Feher,
+<a href="http://lsirpeople.epfl.ch/pcudre/papers/MessagePassing.pdf">Probabilistic Message Passing in Peer Data Management Systems</a>,
+Proc. 22nd International Conference on Data Engineering (ICDE),
+Atlanta (GA US) paper 41, 2006
+</small>
+</dd>
+
+<dt>[noname]</dt>
+<dd>
+The Alignment API has been used for matching classes in Java code to be migrated.
+<br /><small>
+Davide Ancona, Viviana Mascardi, Ombretta Pavarino. <a href="">Ontology-based
+    documentation extraction for semi-automatic migration of Java
+    code</a>, Proc. ACM Symposium on Applied Computing (SAC), 2012
+</small>
+</dd>
+
+
+</dl>
+
+<h2>Miscellaneous</h2>
+
+
+<dl>
+<dt>[<a href="http://www.ifi.uzh.ch/ddis/research/semweb/simpack/">SimPack</a>]</dt>
+<dd>
+Apparently, SimPack takes advantage of the few StringDistances that
+are provided with the Alignment API (they could now directly use
+<a href="http://ontosim.gforge.inria.fr">OntoSim</a> instead).
+<br /><small>
+Patrick Ziegler, Christoph Kiefer, Christoph Sturm, Klaus Dittrich, Abraham Bernstein, <a href="http://www.ifi.uzh.ch/ddis/fileadmin/user_upload/kiefer/publications/ziegler06detecting.pdf">Detecting Similarities in Ontologies
+    with the SOQA-SimPack Toolkit</a>, Proc 10th International
+Conference on Extending Database Technology (EDBT), Munich (DE),
+pp-59-76, 2006 </a>, 
+</small>
+</dd>
+</dl>
+
+<!--
+Can have a look at:
+http://scholar.google.fr/scholar?cites=7388654705706200775&as_sdt=2005
+-->
+<!-- ISI cite:
+Record 2 of 10
+Author(s): Van de Maele, F (Van de Maele, Felix); Diaz, A (Diaz, Alicia)
+Editor(s): Meersman, R; Tari, Z; Herrero, P
+Title: Towards a Scalable and Collaborative Information Integration Platform and Methodology
+Source: ON THE MOVE TO MEANINGFUL INTERNET SYSTEMS: OTM 2008 WORKSHOPS, 5333: 220-229 2008
+Book series title: LECTURE NOTES IN COMPUTER SCIENCE
+Conference Title: On the Move Confederated International Conference and Workshops
+Conference Date: NOV 09-14, 2008
+Conference Location: Monterrey, MEXICO
+Abstract: The quality and scalability problems in information integration are still not sufficiently solved by current integration approaches. In this paper, we propose an integration approach that adopts a uniform, context-aware, and collaborative methodology enabling efficient reuse to come to a scalable integration platform. We present a two-step methodology that splits up the traditional process of information integration into two separated phases. In the first phase, the Mapping phase, heterogeneous models are matched and mappings are created between the corresponding entities. We further introduce a community and contextual dimension for each mapping. In the second phase, the Commitment phase, a final, application-specific alignment is created in a certain integration format. We argue that this methodology enables a more scalable. efficient and collaborative integration process. We have developed a platform which is based on this methodology and have also done a preliminary evaluation by going through a real use case.
+ISSN: 0302-9743
+ISBN: 978-3-540-88874-1
+Record 3 of 10
+Author(s): Garcia, JM (Garcia, Jose Maria); Ruiz, D (Ruiz, David); Ruiz-Cortes, A (Ruiz-Cortes, Antonio); Parejo, JA (Parejo, Jose Antonio)
+Book Group Author(s): IEEE Computer Soc
+Title: QoS-Aware Semantic Service Selection: An Optimization Problem
+Source: IEEE CONGRESS ON SERVICES 2008, PT I, PROCEEDINGS: 384-388 2008
+Conference Title: IEEE Congress on Services
+Conference Date: JUL 06-11, 2008
+Conference Location: Honolulu, HI
+Abstract: In order to select the best suited service among a set of discovered services, with respect to QOS parameters, a user have to state his or her preferences, so services can be ranked according to these QOS parameters. Current Semantic Web Services ontologies do not support the definition of QOS-aware user preferences, though there are some proposals that extend those ontologies to allow selection based on those preferences. However, their selection algorithms are very coupled with user preferences descriptions, which are defined without semantics or at a different semantic level than service functionality. In this work, we present a service selection framework that transforms user preferences into an optimization problem where the best service is selected. This framework is based on an ontology that conceptualizes these user preferences. Thus, we use a very expressive solution decoupled with the concrete selection technique by using XSL transformations, while describing QOS-aware user preferences at the same semantic level of functional preferences.
+ISBN: 978-0-7695-3286-8
+Record 4 of 10
+Author(s): Kargl, H (Kargl, Horst); Wimmer, M (Wimmer, Manuel)
+Editor(s): Xhafa, F; Barolli, L
+Title: SmartMatcher - How examples and a dedicated mapping language can improve the quality of automatic matching approaches
+Source: CISIS 2008: THE SECOND INTERNATIONAL CONFERENCE ON COMPLEX, INTELLIGENT AND SOFTWARE INTENSIVE SYSTEMS, PROCEEDINGS: 879-885 2008
+Conference Title: 2nd International Conference on Complex, Intelligent and Software Intensive Systems
+Conference Date: MAR 04-07, 2008
+Conference Location: Catalonia, SPAIN
+Conference Host: Polytechn Univ Catalonia
+Abstract: Information integration has a long history in computer science. It has started with the integration of database schemas in the early eighties. With the rise of the semantic web and the emerging abundance of ontologies, the need for an automated integration increased further A lot of automated matching approaches and tools have been proposed so far The typical output of such tools is a simple one-to-one alignment mostly, based on schema information, e.g., similar names and structures of schema elements. However these alignments cannot cope with schema heterogeneities, hence, the,,e problems must be resolved manually. Furthermore, then? is no automated evaluation of the quality of the alignments-based on the instance level, because the matching approaches are not bound to a specific integration scenario, e.g., transformation or merge. In this work, we propose the SmartMatching approach, which can be seen as an orthogonal extension to existing matching approaches for increasing the quality of the automatically produced alignments for the transformation scenario. This is achieved by using an executable mapping language for bridging schema heterogeneities and by using instance models to evaluate the quality of the alignments in an iterative and feedback-driven process inspired by machine learning approaches.
+ISBN: 978-0-7695-3109-0
+Record 5 of 10
+Author(s): Vazquez, R (Vazquez, Ruben); Swoboda, N (Swoboda, Nik)
+Editor(s): Meersman, R; Tari, Z
+Title: Combining the Semantic Web with the Web as background knowledge for Ontology Mapping
+Source: ON THE MOVE TO MEANINGFUL INTERNET SYSTEMS 2007: COOPLS, DOA, ODBASE, GADA, AND IS, PT 1, PROCEEDINGS, 49803: 814-831 2007
+Book series title: LECTURE NOTES IN COMPUTER SCIENCE
+Conference Title: OTM Confederated International Conference and Workshop
+Conference Date: NOV 25-30, 2007
+Conference Location: Vilamoura, PORTUGAL
+Abstract: We combine the Semantic Web with the Web, as background knowledge, to provide a more balanced solution for Ontology Mapping. The Semantic Web can provide mappings that are missed by the Web, which can provide many more, but noisy, mappings. We present a combined technique that is based on variations of existing approaches. Our experimental results in two real-life thesauri are compared with previous work, and they reveal that a combined approach to Ontology Mapping can provide more balanced results in terms of precision, recall and confidence measure of mappings. We also discover that a reduced set of 3 appropriate Hearst patterns can eliminate noise in the list of discovered mappings, and thus techniques based exclusively in the Web can be improved. Finally, we also identify open questions derived from building a combined approach.
+ISSN: 0302-9743
+ISBN: 978-3-540-76846-3
+Record 6 of 10
+Author(s): Rezgui, Y (Rezgui, Yacine)
+Title: Text-based domain ontology building using Tf-Idf and metric clusters techniques
+Source: KNOWLEDGE ENGINEERING REVIEW, 22 (4): 379-403 DEC 2007
+Abstract: The paper describes the methodology used to develop a construction domain ontology, taking into account the wealth of existing semantic resources in the sector ranging from dictionaries to thesauri. Given the characteristics and settings of the construction industry, a modular, architecture-centric approach was adopted to structure and develop the ontology. The paper argues that taxonomies provide an ideal backbone for any ontology project. Therefore, a construction industry standard taxonomy was used to provide the seeds of the ontology, enriched and expanded with additional concepts extracted from large discipline-oriented document bases using information retrieval (IR) techniques.
+ISSN: 0269-8889
+DOI: 10.1017/S0269888907001130
+Record 7 of 10
+Author(s): Champin, PA (Champin, Pierre-Antoine); Houben, GJ (Houben, Geert-Jan); Thiran, P (Thiran, Philippe)
+Editor(s): Parent, C; Schewe, KD; Storey, VC; Thalheim, B
+Title: Cross: An OWL wrapper for reasoning on relational databases
+Source: CONCEPTUAL MODELING - ER 2007, PROCEEDINGS, 4801: 502-517 2007
+Book series title: LECTURE NOTES IN COMPUTER SCIENCE
+Conference Title: 26th International Conference on Conceptual Modeling
+Conference Date: NOV 05-09, 2007
+Conference Location: Auckland, NEW ZEALAND
+Abstract: One of the challenges of the Semantic Web is to integrate the huge amount of information already available on the standard Web, usually stored in relational databases. In this paper, we propose a formalization of a logic model of relational databases, and a transformation of that model into OWL, a Semantic Web language. This transformation is implemented in Cross, as an open-source prototype. We prove a relation between the notion of legal database state and the consistency of the corresponding OWL knowledge base. We then show how that transformation can prove useful to enhance databases, and integrate them in the Semantic Web.
+ISSN: 0302-9743
+ISBN: 978-3-540-75562-3
+Record 8 of 10
+Author(s): Sanchez-Alberca, A (Sanchez-Alberca, Alfredo); Garcia-Garcia, R (Garcia-Garcia, Raul); Sorzano, COS (Sorzano, Carlos Oscar S.); Gutierrez-Cossio, C (Gutierrez-Cossio, Celia); Chagoyen, M (Chagoyen, Monica); Lopez, MF (Lopez, Mariano Fernandez)
+Editor(s): Bento, C; Cardoso, A; Dias, G
+Title: AMON: A software system for automatic generation of ontology mappings
+Source: 2005 Portuguese Conference on Artificial Intelligence, Proceedings: 120-127 2005
+Conference Title: Portuguese Conference on Artificial Intelligence
+Conference Date: 2005
+Conference Location: Covilha, PORTUGAL
+Conference Host: Univ Beira Interior
+Abstract: Some of the most outstanding problems in Computer Science (e.g. access to heterogeneous information sources, use of different e-commerce standards, ontology translation, etc.) are often approached through the identification of ontology mappings. A manual mapping generation slows down, or even makes unfeasible, the solution of particular cases of the aforementioned problems via ontology mappings. Some algorithms and formal models for partial tasks of automatic generation of mappings have been proposed. However, an integrated system to solve this problem is still missing. In this paper, we present AMON, a platform for automatic ontology mapping generation. First of all, we show the general structure. Then, we describe the current version of the system, including the ontology in which it is based, the similarity measures that it uses, the access to external sources, etc.
+ISBN: 978-0-7803-9365-3
+Record 9 of 10
+Author(s): Zhang, SM (Zhang, Songmao); Mork, P (Mork, Peter); Bodenreider, O (Bodenreider, Olivier); Bernstein, PA (Bernstein, Philip A.)
+Title: Comparing two approaches for aligning representations of anatomy
+Source: ARTIFICIAL INTELLIGENCE IN MEDICINE, 39 (3): 227-236 MAR 2007
+Conference Title: 1st International Workshop on Formal Biomedical Knowledge Representation (KR-MED 2004)
+Conference Date: JUN 01, 2004
+Conference Location: Whistler, CANADA
+Abstract: Objective: To analyze the comparison, through their results, of two distinct approaches applied to aligning two representations of anatomy.
+Materials: Both approaches use a combination of lexical and structural techniques. In addition, the first approach takes advantage of domain knowledge, while the second approach treats alignment as a special case of schema matching. The same versions of FMA and GALEN were aligned by each approach. Two thousand one hundred and ninety-nine concept matches were obtained by both approaches.
+Methods and results: For matches identified by one approach only (337 and 336, respectively), we analyzed the reasons that caused the other approach to fail.
+Conclusions: The first approach could be improved by addressing partial lexical matches and identifying matches based solely on structural similarity. The second approach may be improved by taking into account synonyms in FMA and identifying semantic mismatches. However, only 33% of the possible one-to-one matches among anatomical concepts were identified by the two approaches together. New directions need to be explored in order to handle more complex matches. (c) 2007 Elsevier B.V. All rights reserved.
+ISSN: 0933-3657
+DOI: 10.1016/j.artmed.2006.12.002
+Record 10 of 10
+Author(s): Pulido, JRG (Pulido, J. R. G.); Ruiz, MAG (Ruiz, M. A. G.); Herrera, R (Herrera, R.); Cabello, E (Cabello, E.); Legrand, S (Legrand, S.); Elliman, D (Elliman, D.)
+Title: Ontology languages for the semantic web: A never completely updated review
+Source: KNOWLEDGE-BASED SYSTEMS, 19 (7): 489-497 NOV 2006
+Abstract: This paper gives a never completely account of approaches that have been used for the research community for representing knowledge. After underlining the importance of a layered approach and the use of standards, it starts with early efforts used for artificial intelligence researchers. Then recent approaches, aimed mainly at the semantic web, are described. Coding examples from the literature are presented in both sections. Finally, the semantic web ontology creation process, as we envision it, is introduced. (c) 2006 Elsevier B.V. All rights reserved.
+ISSN: 0950-7051
+DOI: 10.1016/j.knosys.2006.04.013
+-->
+
+<p>
+More on <a href="http://scholar.google.com/scholar?cites=13832665953668277609">Google scholar</a>
+and our own <a href="http://bibexmo.inrialpes.fr/BibServ/BibrefServlet?format=html&file=bibexmo.xml&abstrip=false&param=softwares&value=alignapi">publications about the Alignment API and server</a>.</p>
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/impl.html</center>
+<hr />
+$Id: impl.html 1794 2012-12-06 22:23:29Z euzenat $
+</small>
+</body>
+</html>

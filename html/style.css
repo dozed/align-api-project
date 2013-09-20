@@ -1,0 +1,190 @@
+A {
+	color: #0000CD;
+	text-decoration: none;
+}
+
+A:HOVER {
+	color: Navy;
+	text-decoration: none;
+}
+/* Browser specific (not valid) styles to make preformatted text wrap */	pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+/* For command-line display */
+
+div.terminal {
+    color: white;
+    background: black;
+    //margin: 0.9em 0;
+    padding: 5px;
+    width: 98%;
+    border: 1pt solid;
+    font-family: monospace;
+    white-space: pre;
+    overflow: auto;
+}
+
+/* For RDF/XML */
+
+div.owl, div.rdf, div.rdfxml, div.xml, div.swrl, div.skos, div.xslt, div.align, div.ruleml, div.cowl {
+  background: #edd;
+  border:1pt dotted;
+  padding: 5px;
+    font-family: monospace;
+    white-space: pre;
+    overflow: auto;
+}
+
+/* For Java and code */
+
+div.fragment, div.java, div.code, div.n3 {
+    margin: 0.9em 0;
+    padding: 5px;
+    width: 98%;
+    background: #dde;
+    border: 1pt dashed;
+    font-family: monospace;
+    white-space: pre;
+    overflow: auto;
+}
+
+/* For notes */
+
+div.logic, div.note {
+  font-size: 90%;
+  background: #ded;
+  margin: 3mm;
+  //border:1pt solid;
+  padding: 2px;
+}
+
+/* For grammar */
+
+/* use tab-like headers for syntax examples */
+div.grammar {
+  //background: #F9F9F9;
+  border: 1px dashed #2F6FAB;
+  font-family: monospace;
+  background: lightYellow;
+  //border: 1pt solid red;
+  //color: #2F6FAB;
+  white-space: pre;
+  padding: 6px;
+}
+
+/* use tab-like headers for syntax examples */
+div.exampleheader {
+  font-size: 90%;
+  //background: #F9F9F9;
+  //border: 1px dashed #2F6FAB;
+  background: lightYellow;
+  border: 1pt solid red;
+  color: #2F6FAB;
+  //border-bottom: 0px;
+  padding-top: 2px;
+}
+
+//div.exampleheader span.exampleheader {
+  //background: #F9F9F9;
+//  background: lightYellow;
+//  padding-top: 0px;
+//  padding-right: 10px;
+//  padding-left: 10px;
+//  padding-bottom: 3px;
+//  padding-top: 0px;
+//}
+
+div.figure {
+    text-align: center;
+    margin-top: .5cm;
+}
+
+div.caption {
+    font-size: 80%;
+    margin-left: .5cm;
+    margin-right: .5cm;
+    margin-bottom: .5cm;
+}
+
+/* Also copy MediaWiki style here, so it will not look different when exported
+div.fssyntax pre, div.rdfxml pre, div.owlxml pre, div.turtle pre, div.manchester pre  {
+  background-color: #F9F9F9;
+  border: 1px dashed #2F6FAB;
+  color: black;
+  line-height: 1.1em;
+  padding: 1em;
+  clear: both;
+  margin-left: 0em;
+} */
+.detail {
+  background: lightYellow;
+  border: 1pt solid red;
+  clear: both;
+/*  margin-top: 0.6em;
+  margin-bottom: 0.6em; */
+}
+
+.inference {
+  background: white;
+  font-weight: bold; 
+  font-size: large;
+}
+
+/* Explaination shown after push button */
+.explain {
+  padding: .2em;
+  display:none; 
+  //background: lightYellow;
+  //border:1pt solid red;
+  border:1pt dashed black;
+}
+
+.button {
+}
+
+/*
+.explain {
+}
+
+.button {
+  display:none; 
+}
+*/
+
+table {
+  border: solid 2pt;
+}
+
+td {
+  border: solid 1pt;
+  padding: 1px;
+}
+
+th {
+  border: solid 1pt;
+  padding: 10px;
+}
+
+.imgdiv {
+  text-align: center;
+}
+
+.facts {
+  margin: 10px;
+}
+
+body {
+  text-align: justify;
+  padding: 2em 1em 2em 1em;
+ }
+
+address {
+  font-size: 80%;
+}
+
+h2 { border-bottom: 1px solid #000088; }

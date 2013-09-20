@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+  <title>Exposing a matcher as a web service</title>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" type="text/css" href="../../base.css" />
+  <link rel="stylesheet" type="text/css" href="../../style.css" />
+  <script type="text/javascript">
+<!--
+function show(id) {
+var element = document.getElementById(id);
+element.style.display = "block";
+}
+function hide(id) {
+var element = document.getElementById(id);
+element.style.display = "none";
+}
+-->
+  </script>
+  <style type="text/css">
+<!--
+div.logic {
+padding-left: 5px;
+padding-right: 5px;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+-->
+  </style>
+</head>
+
+<body style="background-color: #FFFFFF;">
+<h1>Exposing a matcher as a web service</h1>
+<dl>
+  <dt>Authors:</dt>
+    <dd><a href="http://exmo.inrialpes.fr/people/trojahn/">C&aacute;ssia Trojahn dos
+      Santos</a> &amp; <a href="http://exmo.inrialpes.fr/people/euzenat/">Jérôme Euzenat</a>, INRIA &amp; LIG </dd>
+    <dd>with contributions from <a href="http://ki.informatik.uni-mannheim.de/
+">Christian Meilicke</a>, University of Mannheim</dd>
+
+</dl>
+
+<p style="border-top: 2px solid #AAAAAA; padding-top: 15px;">This tutorial
+explains, step-by-step, how to make available a matcher implementation through
+a web service, by extending a simple web service interface. </p>
+
+<p style="padding-top: 15px;border-top: 2px solid #AAAAAA;"></p>
+
+<h2>The minimal web service interface</h2>
+
+<p>There are many different methods for computing alignments. However, they
+always need at least two ontologies as input and provide an alignment as output. So, a minimal interface for providing an alignment should contain: </p>
+
+<div class="java">
+String align(URI onto1,URI onto2)
+</div>
+
+<p>This method takes as parameters the URIs of the two ontologies to be matched and returns a String representing the alignment.
+In order to make available such an interface as an operation within a web service, we define a minimal web service interface, as presented below.</p>
+
+<p>Different ways for creating web services can be used. Here we propose to follow the 
+<a href="http://java.sun.com/javaee/5/docs/tutorial/doc/bnayl.html">Java API for XML Web Services (JAX-WS)</a>.
+Following this approach, a service endpoint is a Java interface or class that specifies the methods that a client can invoke on the service.  
+The development of JAX-WS web services is based on a set of annotations. The <tt>@WebService</tt> annotation defines the class as a web service endpoint while <tt>@WebMethod</tt> defines the operations of this web service. We can determine the encoding style for messages send to and from the Web Service, through the annotation <tt>@SOAPBinding</tt>.</p>
+</p>
+
+<p>Our minimal web service interface is defined as follow (<a href="AlignmentWS.java">AlignmentWS.java</a>):<p>
+
+<div class="java">
+package eu.sealsproject.omt.ws.matcher;
+
+import java.net.URI;
+
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.Style;
+
+@WebService
+@SOAPBinding(style = Style.RPC)
+public interface AlignmentWS {
+       
+	   @WebMethod 
+	   public String align(URI source, URI target);
+}
+</div>
+
+<p>This interface defines a service endpoint, <tt>AlignmentWS</tt> and its operation, <tt>align</tt>, 
+which takes as parameters the URIs of the two ontologies to be aligned and returns a String representing the alignment.
+</p>
+
+<p></p>
+
+<h2>Extending the minimal interface</h2>
+
+<p>Extending the web service interface requires the definition of the corresponding interface by adding the <tt>endpointInterface</tt> element to the 
+<tt>@WebService</tt> annotation in the implementation class (<a href="AlignmentWSImpl.java">AlignmentWSImpl.java</a>):
+
+
+<div class="java">
+package example.ws.matcher;
+
+import javax.jws.WebService;
+
+@WebService(endpointInterface="eu.sealsproject.omt.ws.matcher.AlignmentWS")
+public class AlignmentWSImpl implements AlignmentWS {
+
+	   public String align(URI source, URI target) {
+		  		   
+		   //  your implementation
+		   return alignment;
+	}
+}
+</div>
+
+<p>
+The method <tt>align</tt> must implement the matching process.
+The easiest way to do this is to implement the <a href="http://alignapi.gforge.inria.fr/">Alignment API</a> (see details in <a href="http://alignapi.gforge.inria.fr/tutorial/tutorial3/">how to extend the Alignment API with a new matcher</a>). Basically, you need to implement the <tt>AlignmentProcess</tt> interface (method <tt>align</tt>) and extend the <tt>URIAlignment</tt> class (<a href="MyAlignment.java">MyAlignment.java</a>):
+
+</p>
+
+<div class="java">
+package example.ws.matcher;
+
+import java.net.URI;
+import java.util.Properties;
+
+import org.semanticweb.owl.align.Alignment;
+import org.semanticweb.owl.align.AlignmentException;
+import org.semanticweb.owl.align.AlignmentProcess;
+
+import fr.inrialpes.exmo.align.impl.URIAlignment;
+
+public class MyAlignment extends URIAlignment implements AlignmentProcess {
+	
+       public void align( Alignment alignment, Properties params ) throws AlignmentException {
+
+    	   //  matcher code
+    } 
+    	
+}
+</div>
+
+<p>The complete example, following <a href="http://alignapi.gforge.inria.fr/tutorial/tutorial3/">how to extend the Alignment API with a new matcher</a>, can be found at <a href="../tutorial3/MyAlignment.java">MyAlignmentComplete.java</a>.</p>
+
+
+<p>Then, it is simple to expose <tt>MyAlignment</tt> as a web service (<a href="MyAlignmentWS.java">MyAlignmentWS.java</a>):</p>
+
+<div class="java">
+package example.ws.matcher;
+
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.URI;
+import java.util.Properties;
+
+import javax.jws.WebService;
+
+import org.semanticweb.owl.align.Alignment;
+import org.semanticweb.owl.align.AlignmentException;
+import org.semanticweb.owl.align.AlignmentProcess;
+import org.semanticweb.owl.align.AlignmentVisitor;
+import org.semanticweb.owl.align.Cell;
+
+import fr.inrialpes.exmo.align.impl.renderer.RDFRendererVisitor;
+
+@WebService(endpointInterface="eu.sealsproject.omt.ws.matcher.AlignmentWS")
+public class MyAlignmentWS extends MyAlignment implements AlignmentWS {
+
+	@Override
+	public String align(URI source, URI target) {
+		   try {
+
+                           for (Object c: this.getArrayElements().toArray()) {
+                                       this.remCell((Cell)c);
+                           } 
+
+
+			   init(source,target);
+			   align((Alignment)null, new Properties());
+			   SBWriter sbWriter = null;
+			   try {
+					sbWriter = new SBWriter(new BufferedWriter(new OutputStreamWriter( System.out, "UTF-8" )), true);
+					AlignmentVisitor renderer = new RDFRendererVisitor(sbWriter);
+					render(renderer);
+		                        String alignment = sbWriter.toString();
+					return alignment;
+				}
+			   catch(Exception e) { }
+			   
+		   } catch (AlignmentException e) {
+			    e.printStackTrace();
+		   }
+		   return null;
+	}
+
+}
+</div>
+
+<p><font color="red"> Note that we have added a loop for removing the cells in the URIAlignment object (lines before the method <tt>init(source,target))</tt>. 
+This is due the fact that the method <tt>align</tt> will be called several times 
+in a web service cycle life (for each test). If we do not remove the cells computed in a previous call, the previous cells will be included in the current result. </font></p>
+
+<p>Nothing more is needed.</p>
+
+<p>You can download <a href="SBWriter.java">SBWriter.java</a>.</p>
+
+<h2>Publishing the web service</h2>
+
+<p>In order to be available for external access, the web service must
+  be published at an endpoint, at which point it starts accepting
+  incoming requests. This could be done by creating a WAR file to be
+  deployed in a tomcat server, or by creating a publisher.
+In the second case, the publisher can use the method <tt>publish</tt>
+  to publish its address to the <tt>Endpoint</tt> (<a href="AlignmentWSPublisher.java">AlignmentWSPublisher.java</a>):
+
+<div class="java">
+package example.ws.matcher;
+
+import javax.xml.ws.Endpoint;
+import eu.sealsproject.omt.ws.matcher.AlignmentWS;
+import eu.sealsproject.omt.ws.matcher.AlignmentWSImpl;
+
+public class AlignmentWSPublisher {
+	
+	   public static void main(String args[]) {
+	  
+		   /* Publish matcher service web service */
+		   AlignmentWS serverMatcher = new AlignmentWSImpl();
+		   Endpoint endpointMatcher = Endpoint.publish("http://134.155.86.66:8080/matcherWS", serverMatcher);
+		   System.out.println("Matcher service published ... ");
+	   }
+	   
+}
+</div>
+
+<p> The endpoint has to be started on a public available machine (a machine that is accessible from the internet). In the example above we specified the IP 134.155.86.66 as part of the address, because it is the IP of the machine that we used for testing the example. If you make your matcher available as a webservice based on this example, you have to additionally take into account the following:</p>
+
+<ul>
+  <li> Run the webservice on a machine that is accessible from the internet.
+  <li> Replace the IP of the example by the IP (or hostname) of your machine.
+  <li> Specify a port that is not blocked by a firewall of your machine or by your network/provider.
+</ul>
+
+<p> The service can be accessed at via the URL http://134.155.86.66:8080/matcherWS and its WSDL - describing its methods - can be found at http://134.155.86.66:8080/matcherWS?wsdl. </p>
+
+<p>To use the seals infrastructure you have to specify the class including its package specification (e.g. example.ws.matcher.AlignmentWSImpl or example.ws.matcher.MyAlignmentWS) and you have to specify the URL of the service endpoint (e.g. http://134.155.86.66:8080/matcherWS or http://134.155.86.66:8080/matcherWS?wsdl). </p>
+
+<div class="note"><b>Additional Note:</b> If you exactly follow these instructions to publish 
+your wrapped matcher as a webservice, this will automatically generate a 
+WSDL file that contains all required information. However, you can use 
+also use another framework (e.g. axis) for publishing the webservice, 
+but than you have to ensure to use the namespace 
+&quot;http://matcher.ws.omt.sealsproject.eu/&quot; in the appropriate 
+way. Take a look at <a href="example.wsdl">this file</a> as an example.</div>
+
+
+<h2>Deploying the web service on a Tomcat</h2>
+
+<p>You might be interested to deploy the matcher webservice at a stable endpoint on a Tomcat application server. We have prepared a minimal matcher as described in the tutorial and some additional files (xml files for deployment, libraries, ant-file) that are required to deploy the service on a Tomcat server. The whole bundle is <a href="SEALSTutorialMatcher.zip">available here for download!</a></p>
+
+<p>Unzip the file and open the readme.txt file. It explains how to generate, deploy and test the webservice. It is required that you have ant installed to use it.</p> 
+
+<hr/>
+<small>
+<div style="text-align: center;">http://alignapi.gforge.inria.fr/tutorial/tutorial5/</div>
+<hr />
+$Id: index.html 1717 2012-04-03 06:23:27Z euzenat $
+</small>
+</body>
+</html>

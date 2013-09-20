@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!DOCTYPE rdf:RDF [
+          <!ENTITY xsd		"http://www.w3.org/2001/XMLSchema#" >
+	  <!ENTITY rdf		"http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+	  <!ENTITY rdfs		"http://www.w3.org/2000/01/rdf-schema#" >
+	  <!ENTITY dc		"http://purl.org/dc/elements/1.1/" >
+	  <!ENTITY owl		"http://www.w3.org/2002/07/owl#" >
+	  <!ENTITY foaf 	"http://xmlns.com/foaf/0.1/">
+	  <!ENTITY ical 	"http://www.w3.org/2002/12/cal/ical#">]>
+
+<rdf:RDF
+ xmlns="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#"
+ xml:base="http://alignapi.gforge.inria.fr/tutorial/myOnto.owl#"
+ xmlns:foaf	="&foaf;"
+ xmlns:ical	="&ical;"
+ xmlns:rdf	="&rdf;"
+ xmlns:xsd	="&xsd;"
+ xmlns:rdfs	="&rdfs;"
+ xmlns:owl	="http://www.w3.org/2002/07/owl#"
+ xmlns:dc	="&dc;">
+
+<!-- This ontology describes bibliographic references. -->
+  
+  <owl:Ontology rdf:about="">
+    <dc:contributor>Jérôme Euzenat</dc:contributor>
+    <dc:description>Bibliographic entries</dc:description>
+  </owl:Ontology>
+
+  <Techreport rdf:about="#a475526642">
+    <author>
+      <PersonList>
+	<rdf:first rdf:resource="http://exmo.inrialpes.fr/people/euzenat/euzenatj.rdf#je"/>
+	<rdf:rest rdf:resource="&rdf;nil" />
+      </PersonList>
+    </author>
+    <institution rdf:resource="http://www.inria.fr"/>
+    <title>An API for ontology alignment</title>
+    <date><Date><year>1996</year></Date></date>
+    <copyright>INRIA Rhône-Alpes 2004-2006</copyright>
+    <number>Unfilled</number>
+  </Techreport>
+
+  <Institution rdf:ID="http://www.inria.fr" />
+
+  <Person rdf:ID="http://exmo.inrialpes.fr/people/euzenat/euzenatj.rdf#je" />
+
+</rdf:RDF>

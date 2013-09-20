@@ -1,0 +1,408 @@
+<html>
+<head>
+<title>Alignment API: Evaluating alignments</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<h1 class="titre">Alignment API: Evaluating alignments</h1>
+
+<p>A good reason for having a separate Alignment format is to be able 
+to compare the alignments provided by different matching algorithms. They can be compared
+with each other or against a ``correct'' alignment.
+</p>
+<p>
+The alignment API defines an <tt>Evaluator</tt> interface which can
+be used for developing different tools. This interface has
+an <tt>eval</tt> method which takes two alignments as input and which
+evaluates the second one with respect to the first one which is taken
+as a reference alignments.
+</p>
+<p>
+This allows for implementing various measures and displaying various
+reports. Some examples are given below.
+</p>
+
+<h2>Evaluating</h2>
+
+<p>There is a command line utility
+  (<tt>fr.inrialpes.exmo.align.cli.EvalAlign</tt>) allowing for taking
+  advantage of evaluators. It is called in the following way:
+<div class="terminal">
+$ java -cp lib/procalign.jar fr.inrialpes.exmo.align.cli.EvalAlign file://result/align1.owl file://result/align2.owl 
+</div>
+For instance (<tt>$CWD</tt> is the current directory):
+<div class="terminal">
+$ java -cp lib/procalign.jar fr.inrialpes.exmo.align.cli.EvalAlign -i fr.inrialpes.exmo.align.impl.eval.PRecEvaluator file://$CWD/aligns/bibref.owl file://$CWD/aligns/EditDistName.owl
+</div>
+would yield:
+<div class="xml">
+&lt;?xml version='1.0' encoding='utf-8' standalone='yes'?>
+&lt;rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+  xmlns:map='http://www.atl.external.lmco.com/projects/ontology/ResultsOntology.n3#'>
+  &lt;map:output rdf:about=''>
+    &lt;map:precision>0.6976744186046512&lt;/map:precision>
+    &lt;map:recall>0.9375&lt;/map:recall>
+    &lt;fallout>0.3023255813953488&lt;/fallout>
+    &lt;map:fMeasure>0.8000000000000002&lt;/map:fMeasure>
+    &lt;map:oMeasure>0.53125&lt;/map:oMeasure>
+    &lt;result>1.34375&lt;/result>
+  &lt;/map:output>
+&lt;/rdf:RDF>
+</div>
+The default format is the <a href="http://www.atl.external.lmco.com/projects/ontology/">format developed at Lockheed</a>
+extended with a few attributes, but any other format could have been generated. 
+See below for more graphical formats.
+</p>
+
+<p>
+The option of <tt>EvalAlign</tt> are:
+<div class="terminal">
+$ java -cp lib/procalign.jar fr.inrialpes.exmo.align.cli.EvalAlign --help
+usage: EvalAlign [options] file1 file2
+options are:
+	--debug[=n] -d [n]		Report debug info at level n
+	--impl=className -i classname		Use the given Evaluator implementation.
+	--output=filename -o filename	Output the result in filename
+	--help -h			Print this message
+
+Alignment API implementation 4.3 (1698M) ($Id: eval.html 1796 2013-01-01 14:23:21Z euzenat $)
+</div>
+The <tt>-i</tt> switch enables changing the evaluator to be used (by
+default, <tt>PRecEvaluator</tt> is used).
+</p>
+
+<h2>Built-in evaluators</h2>
+
+<p>
+The Alignment API offers the <tt>Evaluator</tt> interface for
+implementing evaluation measures of alignments. It takes two
+alignments and evaluates the second with respect to the first one (reference).
+</p>
+<p>
+There are already some implementations available in the Alignment API implementation:
+<dl>
+<dt><tt>PRecEvaluator</tt></dt><dd> implements a classical precision/recall/fallout evaluation as well as the
+derived measures introduced in [Do2002a]. Precision is the
+ratio between true positive and all aligned objects; Recall is the ratio between the true positive and all
+the correspondences that should have been found. It also provides
+    derived measures (F-measure, overall, noise, etc.).</dd>
+<dt><tt>ExtPRecEvaluator</tt></dt><dd> implements a relaxed precision and recall as defined by Ehrig and Euzenat in 2005. This provides higher values for precision and recall based on the proximity of obtained results with expected results. There are three flavours of relaxed measures: symmetric, effort-based and oriented.</dd>
+<dt><tt>SemPRecEvaluator</tt></dt><dd>implements the semantic
+    precision and recall proposed by Euzenat in 2007. This
+    computation may be long and requires the use of an OWL reasonner
+    such as Pellet.</dd>
+<dt><tt>WeightedPREvaluator</tt></dt><dd>computes the classical
+    precision and recall measures weighted by the confidence measures
+    provided in the Alignements.</dd>
+<dt><tt>SymMeanEvaluator</tt></dt><dd> implements a weighted symmetric difference between the entities that are in one alignment and those common to both alignments
+ (missing correspondences count for 0., others weight 1. complemented by the difference between their strengths). 
+This is thus a measure for the similarity of two alignments.
+The result is here split between the kinds of entity considered (Class/Property/Individual).</dd>
+<dt><tt>DiffEvaluator</tt></dt><dd>computes the difference between two
+    alignments classifying the correspondences in three categories
+    (true positive, false positive and false negative). This
+    evaluator does not really compute a measure (it could be used for
+    computing precision and recall). It is used by the <a href="aserv.html">Alignment server</a></dd>
+</dl>
+</p>
+<p>
+<span style="color: red;">Requirements</span>
+<ul>
+<li><b><tt>ExtPRecEvaluator</tt></b> requires that the two alignments be <tt>ObjectAlignment</tt>.
+This can be achived, if possible, by invoking <div class="terminal">al = ObjectAlignment.toObjectAlignment( myAlignment );</div> and
+  that the OWL-API or JENA (shipped with the Alignment API) be in
+  your classpath.</li>
+<li><b><tt>SemPRecEvaluator</tt></b> <i>in addition</i> requires to have an
+  OWL reasoner in the classpath. In our case, it uses both IDDL and HermiT
+  (shipped with the alignment API).</li>
+</ul>
+The class path requirements apply to all command-line primitive below
+as well as the Alignment server.
+</p>
+
+<h2>Batch evaluation</h2>
+
+<p>
+There is another utility (<tt>GroupEval</tt>) which allows to
+implement batch evaluation. It starts with a directory containing a
+set of subdirectories (like the output of the
+batch <tt>GroupAlign</tt> command). Each subdirectory contains a reference alignment (usually called <tt>refalign.rdf</tt>) and a set of alignments (named <tt>matcher1.rdf</tt>... <tt>matcher3.rdf</tt>).
+</p>
+<p>
+Invoking <tt>GroupEval</tt> with the list of files to consider (-l argument) and the set of evaluation results to provide (-f argument with profm, for precision, recall, overall, fallout, f-measure as possible measures)
+returns:
+<div class="terminal">
+$ java -cp ../lib/procalign.jar fr.inrialpes.exmo.align.cli.GroupEval -l "refalign,matcher1,matcher2,matcher3" -f "pr" -c
+</div>
+</p>
+
+<center>
+<table border='2' frame='sides' rules='groups'>
+<colgroup align='center' />
+<colgroup align='center' span='2' />
+<colgroup align='center' span='2' />
+<colgroup align='center' span='2' />
+<colgroup align='center' span='2' />
+<thead valign='top'><tr><th>algo</th>
+<th colspan='2'>refalign</th>
+<th colspan='2'>matcher1</th>
+<th colspan='2'>matcher2</th>
+<th colspan='2'>matcher3</th>
+</tr></thead><tbody><tr><td>test</td>
+<td>Prec.</td>
+<td>Rec.</td>
+<td>Prec.</td>
+<td>Rec.</td>
+<td>Prec.</td>
+<td>Rec.</td>
+<td>Prec.</td>
+<td>Rec.</td>
+</tr></tbody><tbody>
+<tr><td colspan="9" align="center">...</td></tr>
+<tr>
+<td>265-8</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.22</td>
+<td>0.25</td>
+<td>1.00</td>
+<td>0.33</td>
+<td>0.87</td>
+<td>0.31</td>
+</tr>
+<tr bgcolor="lightblue">
+<td>266</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>1.00</td>
+<td>0.00</td>
+<td>1.00</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>266-2</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.81</td>
+<td>0.81</td>
+<td>1.00</td>
+<td>0.81</td>
+<td>0.94</td>
+<td>0.82</td>
+</tr>
+<tr bgcolor="lightblue">
+<td>266-4</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.62</td>
+<td>0.62</td>
+<td>1.00</td>
+<td>0.62</td>
+<td>0.85</td>
+<td>0.64</td>
+</tr>
+<tr>
+<td>266-6</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.42</td>
+<td>0.42</td>
+<td>1.00</td>
+<td>0.42</td>
+<td>0.85</td>
+<td>0.48</td>
+</tr>
+<tr bgcolor="lightblue">
+<td>266-8</td>
+<td>1.00</td>
+<td>1.00</td>
+<td>0.23</td>
+<td>0.23</td>
+<td>1.00</td>
+<td>0.23</td>
+<td>0.81</td>
+<td>0.30</td>
+</tr>
+<tr bgcolor="yellow"><td>H-mean</td><td>1.00</td>
+<td>1.00</td>
+<td>0.50</td>
+<td>0.52</td>
+<td>0.98</td>
+<td>0.56</td>
+<td>0.93</td>
+<td>0.53</td>
+</tr>
+</tbody></table>
+<b>HTML Table of precision and recall results generated by <tt>GroupEval</tt>.</b>
+</center>
+
+<p>
+<tt>GroupEval</tt> accepts the following arguments:
+<div class="terminal">
+$ java -cp lib/procalign.jar fr.inrialpes.exmo.align.cli.GroupEval --help
+usage: GroupEval [options]
+options are:
+	--format=prfot -r prfot	Specifies the output order (precision/recall/f-measure/overall/time)
+	--output=filename -o filename	Specifies a file to which the output will go
+	--reference=filename -r filename	Specifies the name of the reference alignment file (default: refalign.rdf)
+	--type=html|xml|tex|ascii|triangle -t html|xml|tex|ascii	Specifies the output format
+	--list=algo1,...,algon -l algo1,...,algon	Sequence of the filenames to consider
+	--color=color -c color	Specifies if the output must color even lines of the output
+	--debug[=n] -d [n]		Report debug info at level n
+	--help -h			Print this message
+
+Alignment API implementation 4.3 (1698M) ($Id: eval.html 1796 2013-01-01 14:23:21Z euzenat $)
+</div>
+</p>
+
+<p>
+Similar commands exists for different <tt>Evaluator</tt>
+(unfortunately we did not found time to correctly unify this, but this
+could be done). These are:
+<dl>
+<dt><tt>ExtGroupEval</tt></dt><dd>for <tt>ExtPRecEvaluator</tt></dd>
+<dt><tt>WGroupEval</tt></dt><dd>for <tt>WeightedPREvaluator</tt></dd>
+</dl>
+<p>
+
+<h2>Plot functions</h2>
+
+<p>
+There are also two classes able to plot the result of several matching systems. The first ploting function is <tt>GenPlot</tt>.
+It generates the precision/recall graphs as gnu-plot files and generates a Latex file corresponding to Figure~\ref{fig:prgraph}.
+<div class="terminal">
+$ java -cp ../lib/procalign.jar fr.inrialpes.exmo.align.cli.GenPlot -l "refalign,edna,ASMOV..." -t tex -o prgraph.tex
+</div>
+</p>
+
+<center>
+<img src="img/prgraph.png" /><br />
+<b>Example of precision/recall graphs in LaTeX, as plotted by <tt>GenPlot</tt>.</b>
+</center>
+
+<p>
+<tt>GenPlot</tt> accepts the following arguments:
+<div class="terminal">
+$ java -cp /Java/alignapi/lib/procalign.jar fr.inrialpes.exmo.align.cli.GenPlot --help
+usage: GenPlot [options]
+options are:
+	--type=tsv|tex|html(|xml) -t tsv|tex|html(|xml)	Specifies the output format
+	--graph=class -g class	Specifies the class of Evaluator to be used
+	--evaluator=class -e class	Specifies the class of GraphEvaluator (plotter) to be used
+	--list=algo1,...,algon -l algo1,...,algon	Sequence of the filenames to consider
+	--debug[=n] -d [n]		Report debug info at level n
+	--help -h			Print this message
+</div>
+The <tt>-t</tt> switch specifies the type output.
+The plots are provided for PGF LaTeX as gnuplot tables.
+The HTML plot uses the Google chart API.
+The CSV version should help importing in a spreadsheet.
+<p>
+The <tt>-e</tt> switch specifies the evaluator that is supposed to be
+used but currently has no effect.
+</p>
+</p>
+<p>
+The <tt>-g</tt> switch uses an extension of the <tt>GraphEvaluator</tt>
+abstract class, i.e., an evaluator which computes a list
+of <tt>Pair</tt> objects representing points on a plot. Such lists
+of pairs are used by the <tt>GenPlot</tt> command line utility. This
+abstract class does not implements the <tt>Evaluator</tt> interface
+but its implementation may use such evaluators. This is the case of
+the available:
+<dl>
+<dt><tt>PRGraphEvaluator</tt></dt><dd>for plotting precision-at-<i>n</i> graphs or precision recall graphs.
+This class implements an accurate computation of the values. It also
+    computes MAP (mean average precision).</dd>
+<dt><tt>AveragePRGraphEvaluator</tt></dt><dd>is also for plotting
+    precision-at-<i>n</i> graphs with the classical way of doing it:
+    interpolating missing values and forcing monotonic behaviour. It
+    also computes the MAP.</dd>
+<dt><tt>ROCCurveEvaluator</tt></dt><dd>computes the Receiver operating
+    characteristic or ROC curves. It also computes the area under
+    curves (AUC).</dd>
+<dt><tt>ThresholdGraphEvaluator</tt></dt><dd>computes the graph
+representing a measure (precision, recall, F-measure) in function of
+a confidence measure threshold. For each threshold, and for each
+alignment, the value of the measure is computed.</dd>
+</dl>
+</p>
+
+<p>
+A simpler representation places each system in a plane so that their position corresponds to their distance from 0 precision and 0 recall. 
+This graphic representation is obtained through the <tt>GroupEval</tt>
+class by generating a Latex file corresponding in the following figure.
+<div class="terminal">
+$ java -cp ../lib/procalign.jar fr.inrialpes.exmo.align.cli.GroupEval -t triangle -l "refalign,matcher1,matcher2,..." > triangle.tex
+</div>
+</p>
+
+<center>
+<img src="img/triangle.png" /><br />
+<b>Another representation of precision and recall generated by <tt>GroupEval</tt>: the closer to the top, the
+  better.</b>
+</center>
+
+<p>
+The display below synthesises the results of a matchers by aggregating
+in one cell a group of tests in which the ontologies to compare share
+a common set of characteristics (namely that the same set of features
+has been altered). 
+Each diamond shaped cell corresponds to the
+availability of some features in the test (l=label and comments,
+p=properties, i=instances, h=hierarchy).
+Each cell is presented with a color representing the
+average of the F-measure in each of these tests. The darker the cell,
+the better the algorithm. These diagrams are topologically correct,
+i.e., if a cell touches another cell on one side, they differ from
+only one 'feature', but not complete, i.e., it is not possible to
+present all these connections in a planar way.
+This graphic representation is obtained through the <tt>GroupOutput</tt>
+class by generating a Latex file corresponding in the following figure.
+<div class="terminal">
+$ java -cp ../lib/procalign.jar fr.inrialpes.exmo.align.cli.GroupOutput -v -c -m f -l "refalign,matcher1,matcher2,..." > losanges.tex
+</div>
+</p>
+
+<center>
+<img src="img/losanges.png" /><br />
+<b>Matcher performance display by <tt>GroupOutput</tt> on a grid preserving as much as possible
+the topology of tests.</b>
+</center>
+
+<h2>Implementing and extending the API</h2>
+
+<p>
+Creating new evaluators requires to implement the <tt>Evaluator</tt> interface.
+The implementation of the API provides a <tt>fr.inrialpes.exmo.align.impl.BasicEvaluator</tt> which
+ implements an abstract container for the evaluation (it has no <tt>eval</tt> method).
+The <tt>BasicEvaluator</tt> defines the storage
+  sructures for alignment, but that is all.
+</p>
+<p>
+Implementing a particular evaluator thus consists in creating a new subclass of
+ <tt>BasicEvaluator</tt> and implementing its <tt>eval</tt> method that will compare
+ two alignments (the first one can be considered as the reference
+ alignment).
+</p>
+<p>Adding new evaluations methods amounts to create a
+  new <tt>Evaluator</tt> 
+  class implementing the interface. Generally, this can extend the
+  proposed <tt>BasicEvaluator</tt>
+  class.</p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/eval.html</center>
+<hr />
+$Id: eval.html 1796 2013-01-01 14:23:21Z euzenat $
+</small>
+</address>
+</body>
+</html>

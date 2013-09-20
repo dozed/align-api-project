@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>Alignment API: lightweight versions</title>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcollor="#ffffff">
+
+<h1  class="titre">Alignment API: lightweight versions</h1>
+
+<p>
+Because we want the Alignment API to be used in resource-limited
+environments, we experiment with offering minimal versions.
+</p>
+
+<p>
+The <tt>plugins/android</tt> folder contains necessary tools for generating
+stripped down versions of the Alignment API so that they can be embedded in a small
+platform (the target being the Android platform for
+our <a href="http://swip.inrialpes.fr">own purposes</a>).
+</p>
+
+<h2>Microalign</h2>
+
+<p>
+So far, we only offer a client version of the API implementation
+which should be suitable for any program which simply wants to
+retrieve and manipulate alignments. This version does not embark any matcher,
+evaluator, <span color="red">test generator</span>, server, or command
+line interfaces. So if you have implemented a matcher, it should work
+simply with this version. Microalign can still act as a client for the
+Alignment server and retrieve alignments from the server.
+</p>
+
+<h3>What is included/excluded</h3>
+
+<pre>
++ org.semanticweb.owl.align                  (API)
++ fr.inrialpes.exmo
++                  .ontowrap                 (Ontology API wrappers)
+-                           .*               (All implementations)
++                  .align                    (Implementation)
+-                        .cli                (Command line interface)
++                        .util               (Utility classes)
+-                        .gen                (Test generator)
+-                        .service            (Alignement server)
++                        .impl               (Basic implementation)
+-                             .eval          (Evaluators)
+-                             .matchers      (Matchers)
++                        .parser             (Parsers)
+</pre>
+<p>
+Only the libraries related to Jena are needed:
+Jena (+ icu4j and iri), log4j, xerces (+resolver) and xsdlib (+relaxngDatatype).
+</p>
+
+<h3>Further stripping</h3>
+
+<p>
+We are currently experimenting with <a href="http://proguard.sourceforge.net/">ProGuard</a> in order
+to strip down the code further. The results are displayed with the "*"
+prefix in the table below.
+</p>
+
+<h3>How to generate</h3>
+
+<p>
+It is necessary to go in the plugin/android directory and use the ant file.
+<div class="terminal">
+$ ant compileall              ==> compile the strict necessary
+$ ant jar                     ==> generate the microalign.jar library
+$ ant zip                     ==> gerenate the malign.zip file with necessary jars
+$ ant testindep               ==> recompile the sources in isolation for testing independence
+$ ant clean                   ==> restore the initial state of this directory
+$ ant shrink                  ==> uses proguard to shrink the Jar file (experimental)
+</div>
+</p>
+
+<h3>How to use</h3>
+
+<p>Move the content of the <tt>microalign.zip</tt> file in the lib(s) directory of your Android project.
+</p>
+
+<p>The <tt>microalign.jar</tt> may be used alone if a version of Jena is already embedded.</p>
+
+
+<h2>Other profiles</h2>
+
+<p>
+Of course, you can define other profiles by modifying the build.xml file.
+</p>
+<p>
+We are considering, introducing a pair of other profiles:
+<dl>
+<dt>align</dt><dd>the API itself, without any implementation, is already a minimal
+version of the API which requires no additional libraries;</dd>
+<dt>picoalign</dt><dd>an even smaller package without jena and edoal;</dd>
+<dt>microalign</dt><dd>The procalign.jar generated here is called microalign.jar and contains
+around 30k of ontowrap.jar.</dd>
+<dt>aservlite</dt><dd>a minimal Alignment server version.</dd>
+</dl>
+</p>
+<!--p>
+One can further imagine dropping more from the API, i.e., suppressing
+the alignment RDFParser (which requires Jena) and the whole Jena. This would lead
+to the inability to parse EDOAL, so it could be suppressed as well. We
+call the bare minimal version picoalign. However, some rendering
+classes make reference to EDOAL and the AligmnentParser itself refers
+to the RDFParser. Hence, producing picoalign would require
+reengineering the code further.
+</p-->
+<p>
+The resulting sizes to be embedded are the following:
+<center>
+<table border="1">
+<th><td>standard</td><td>micro</td><td>micro*</td><td>pico</td><td>align</td></th>
+<tr><td>align.jar</td><td>16k</td><td>16k</td><td>16k</td><td>16k</td><td>16k</td></tr>
+<tr><td>ontowrap.jar</td><td>61k</td><td>-</td><td></td><td></td><td></td></tr>
+<tr><td>procalign.jar</td><td>238k</td><td>154k</td><td>99k</td><td>152k</td><td></td></tr>
+<tr><td>alignsvc.jar</td><td>98k</td><td>-</td><td></td><td></td><td></td></tr>
+<tr><td>lib</td><td>29232k</td><td>7444k</td><td>7444k</td><td>2272k</td><td></td></tr>
+</table>
+</center>
+</p>
+<p>
+It is clear that the only interest of
+picoalign comes from dropping Jena. One can also use <a href="http://code.google.com/p/androjena/">androjena</a>
+which amounts to 5332k (version 0.5 12/2010; all Jena libs involved).
+<a href="http://poseidon.ws.dei.polimi.it/ca/?page_id=59">&mu;jena</a> is a rewritting of Jena for MIDP-2.0/CLDC-1.1
+mobile phones (but some have managed to use it under Android). It has
+been developed in 2007, but the 1.5 version dates back to 2010.
+It only weights 393k but can only parse ntriples. The authors have
+been able to demonstrate its use in running an ontology matcher (XSom)
+on a phone!
+</p>
+
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/micro.html</center>
+<hr />
+$Id: micro.html 1718 2012-04-03 06:24:54Z euzenat $
+</small>
+</address>
+</body>
+</html>

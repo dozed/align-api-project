@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xml:base="http://www.example.org/ontology1"
+    xmlns="http://www.example.org/ontology1#">
+
+<owl:Ontology rdf:about="">
+  <rdfs:comment>The most basic alignment test</rdfs:comment>
+</owl:Ontology>
+
+<owl:Class rdf:ID="publication">
+</owl:Class>
+
+<owl:Class rdf:ID="reviewedarticle">
+  <rdfs:subClassOf rdf:resource="#publication"/>
+</owl:Class>
+
+<owl:Class rdf:ID="journalarticle">
+  <rdfs:subClassOf rdf:resource="#reviewedarticle"/>
+</owl:Class>
+
+</rdf:RDF>

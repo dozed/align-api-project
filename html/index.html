@@ -1,0 +1,171 @@
+<html>
+<head>
+<title>Alignment API</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+[<a href="http://gforge.inria.fr/frs/?group_id=117">Download</a>]
+[<a href="align.html">Install &amp; use</a>]
+[<a href="tutorial/">Tutorial</a>]
+[<a href="relnotes.html">Release notes</a>]
+[<a href="http://gforge.inria.fr/scm/?group_id=117">SVN access</a>]
+[<a href="aserv.html">Server</a>]
+
+<p style="background-color: yellow; text-align: center;">
+New Alignment API 4.5. <a href="http://gforge.inria.fr/frs/?group_id=117">Get it!</a>
+</p>
+
+<h1 class="titre">Alignment API and Alignment Server</h1>
+
+<p>The Alignment API is an API and implementation for expressing and
+  sharing ontology alignments.</p>
+
+<p>Using ontologies is the priviledged way to achieve interoperability
+  among heterogeneous systems within the Semantic web. However, as the
+  ontologies underlying two systems are not necessarily compatible,
+  they may in turn need to be reconcilied.
+  Ontology reconciliation requires most of the time to find the
+  correspondences between entities (e.g., classes, objects,
+  properties) occuring in the ontologies. We call a set of such
+  correspondences an alignment.<!--/p-->
+
+<!--p-->We have designed a format for expressing alignments in a uniform
+  way. The goal of this format is to be able to share on the web the
+  available alignments. The format is expressed in <small>RDF</small>,
+  so it is freely extensible<!--, and has been defined by a <small>DTD</small> (for <small>RDF/XML</small>), an <small>OWL</small> ontology and an
+  <small>RDF</small> Schema. Aligned entities are
+  identified by their <small>URI</small>s-->.</p>
+
+<p>The Alignment API itself is a <i>Java</i> description of tools for
+  accessing the common format. It defines five main interfaces
+  (OntologyNetworks, Alignment, Cell, Relation and Evaluator) and proposes the following services:
+<ul compact="1">
+<li>Storing, finding, and sharing alignments;</li>
+<li>Piping alignment algorithms (improving an existing alignment);</li>
+<li>Manipulating (thresholding and hardening);</li>
+<li>Generating processing output (transformations, axioms, rules);</li>
+<li>Generating tests and comparing alignments (diff, precision, recall).</li>
+</ul>
+</p>
+
+<!-- ******************************************************** -->
+
+<p>Here is the Alignment API and implementation homepage. It is
+  hosted by gforge.inria.fr which helps the developement process (by
+  integrating theses pages within the SVN repository for instance).</p>
+
+<p style="font-size: 80%;">
+If you use this software and want to give it credit, please cite:<br />
+Jérôme David, Jérôme Euzenat, François Scharffe, Cássia Trojahn dos
+Santos, <a href="http://www.semantic-web-journal.net/content/new-submission-alignment-api-40">The Alignment API 4.0</a>, <i>Semantic web journal</i> 2(1):3-10, 2011
+<!--J&eacute;r&ocirc;me Euzenat,
+An API for ontology alignment,
+in: Proc. 3rd conference on international semantic web conference (ISWC), Hiroshima (JP), <i>Lecture notes in computer science</i> 3298:698-712, 2004-->
+</p>
+<p style="font-size: 80%;">
+Please note: The Alignment API is... an API (this may be unfortunate, but it has been named appropriately). 
+Hence, it is <i>not</i> a matcher. A few examples of trivial matchers are provided with the Alignment API which will indeed match ontologies.
+Taking such examples, which can be programmed in a couple of hours, as
+real matchers and comparing this with other matchers is meaningless
+(only when these matchers are worse than that, this is a meaningful result).
+Moreover, mentioning that these systems have been compared with "The
+Alignment API" without qualification is <i>not</i> appropriate. So
+please, compare your systems with serious competitors (hint: those
+which publish papers telling that their systems are good matchers; you
+cannot find such a paper about the Alignment API or one of its sample matcher).
+</p>
+
+<h2>Practical resources</h2>
+<p><dl>
+<dt><a href="http://gforge.inria.fr/frs/?group_id=117">Download
+    page</a> and <a href="relnotes.html">Release notes</a></dt>
+<dd>Official releases.</dd>
+<dt><a href="align.html">Install &amp; use</a></dt>
+<dd>Quick start with the API.</dd>
+<dt><a href="tutorial/">Tutorial</a></dt>
+<dd>Using the Alignment API through <a href="tutorial/tutorial1/index.html">command
+    line</a>, <a href="tutorial/tutorial1/server.html">web
+    interface</a>, <a href="tutorial/tutorial2/index.html">Java
+    programming</a> and <a href="tutorial/tutorial4/index.html">advanced programming</a>.<br />
+<a href="tutorial/tutorial3/index.html">Extending the API</a> and offering <a href="file://localhost/Java/alignapi/html/tutorial/tutorial5/index.html">alignment server services</a>.</dd>
+<!--dt><a href="http://gforge.inria.fr/docman/index.php?group_id=117&amp;selected_doc_group_id=1812">Documentation</a></dt>
+<dd>Supposed to be a reference manual, but not fully complete.</dd-->
+<dt><a href="aserv.html">Alignment Server</a></dt>
+<dd>Installing a server that will generate and store alignments</dd>
+</dl>
+</p>
+
+<h2>Technical documentation</h2>
+<p><dl>
+<dt><a href="format.html">Alignment format</a> and 
+the <a href="edoal.html">Expressive and Declarative Ontology Alignment Language (EDOAL)</a></dt>
+<dd>How to express alignments that the API can input or output.</dd>
+<dt><a href="api.html">API structure</a>, <a href="builtin.html">our
+    implementation</a>, and its <a href="cli.html">command-line interface</a></dt>
+<dd>Getting around the API</dd>
+<dt><a href="server.html">Alignment server architecture</a> and <a href="rest.html">message specification</a> (REST and SOAP)</dt>
+<dd>Storing and sharing alignments</dd>
+<dt><a href="ontowrap.html">Wrapping ontology APIs</a></dt>
+<dd>The package contains an ontology API wrapper called ontowrap
+  allowing for using the Alignment API with various ontology APIs
+  (JENA, OWL API 1.0, 3.0, SKOS API and our SKOSLite API).</dd>
+<dt><a href="alignwn.html">Wordnet extension</a></dt>
+<dd>How to use wordnet within the API</dd>
+<dt><a href="labels.html">Registered annotations</a></dt>
+<dd>List of extension labels that are declared (and should not be
+  used by others)</dd>
+<dt><a href="testgen.html">Generating tests</a> and <a href="eval.html">evaluating results</a></dt>
+<dd>Using the API for evaluating alignments and matchers.</dd>
+</dl></p>
+
+<h2>Additional resources</h2>
+
+<p><dl>
+<dt><a href="http://gforge.inria.fr/tracker/?group_id=117">Bug and feature trackers</a></dt>
+<dd>Notify your bugs and request features here</dd>
+<dt><a href="http://gforge.inria.fr/scm/?group_id=117">SVN access</a></dt>
+<dd>You can browse and you can join.</dd>
+<dt><a href="lib.html">Included libraries and dependencies</a> and a
+  <a href="maven.html">small step towards Maven</a></dt>
+<dd>Wonderful components that the Alignement API and server use.</dd>
+<dt><a href="license.html">License</a></dt>
+<dd>Basically, open source (LGPL).</dd>
+<dt><a href="credits.html">Credits</a></dt>
+<dd>When it is due.</dd>
+<dt><a href="impl.html">Systems using the API</a></dt>
+<dd>Because we are proud to be used.</dd>
+<!--dt><a href="other.html">Other extensions</a></dt>
+<dd></dd-->
+</dl></p>
+
+<h2>Plug-ins</h2>
+<p><dl>
+<dt><a href="neontk/">NeOn Alignment plug-in</a></dt>
+<dd>Alignment API and server plug-in for the NeOn toolkit.</dd>
+<dt><a href="micro.html">Microalign</a></dt>
+<dd>Stripped down Alignment API and implementation for Android.</dd>
+</dl>
+</p>
+
+<h2>External resources</h2>
+<p><dl>
+<dt><a href="http://oaei.ontologymatching.org">OAEI</a></dt>
+<dd>The Ontology Alignment Evaluation Initiative: Benchmarks for evaluating ontology matchers and benchmarking campaigns (since 2004).</dd>
+<dt><a href="http://www.ontologymatching.org">ontologymatching.org</a></dt>
+<dd>The central resource for ontology matching and alignment information.</dd>
+</dl></p>
+
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr</center>
+<hr />
+$Id: index.html 1846 2013-03-25 15:28:06Z euzenat $
+</small>
+</address>
+</body>
+</html>

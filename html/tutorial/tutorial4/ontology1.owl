@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE rdf:RDF [
+          <!ENTITY xsd		"http://www.w3.org/2001/XMLSchema#" >
+	  <!ENTITY rdf		"http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+	  <!ENTITY rdfs		"http://www.w3.org/2000/01/rdf-schema#" >
+	  <!ENTITY dc		"http://purl.org/dc/elements/1.1/" > 
+	  <!ENTITY owl		"http://www.w3.org/2002/07/owl#" >
+	  <!ENTITY units	"http://visus.mit.edu/fontomri/0.01/units.owl#" >
+	  <!ENTITY bibtex	"http://purl.org/net/nknouf/ns/bibtex#">
+	  <!ENTITY dcterms 	"http://purl.org/dc/terms/">
+	  <!ENTITY dctype 	"http://purl.org/dc/dcmitype/"> ]>
+
+<rdf:RDF
+ xmlns="http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology1.owl#"
+ xml:base="http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology1.owl#"
+ xmlns:units	="&units;"
+ xmlns:foaf	="http://xmlns.com/foaf/0.1/"
+ xmlns:rdf	="&rdf;"
+ xmlns:xsd	="&xsd;"
+ xmlns:rdfs	="&rdfs;"
+ xmlns:owl	="http://www.w3.org/2002/07/owl#"
+ xmlns:wot	="http://xmlns.com/wot/0.1/"
+ xmlns:dc	="&dc;"
+ xmlns:dcterms	="&dcterms;"
+ xmlns:dctype	="&dctype;"
+ xmlns:bibtex	="&bibtex;">
+  
+  <owl:Ontology rdf:about="http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology1.owl">
+    <dc:creator>Jérôme Euzenat</dc:creator>
+    <dc:description>Example for Alignment API advanced turorial</dc:description>
+    <dc:date>2009-07-06</dc:date>
+    <rdfs:label>First ontology</rdfs:label>
+    <dc:title>ontology1.owl: an fake list of students</dc:title>
+    <dc:identifier rdf:datatype="&xsd;anyURI">http://alignapi.gforge.inria.fr/tutorial/tutorial4/ontology1.owl</dc:identifier>
+  </owl:Ontology>
+
+  <owl:Class rdf:ID="Estudiante">
+    <rdfs:label xml:lang="en">Estudiante</rdfs:label>
+  </owl:Class>
+
+<Estudiante rdf:about="#Fitzgerald">
+  <lastname>Fitzgerald</lastname>
+  <firstname>Ella</firstname>
+  <gender>Female</gender>
+  <affiliation>Vanilla University of Technology</affiliation>
+  <city>Vanilla</city>
+  <country>AT</country>
+  <year>1</year>
+  <topic>Semantic Process Mining</topic>
+  <supervisor>Prof. Giancarlo Cetriolo</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Blackey">
+  <lastname>Blackey</lastname>
+  <firstname>Art</firstname>
+  <gender>Male</gender>
+  <affiliation>University of Albatra</affiliation>
+  <city>Albatra</city>
+  <country>ES</country>
+  <year>1</year>
+  <topic>Semantic Web applications</topic>
+  <supervisor>Paola Pomodoro</supervisor>
+  <supervisor>Pierluiggi Pomodoro</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Coleman">
+  <lastname>Coleman</lastname>
+  <firstname>Ornette</firstname>
+  <gender>Male</gender>
+  <affiliation>Trinidad College Dubrovnik</affiliation>
+  <city>Dubrovnik</city>
+  <country>IE</country>
+  <year>1</year>
+  <topic>Conceptualization and Implementation of a ontology based Meta-Layer for the Management of Ontology Mapping Representations in Order to Support Sharing and Reuse of Ontology Mappings</topic>
+  <supervisor>Carla Cipolla</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Davis">
+  <lastname>Davis</lastname>
+  <firstname>Miles</firstname>
+  <gender>Male</gender>
+  <affiliation>JOHANNISBEER RESEARCH</affiliation>
+  <city>Guacamole</city>
+  <country>AT</country>
+  <year>1</year>
+  <topic>Automatic Metadata-Based Video Editing Systems</topic>
+  <supervisor>Univ.-Prof. Dr. Paolo Carciofo</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Coltrane">
+  <lastname>Coltrane</lastname>
+  <firstname>John</firstname>
+  <gender>Male</gender>
+  <affiliation>Estrellas</affiliation>
+  <city>Aroma</city>
+  <country>IT</country>
+  <topic>Semantic web applications, ontology management systems</topic>
+</Estudiante>
+
+<Estudiante rdf:about="#Holliday">
+  <lastname>Holliday</lastname>
+  <firstname>Billie</firstname>
+  <gender>Female</gender>
+  <affiliation>University of Soupaloignon</affiliation>
+  <city>Soupaloignon</city>
+  <country>GB</country>
+  <year>1</year>
+  <topic>Adaptive Hypermedia and Competency Model</topic>
+  <supervisor>Dr.Federico diGuava</supervisor>
+  <supervisor>Mr. Laurenzo Girafiore</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Monk">
+  <lastname>Monk</lastname>
+  <firstname>Thelonious</firstname>
+  <gender>Male</gender>
+  <affiliation>Madeira Instutute of Technology</affiliation>
+  <city>Madeira</city>
+  <country>PT</country>
+  <year>1</year>
+  <topic>Semantic Web Annotation and Distributed Resource Authorization</topic>
+  <supervisor>Stefano Zucchini</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#McRae">
+  <lastname>McRae</lastname>
+  <firstname>Carmen</firstname>
+  <gender>Female</gender>
+  <affiliation>University of the Rainforest</affiliation>
+  <city>Lluvianda</city>
+  <country>SI</country>
+  <year>3</year>
+  <supervisor>Mario Staggioni</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Bley">
+  <lastname>Bley</lastname>
+  <firstname>Carla</firstname>
+  <gender>Female</gender>
+  <affiliation>none</affiliation>
+  <city>Yves sur Gifette</city>
+  <country>FR</country>
+  <year>1</year>
+  <supervisor>Christina Melocoton</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Simone">
+  <lastname>Simone</lastname>
+  <firstname>Nina</firstname>
+  <gender>Female</gender>
+  <affiliation>Research Center of the Americas</affiliation>
+  <city>Florida</city>
+  <country>IT</country>
+  <year>3</year>
+  <topic>Legal ontologies and legal theory</topic>
+  <supervisor>Domenica Melanzana</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Joplin">
+  <lastname>Joplin</lastname>
+  <firstname>Janis</firstname>
+  <gender>Female</gender>
+  <affiliation>University of Zoulouland</affiliation>
+  <city>Zouloucity</city>
+  <country>ES</country>
+  <year>1</year>
+  <topic>Semantic Web</topic>
+  <supervisor>Medusa Pesto</supervisor>
+  <supervisor>Fiorenta Pescadore</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Powell">
+  <lastname>Powell</lastname>
+  <firstname>Bud</firstname>
+  <gender>Male</gender>
+  <affiliation>SPAM</affiliation>
+  <affiliation>Cogebom</affiliation>
+  <city>Porto Bello</city>
+  <country>FR</country>
+  <year>1</year>
+  <topic>The design and the implementation of an Information resources meta-model and its services : application to the medical field</topic>
+  <supervisor>Giovanni Dolomitti</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#DeWilde">
+  <lastname>De Wilde</lastname>
+  <firstname>Laurent</firstname>
+  <gender>Male</gender>
+  <affiliation>University of Sussex</affiliation>
+  <city>Glouchester</city>
+  <country>GB</country>
+  <year>1</year>
+  <supervisor>Ugo Calamari</supervisor>
+  <supervisor>Simona Riccota</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Calloway">
+  <lastname>Calloway</lastname>
+  <firstname>Cab</firstname>
+  <gender>Male</gender>
+  <affiliation>University of Shepperington</affiliation>
+  <city>Shepperington</city>
+  <country>GB</country>
+</Estudiante>
+
+<Estudiante rdf:about="#Goodman">
+  <lastname>Goodman</lastname>
+  <firstname>Benny</firstname>
+  <gender>Male</gender>
+  <affiliation>The Univesity of the true way</affiliation>
+  <city>Dehli</city>
+  <country>BR</country>
+  <year>1</year>
+  <topic>Semantic Integration of Information</topic>
+  <supervisor>Prof. Dr. Riccardo Peperoni</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Parker">
+  <lastname>Parker</lastname>
+  <firstname>Charlie</firstname>
+  <gender>Male</gender>
+  <affiliation>Institut Von Humboldt</affiliation>
+  <city>Any</city>
+  <country>FR</country>
+  <year>1</year>
+  <topic>semantic Web services discovery</topic>
+  <supervisor>Cecilia Parmiggiano</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Peterson">
+  <lastname>Peterson</lastname>
+  <firstname>Oscar</firstname>
+  <gender>Male</gender>
+  <affiliation>Institute for Applied Boxology</affiliation>
+  <city>Pariggi</city>
+  <country>IT</country>
+  <year>1</year>
+  <topic>Collaborative building of knowledge resources for the Semantic Web</topic>
+  <supervisor>Dott. Antolio Bresaola</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Getz">
+  <lastname>Getz</lastname>
+  <firstname>Stan</firstname>
+  <gender>Male</gender>
+  <affiliation>Altacola research centre</affiliation>
+  <city>Cloppenburg</city>
+  <country>DE</country>
+  <year>1</year>
+  <topic>health informatics</topic>
+  <supervisor>Prof. Pierpaolo Polenta</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Zorn">
+  <lastname>Zorn</lastname>
+  <firstname>John</firstname>
+  <gender>Male</gender>
+  <affiliation>Altacola research centre</affiliation>
+  <city>Cloppenburg</city>
+  <country>DE</country>
+  <year>1</year>
+  <topic>Complex Event Processing</topic>
+  <supervisor>Prof. Pierpaolo Polenta</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Tyner">
+  <lastname>Tyner</lastname>
+  <firstname>McCoy</firstname>
+  <gender>Male</gender>
+  <affiliation>University of Soupaloignon</affiliation>
+  <city>Soupaloignon</city>
+  <country>GB</country>
+  <year>1</year>
+  <topic>Trust and the Semantic Web</topic>
+  <supervisor>Dr Nanni Girasole</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Hawkins">
+  <lastname>Hawkins</lastname>
+  <firstname>Coleman</firstname>
+  <gender>Male</gender>
+  <affiliation>University of South Poland</affiliation>
+  <city>Krakow</city>
+  <country>IT</country>
+  <year>1</year>
+  <topic>Markup Languages and Semantic Web</topic>
+  <supervisor>Pepe Frutti di Mare</supervisor>
+</Estudiante>
+
+<Estudiante rdf:about="#Franklin">
+  <lastname>Franklin</lastname>
+  <firstname>Aretha</firstname>
+  <gender>Female</gender>
+  <affiliation>University of Huelva</affiliation>
+  <city>Huelva</city>
+  <country>ES</country>
+</Estudiante>
+
+<Estudiante rdf:about="#Baker">
+  <lastname>Baker</lastname>
+  <firstname>Chet</firstname>
+  <gender>Male</gender>
+  <affiliation>University Pie XXIII</affiliation>
+  <city>Orssini</city>
+  <country>FR</country>
+</Estudiante>
+
+</rdf:RDF>

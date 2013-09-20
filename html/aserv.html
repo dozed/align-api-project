@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>Alignment API: Server setup</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<h1 class="titre">Setting up an Alignment Server</h1>
+
+<p>An extensive presentation of the alignment API can be
+  found at <a href="http://gforge.inria.fr/docman/?group_id=117">http://gforge.inria.fr/docman/?group_id=117</a>. We also have
+  an on-line <a href="tutorial/tutorial1/server.html">tutorial</a> on using it.</p>
+
+<h2>Requirements</h2>
+
+<p>Using the alignment server requires an SQL database server.
+We see here how to use mysql (http://dev.mysql.com/doc/refman), but
+  the server also works with Postgres.</p>
+
+<h2>Creating the MySQL database</h2>
+
+<p>
+In order to use the Alignment server, it is necessary to create its database. This can simply be done by the following shell instructions:
+<div class="terminal">
+$ sudo /usr/local/mysql/bin/mysqld_safe --user=mysql &
+$ /usr/local/mysql/bin/mysqladmin -u root password &lt;mysqlpassword><!--
+$ /usr/local/mysql/bin/mysqladmin -u root -h localhost password &lt;mysqlpassword>-->
+$ /usr/local/mysql/bin/mysql -u root -p&lt;mysqlpassword>
+sql> CREATE DATABASE AServDB;
+sql> GRANT ALL PRIVILEGES ON AServDB.* TO adminAServ@localhost IDENTIFIED BY 'aaa345';
+sql> quit
+</div>
+The database schema will be created upon the first launch of the
+server.
+</p>
+<p>
+Of course, you are advised to use different user, password and
+database name. This can be achieved either:
+<ul>
+<li>by changing values of DBMSBASE, DBMSUSER and DBMSPASS in <tt>AlignmentServer.java</tt> and recompiling;</li>
+<li>by passing parameters dbmsbase, dbmsuser and dbmspass to
+  <tt>AlignmentServer</tt>.</li>
+</ul>
+</p>
+
+<p>
+It is also possible to use Postgres instead of MySQL, but then you
+should know how to do it.
+</p>
+
+<h2>Launching the Alignment server</h2>
+
+<p>
+The Alignment server requires that the corresponding database management system server be running. In our case, this can be achieved through:
+<div class="terminal">
+$ sudo /usr/local/mysql/bin/mysqld_safe --user=mysql &
+</div>
+Running the Alignment server is achieved through (use the corresponding options):
+<div class="terminal">
+$ java -jar lib/alignsvc.jar -H
+</div>
+The alignment server is then available through HTTP with:
+<center>
+    	      http://localhost:8089/html/
+</center>
+</p>
+<p>
+The possible switches to the server launcher are:
+<div class="terminal">
+$ java -jar lib/alignsvc.jar -h
+options are:
+	--html[=port] -H[port]			Launch HTTP service
+	--jade[=port] -A[port]			Launch Agent service
+	--wsdl[=port] -W[port]			Launch Web service
+	--jxta[=port] -P[port]			Launch P2P service
+	--oyster -O			Register to Oyster directory
+	--serv=class -i class			Launch service corresponding to fully qualified classname
+	--output=filename -o filename	Redirect output to filename
+	--dbmshost=host -m host			Use DBMS host
+	--dbmsport=port -s port			Use DBMS port
+	--dbmsuser=name -u name			Use DBMS user name
+	--dbmspass=pwd -p pwd			Use DBMS password
+	--dbmsbase=name -b name			Use Database name
+	--dbms=name -B name			Use Database Management System
+	--uriprefix=uri -f uri			Set alignment URIs with this prefix
+	-Dparam=value			Set parameter
+	--help -h			Print this message
+
+Alignment server 4.4 (1835M) ($Id: aserv.html 1846 2013-03-25 15:28:06Z euzenat $)
+</div>
+</p>
+
+<h2>Embedding more methods in the Alignment Server</h2>
+
+<p>Adding new matcher, renderer, evaluators, or services in the
+  Alignment Server, is really easy. This requires that your class be
+  an implementation of respectively AlignmentProcess, AlignmentRenderer,
+  Evaluator or AlignmentServiceProfile. It suffices to add all the
+  necessary jarfiles in the MANIFEST file of the Alignment Server
+  jarfile used to launch the server (typically alignsvc.jar) and to
+  put these jarfiles in the same location as this last one.</p>
+<p>For instance:
+<div class="java">
+Manifest-Version: 1.0
+Created-By: your.MailAddress@example.org
+Class-Path: alignsvc.jar olgraph.jar procola.jar
+Main-Class: fr.inrialpes.exmo.align.service.AlignmentService
+</div>
+
+is the required MANIFEST file for embedding our OLA algorithm which
+requires two jarfiles: procola.jar and olgraph.jar.
+</p>
+
+
+<h2>Ports used by the Alignment Server (by default)</h2>
+
+<p>The alignment server is a communicating system that communicates through
+TCP sockets which are bound to ports on your machines. We provide here the
+list of default ports and options to change them as well as the necessity
+for the firewalls to open these ports:
+
+<center>
+<table>
+<th><td>default</td><td>option</td><td>open?</td></th>
+<tr><td>HTTP</td><td>8089</td><td>-H</td><td>Y</td></tr>
+<tr><td>MySQL</td><td>3306</td><td>--dbmsport</td><td>N (if on the same machine)</td></tr>
+<tr><td>Jade</td><td>8888</td><td>-A</td></tr>
+<tr><td>//</td><td>1099</td><td></td><td>? (RMI)</td></tr>
+<tr><td></td><td>7778</td><td></td><td>Y (MTP HTTP)</td></tr>
+<tr><td>WSDL</td><td>7777</td><td>-W</td><td>Y</td></tr>
+<tr><td>JXTA</td><td>6666</td><td>-P</td><td>Y</td></tr>
+<tr><td>Oyster</td><td>1099</td><td>-O</td><td>Y (RMI/Kaon2)</td></tr>
+</table>
+</center>
+</p>
+
+<p>
+Of course, the ports need only to be open if there is an access from
+the outside to the server with the corresponding plug-in. The only
+compulsory ports for the server is the MySQL one.
+</p>
+
+<h2>Setting up a back-up for your database</h2>
+
+
+<p>Sample backup of the server content:
+<div class="terminal">
+$ /usr/local/mysql/bin/mysqldump -u adminAServ -paaa345 AServDB > toto.sql
+</div>
+And restoring:
+<div class="terminal">
+$ /usr/local/mysql/bin/mysql -u adminAServ -paaa345 AServDB
+sql> source toto.sql;
+</div>
+</p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/aserv.html</center>
+<hr />
+$Id: aserv.html 1846 2013-03-25 15:28:06Z euzenat $
+</small>
+</address>
+</body>
+</html>

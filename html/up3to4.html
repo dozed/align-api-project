@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>Alignment API: Upgrading from version 3.x to 4.0</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body bgcolor="#ffffff">
+
+<h1>Changes in version 4.0</h1>
+
+<p>
+If your version if anterior to 3.1, please have a look at the <a href="up30to31.html">previous
+upgrade instructions</a>.
+</p>
+
+<p>
+Version 4.0 is a major release of the Alignment API. It has undercome
+many changes. However, these changes do affect the implementation of
+the API and not its interface. For a more precise list of all changes,
+please have a look at the <a href="relnotes.html">release notes</a>.
+</p>
+
+<h2>Use java.util.Properties instead of Parameters</h2>
+
+<p>The change that should be the most frequent is that the Alignment
+  API interfaces are expressed in terms
+  of <tt>java.util.Properties</tt> instead of
+  the <tt>org.semanticweb.owl.align.Parameters</tt>. Hence, most of
+  the references to <tt>Parameters</tt> can be changed
+  into <tt>Properties</tt> (and <tt>set/getParameter</tt>
+  into <tt>set/getProperty</tt>). The <tt>org.semanticweb.owl.align.Parameters</tt>
+  is morally deprecated and should be avoided.
+</p>
+<p>
+We have evolved the <tt>BasicParameters</tt> implementation so that it
+extends <tt>Properties</tt>. Hence, if you use
+the <tt>BasicParameters</tt> interface, you can still use it.
+</p>
+
+<h2>Replacement of OMWG by EDOAL</h2>
+
+<p>
+The 2OMWG level alignments, provided by the mappingapi, have been
+discontinued and replaced by the integrated <a href="edoal.html">EDOAL
+language</a> (identified as the 2EDOAL level).
+If you have previously used the 2OMWG level language and need to
+migrate, please, contact us and we will do our best to help you.
+</p>
+
+<h2>Report to us</h2>
+
+<p>Please report any tweak that we did not mention here so that we can
+  update this document.</p>
+
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/up30to31.html</center>
+<hr />
+$Id: up3to4.html 1366 2010-03-26 21:47:29Z euzenat $
+</small>
+</address>
+</body>
+</html>

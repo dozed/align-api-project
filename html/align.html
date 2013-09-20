@@ -1,0 +1,296 @@
+<html>
+<head>
+<title>Alignment API: Quick start</title>
+<!--style type="text/css">@import url(style.css);</style-->
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+</head>
+<body bgcolor="#ffffff">
+
+<h1 class="titre">Quick start with the Alignment API in Java</h1>
+
+<p>
+This is the very basic for starting with the Alignment API and
+checking that everything should be fine. 
+Another quick start guide exists for the <a href="aserv.html">Alignment server</a>.
+We also have an on-line <a href="tutorial">tutorial</a> on using the
+Alignment API and more <a href="index.html">systematic documentation</a>.</p>
+
+<h2>Fetching the Alignment API and starting</h2>
+
+<h3>Requirements</h3>
+
+<p><b>For using</b> you will need a <a href="http://www.oracle.com/technetwork/java/index.html">Java
+  runtime environment</a> (tested in 1.6). All other necessary
+  libraries are available in the archive (see the list of <a href="lib.html">libraries</a>).</p>
+
+<h3>Fetching the ZIP'ed version</h3>
+
+<p>The simplest way to use the Alignment API is to get the lastest release
+  zipfile from the site <a href="http://gforge.inria.fr/frs/?group_id=117">http://gforge.inria.fr/frs/?group_id=117</a>. It contains all the sources, compiled
+library, required libraries.</p>
+
+<h3>Running</h3>
+
+<p>Running the program is achieved through:
+<div class="terminal">
+$ java -jar lib/procalign.jar
+Two URIs required
+usage: Procalign [options] URI1 URI2
+options are:
+	--impl=className -i classname		Use the given alignment implementation.
+	--renderer=className -r className	Specifies the alignment renderer
+	--output=filename -o filename	Output the alignment in filename
+	--params=filename -p filename	Reads parameters from filename
+	--alignment=filename -a filename Start from an XML alignment file
+	--threshold=double -t double	Filters the similarities under threshold
+	--cutmethod=hard|perc|prop|best|span -T hard|perc|prop|best|span	method for computing the threshold
+	--debug[=n] -d [n]		Report debug info at level n
+	-Dparam=value			Set parameter
+	--help -h			Print this message
+
+Alignment API implementation 3.2 ($Id: align.html 1840 2013-03-24 17:20:12Z euzenat $)
+</div>
+Congratulations, you are done. We
+invite you to learn more by using the <a href="tutorial">tutorial</a>
+and the <a href="index.html">documentation</a>.</p>
+
+<p>Details below are for developing with the Alignment API.</p>
+
+<h2>Package content</h2>
+
+<p>Whatever your mode of getting the Alignment API you will get an alignapi
+  directory containing the following subdirectories:
+<ul compact="1">
+  <li>README.TXT	instructions for starting with the Alignment API</li>
+  <li>README.AServ	instructions for setting up an Alignment Server</li>
+  <li>LICENSE.TXT	the terms under which the software is licensed to you.</li>
+  <li>build.xml: ant file to compile and generate jar-files.</li>
+  <li>dtd: the align.dtd and align.owl alignment specification;</li>
+  <li>lib: contains align.jar, ontowrap.jar, procalign.jar, alignsvc.jar
+			 and other necessary jarfiles;</li>
+  <li>html: documentation</li>
+  <li>html/tutorial: a tutorial on using the API</li>
+  <li>distrib: contains a few files for building the distribution</li>
+  <li>classes: the compiled classes (in the zip file, the classes are
+  included)</li> 
+  <li>examples: some examples of use of the API and the Server.</li>
+  <li>javadoc: generated javadoc (in the zip file the doc are
+  pregenerated);</li> 
+  <li>test: unit tests for testng;</li>
+  <li>tools: some tools that may be used for engineering the API;</li>
+  <li>src: source classes:
+    <ul compact="1">
+      <li>org.semanticweb.owl.align: the API
+      <li>fr.inrialpes.exmo.ontowrap: ontology API wrappers</li>
+      <li>fr.inrialpes.exmo.align.impl: basic implementation</li>
+      <li>fr.inrialpes.exmo.align.cli: command-line interface</li>
+      <li>fr.inrialpes.exmo.align.util: utility wrapper functions</li>
+      <li>fr.inrialpes.exmo.align.ling: WordNet-based implementation</li>
+      <li>fr.inrialpes.exmo.align.parser: Alignment format parsers</li>
+      <li>fr.inrialpes.exmo.align.service: Alignment Server</li>
+      <li>fr.inrialpes.exmo.align.gen: test generators</li>
+</ul></li>
+</ul>
+</p>
+
+<h2>Logging</h2>
+
+<p>
+Since version 4.5 (and fully in version 4.6), the alignment API uses extensively <a href="http://slf4j.org">SLF4J</a>.
+We invite the interested reader to read their documentation which is
+very clear (contrary to many logging explainations).
+</p>
+<p>
+Following best practices in this domain, the Alignment API does not
+ship with any SLF4J implementation. It is up to the user to <a href="http://slf4j.org/manual.html">select the
+implementation</a> (s)he likes the most and put it in the classpath.
+</p>
+<p>
+This means that, when launched without a looging implementation, this will return:
+<div class="terminal">
+$ java -cp lib/procalign.jar fr.inrialpes.exmo.align.cli.EvalAlign -i fr.inrialpes.exmo.align.impl.eval.SemPRecEvaluator file:test/output/bibref2.rdf file:test/output/bibref.rdf
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+...
+resulting output
+</div>
+When adding some logger implementation in the classpath,
+e.g., <a href="http://logback.qos.ch/">logback</a>, it will return:
+<div class="terminal">
+$ java -cp lib/slf4j/logback-core-1.0.9.jar:lib/slf4j/logback-classic-1.0.9.jar:lib/procalign.jar fr.inrialpes.exmo.align.cli.EvalAlign -i fr.inrialpes.exmo.align.impl.eval.SemPRecEvaluator file:test/output/bibref2.rdf file:test/output/bibref.rdf
+13:24:09.191 [main] INFO  f.i.e.a.impl.eval.SemPRecEvaluator - Created one SemPREvaluator
+13:24:09.601 [main] DEBUG f.i.e.a.impl.eval.SemPRecEvaluator - Computing entailment (semantics: null)
+13:24:09.606 [main] DEBUG f.i.e.a.impl.eval.SemPRecEvaluator - http://ebiquity.umbc.edu/v2.1/ontology/publication.owl#publication ----> file:///Java/alignapi/examples/rdf/edu.umbc.ebiquity.publication.owl
+13:24:09.607 [main] DEBUG f.i.e.a.impl.eval.SemPRecEvaluator - http://purl.org/net/nknouf/ns/bibtex ----> file:///Java/alignapi/examples/rdf/edu.mit.visus.bibtex.owl
+13:24:10.770 [main] DEBUG f.i.e.a.impl.eval.SemPRecEvaluator - fr.inrialpes.exmo.align.impl.ObjectAlignment@847a8f3 is consistent
+13:24:10.792 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:24:10.924 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:24:10.931 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:24:10.931 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:24:10.942 [main] DEBUG f.i.e.a.impl.eval.SemPRecEvaluator - Computing entailment (semantics: null)
+13:24:10.957 [main] DEBUG f.i.e.a.impl.eval.SemPRecEvaluator - http://ebiquity.umbc.edu/v2.1/ontology/publication.owl#publication ----> file:///Java/alignapi/examples/rdf/edu.umbc.ebiquity.publication.owl
+13:24:10.958 [main] DEBUG f.i.e.a.impl.eval.SemPRecEvaluator - http://purl.org/net/nknouf/ns/bibtex ----> file:///Java/alignapi/examples/rdf/edu.mit.visus.bibtex.owl
+13:24:11.228 [main] DEBUG f.i.e.a.impl.eval.SemPRecEvaluator - fr.inrialpes.exmo.align.impl.ObjectAlignment@7371b4ca is consistent
+13:24:11.303 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+...
+resulting output
+</div>
+and when configuring the implementation for using a different format, it
+will do:
+<div class="terminal">
+$ java -cp lib/slf4j/logback-core-1.0.9.jar:lib/slf4j/logback-classic-1.0.9.jar:lib/procalign.jar fr.inrialpes.exmo.align.cli.EvalAlign -Dlogback.configurationFile=logback.xml -i fr.inrialpes.exmo.align.impl.eval.SemPRecEvaluator file:test/output/bibref2.rdf file:test/output/bibref.rdf
+13:32:19.711 [main] INFO  f.i.e.a.impl.eval.SemPRecEvaluator - Created one SemPREvaluator
+13:32:21.232 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:32:21.400 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:32:21.409 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:32:21.410 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:32:21.785 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:32:21.796 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:32:21.797 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+13:32:21.797 [main] WARN  f.i.e.a.impl.eval.SemPRecEvaluator - Cannot be translated.
+...
+resulting output
+</div>
+</p>
+<p>
+Such an approach to dealing with logging events should provide full
+satisfaction to users as it provides to us.
+</p>
+
+<h2>Developing with the Alignement API</h2>
+
+<h3>Requirements</h3>
+
+<p><b>For extending</b> you will need a Java compiler (tested in  <a href="http://www.oracle.com/technetwork/java/index.html">Java standard edition</a> 1.6). Other libraries are included.
+It is also very usefull to have <a ref="http://ant.apache.org">Ant</a>. 
+The Alignment API is not officially published in <a href="maven.html">Maven repositories</a>
+due to various hassles required by doing this. If you want to help, you are welcome.
+</p>
+
+<h3>Compilation and use</h3>
+
+<p>Generating the jar-files corresponding to the Alignment API can
+  be achieved by launching:
+<div class="terminal">
+$ ant jar
+</div>
+This recompiles the necessary files.</p>
+
+<p>Only compiling the necessary files is obtained by:
+<div class="terminal">
+$ ant compile
+</div></p>
+
+<p>Recompiling all files is achieved by:
+<div class="terminal">
+$ ant compileall
+</div></p>
+
+<p>Executing the tests:
+<div class="terminal">
+$ ant test
+</div></p>
+
+<p>Checking all java warnings and other static analysis tools:
+<div class="terminal">
+$ ant lint
+</div></p>
+
+<p>Clean up what has been generated:
+<div class="terminal">
+$ ant clean
+</div></p>
+
+<p>Other options may be obtained by <tt>ant usage</tt> or through
+  inspecting the <tt>build.xml</tt> file.</p>
+
+<h3>Typical development with the API</h3>
+
+<p>We can distinguish four types of developments in the API:
+<ul>
+<li>Developing the API: modifying the code of the API for adding
+  functions or fixing bugs;</li>
+<li>Extending the API: creating new instances of the API interface
+  (new alignment methods, new renderers, new server plug-ins, etc.);</li>
+<li>Embedding the API: creating an application using the API which
+  directly embedded the API libraries and invoke them;</li>
+<li>Using the API as a server: creating an application using the API
+  which communicates loosely with an instance of Alignment Server.</li>
+</ul></p>
+
+<p>In theory, only the first aspect requires recompiling and modifying
+  the Alignment API code. However, it may be useful for other aspects (for
+  instance for debugging).</p>
+
+<!--h3>Anonymous Subversion</h3>
+
+<p>The very last version of alignapi can be fetched from the subversion
+  source tree that can be found at:
+<a href="http://gforge.inria.fr/scm/?group_id=117">http://gforge.inria.fr/scm/?group_id=117</a>
+</p>
+<p>From there you have two options:
+<dl compact="1">
+<dt>Getting the last nightly build</dt>
+<dd>This will provide you with the source but no opportunity to
+  smoothly upgrade it.</dd>
+<dt>Checking out (anonymously) the repository</dt>
+<dd>Can be achieved by just doing the following:-->
+<!-- $ cvs -d :pserver:cvs@cvs-sop.inria.fr:/CVS/exmosoft login
+&lt;ENTER return when asked for the password&gt;
+$ cvs -d :pserver:cvs@cvs-sop.inria.fr:/CVS/exmosoft checkout
+alignapi-->
+<!--div class="fragment"><pre>
+$ svn checkout svn://scm.gforge.inria.fr/svn/alignapi/trunk/ 
+</pre></div>
+... and you are done.</dd>
+</dl>
+Note that you may have to fetch separately the <a href="owlapi.html">OWL-API</a>.</p>
+
+<h3>Subversion account</h3>
+
+<p>If you have improved alignapi and want this to be included in the
+  source base or if you want to seriously work on improving the
+  software, please contact
+  Jerome . Euzenat (&Agrave;) inrialpes . fr.</p>
+
+<p>We can either commit your ponctual changes or give you commit
+  rights to the repository (for that purpose, you will have to first
+  register by <a href="http://gforge.inria.fr">http://gforge.inria.fr</a>.</p>
+
+<p>Once provided with a password you will be able to check out from and
+  commit in our repository through:
+<div class="fragment"><pre-->
+<!--
+$ export CVS_RSH=`which ssh`
+$ cvs -d :ext:&lt;loginname&gt;@cvs-sop.inria.fr:/CVS/exmosoft --
+  --checkout alignapi
+-->
+<!--$ svn checkout svn+ssh://username@scm.gforge.inria.fr/svn/alignapi/trunk
+</pre></div>
+(If you are not familliar with subversion, it is worth looking at the
+documentation. If you are familiar with CVS, the move is straightforward.)
+</p-->
+
+<h3>Documentation</h3>
+
+<p>
+Most documentation is available from <a href="index.html">here</a>.
+An exception is the <a href="../javadoc/index.html">javadoc</a> which
+is only available on your local machine. It can be recompiled by:
+<div class="terminal">
+$ ant javadoc
+</div></p>
+
+<address>
+<small>
+<hr />
+<center>http://alignapi.gforge.inria.fr/align.html</center>
+<hr />
+$Id: align.html 1840 2013-03-24 17:20:12Z euzenat $
+</small>
+</address>
+</body>
+</html>
