@@ -22,6 +22,8 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
+
+import fr.inrialpes.exmo.align.impl.URIAlignment;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -65,7 +67,7 @@ public class IOTest {
 	aparser.setEmbedded( true );
 	alignment = aparser.parse( "test/input/soap.xml" );
 	assertNotNull( alignment );
-	assertTrue( alignment instanceof URIAlignment );
+	assertTrue( alignment instanceof URIAlignment);
 	assertEquals( alignment.getOntology2URI().toString(), "http://alignapi.gforge.inria.fr/tutorial/edu.mit.visus.bibtex.owl" );
 	assertEquals( alignment.nbCells(), 57 );
     }

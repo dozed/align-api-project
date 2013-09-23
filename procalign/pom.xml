@@ -70,6 +70,12 @@
             <artifactId>google-api-translate-java</artifactId>
             <version>0.93-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8.7</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

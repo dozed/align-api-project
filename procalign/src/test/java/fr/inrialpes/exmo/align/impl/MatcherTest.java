@@ -24,6 +24,8 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
+
+import fr.inrialpes.exmo.align.impl.MatrixMeasure;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 //import org.testng.annotations.*;
