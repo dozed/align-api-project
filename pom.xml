@@ -88,7 +88,7 @@
         <repository>
             <id>external-jars</id>
             <name>External Jar Repository</name>
-            <url>http://localhost/mvn3</url>
+            <url>https://github.com/dozed/mvn-repo/raw/master/external</url>
         </repository>
     </repositories>
 
