@@ -59,6 +59,13 @@
             <version>1.5</version>
         </dependency>
         <dependency>
+            <groupId>fr.inrialpes.exmo</groupId>
+            <artifactId>ontosim</artifactId>
+            <version>2.3adv</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../lib/ontosim-2.3adv.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>com.google.api</groupId>
             <artifactId>google-api-translate-java</artifactId>
             <version>0.93-SNAPSHOT</version>

@@ -134,7 +134,7 @@ public class AlignmentService {
 	    try {
 		serv.init( params, manager );
 	    } catch ( AServException ex ) { // This should rather be the job of the caller
-		logger.warn( "Cannot start {} server on {}:{}", serv, params.getProperty( "host" ), params.getProperty( "http" ) );
+		logger.warn( "Cannot start {} server on {}:{}", new Object[] { serv, params.getProperty( "host" ), params.getProperty( "http" ) });
 	    }
 	}
 	// Register to directories

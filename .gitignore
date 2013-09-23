@@ -5,6 +5,7 @@
 target
 classes
 distrib
+lib
 
 mvn-repo
 out
