@@ -4,97 +4,68 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>align</artifactId>
-        <groupId>org.semanticweb.owl</groupId>
+        <groupId>fr.inrialpes.exmo.align</groupId>
+        <artifactId>align-project</artifactId>
         <version>5.0-SNAPSHOT</version>
     </parent>
 
     <groupId>fr.inrialpes.exmo.align</groupId>
     <artifactId>alignsvc</artifactId>
-    <version>5.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <name>Alignment server</name>
     <description>A server for storing and sharing ontology alignments.</description>
-    <url>http://alignapi.gforge.inria.fr</url>
-    <organization>
-        <name>INRIA Exmo team</name>
-        <url>http://exmo.inrialpes.fr</url>
-    </organization>
-    <!-- (C) INRIA, @COPYYEAR@ -->
-    <licenses>
-        <license>
-            <name>GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999</name>
-            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
-        </license>
-        <license>
-            <name>CeCILL-C Licence française de logiciel libre</name>
-            <url>http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.txt</url>
-        </license>
-    </licenses>
-    <packaging>jar</packaging>
 
     <dependencies>
-      <dependency>
-        <groupId>org.semanticweb.owl</groupId>
-        <artifactId>align</artifactId>
-        <version>@VERS@</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>fr.inrialpes.exmo</groupId>
-        <artifactId>ontowrap</artifactId>
-        <version>@VERS@</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>fr.inrialpes.exmo.align</groupId>
-        <artifactId>procalign</artifactId>
-        <version>@VERS@</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>gnu.getopt</groupId>
-        <artifactId>java-getopt</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>jade</groupId>
-        <artifactId>jade</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>jetty</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>jetty-util</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.neon_toolkit.registery</groupId>
-        <artifactId>oyster2</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>javax</groupId>
-        <artifactId>servlet</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.xml</groupId>
-        <artifactId>xml-apis</artifactId>
-      </dependency>
+        <dependency>
+            <groupId>org.semanticweb.owl</groupId>
+            <artifactId>align-api</artifactId>
+            <version>${align-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.inrialpes.exmo</groupId>
+            <artifactId>ontowrap</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.inrialpes.exmo.align</groupId>
+            <artifactId>procalign</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gnu.getopt</groupId>
+            <artifactId>java-getopt</artifactId>
+            <version>1.0.13</version>
+        </dependency>
+        <dependency>
+            <groupId>jade</groupId>
+            <artifactId>jade</artifactId>
+            <version>3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty</artifactId>
+            <version>6.1.2rc5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>6.1.2rc5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neon_toolkit.registery</groupId>
+            <artifactId>oyster2</artifactId>
+            <version>0.99</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.xml</groupId>-->
+            <!--<artifactId>xml-apis</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
-
-    <developers>
-        <developer>
-            <id>JeromE</id>
-            <name>Jérôme Euzenat</name>
-            <organization>INRIA</organization>
-            <email>Jerome.Euzenat@acm.org</email>
-            <roles>
-                <role>Main developer</role>
-                <role>Maintainer</role>
-            </roles>
-            <timezone>1</timezone>
-        </developer>
-    </developers>
-    <!-- For contributors, see http://alignapi.gforge.inria.fr/credits.html -->
 
 </project>
