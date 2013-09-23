@@ -22,7 +22,6 @@ package fr.inrialpes.exmo.align.impl.eval;
 
 import fr.inrialpes.exmo.align.impl.ObjectAlignment;
 import fr.inrialpes.exmo.align.impl.ObjectCell;
-import fr.paris8.iut.info.iddl.conf.Semantics;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
@@ -48,9 +47,6 @@ public class SemPRecEvaluator extends PRecEvaluator implements Evaluator {
     private int nbfoundentailed = 0; // nb of returned cells entailed by the reference alignment
     private int nbexpectedentailed = 0; // nb of reference cells entailed by returned alignment
 
-    private Semantics semantics = null; // the semantics used for interpreting alignments
-    // null means that we use the reduced semantics with HermiT, otherwise, this is an IDDL semantics
-
     /**
      * Creation
      * Initiate Evaluator for precision and recall
@@ -68,11 +64,6 @@ public class SemPRecEvaluator extends PRecEvaluator implements Evaluator {
         super.init();
         nbexpectedentailed = 0;
         nbfoundentailed = 0;
-        // Set the semantics to be used
-        String sem = params.getProperty("semantics");
-        if (sem != null) {
-            semantics = Semantics.valueOf(sem);
-        }
     }
 
     /**
