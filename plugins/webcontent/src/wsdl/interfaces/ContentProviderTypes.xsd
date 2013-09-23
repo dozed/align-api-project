@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<xs:schema
+	xmlns:tns="http://weblab-project.org/services/contentprovider/types"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:content="http://weblab-project.org/core/model/content"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://weblab-project.org/services/contentprovider/types">
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="../model/model.xsd" />
+
+	<!-- import here all others definitions files -->
+	<xs:import namespace="http://weblab-project.org/core/model/content"
+		schemaLocation="../model/content.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/multimedia"
+		schemaLocation="../model/multimedia.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/ontology"
+		schemaLocation="../model/ontology.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/query"
+		schemaLocation="../model/query.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/service"
+		schemaLocation="../model/service.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/structure"
+		schemaLocation="../model/structure.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/text"
+		schemaLocation="../model/text.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/user"
+		schemaLocation="../model/user.xsd" />
+	<!-- end additionals imports -->
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="getContentArgs" type="tns:getContentArgs" />
+
+	<xs:element name="getContentReturn" type="tns:getContentReturn" />
+
+	<xs:complexType name="getContentArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the URI of the content to retrieve,
+				and two integers to retrieve the original content.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="contentId" type="xs:anyURI" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="offset" type="xs:int" minOccurs="0"
+				maxOccurs="1" />
+			<xs:element name="limit" type="xs:int" minOccurs="0"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="getContentReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the content requested.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="content" type="content:content"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<xs:schema
+	xmlns:tns="http://services.weblab.eads.com/resourcescontainer/types"
+	xmlns:model="http://model.core.weblab.eads.com/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://services.weblab.eads.com/resourcescontainer/types">
+
+	<xs:import namespace="http://model.core.weblab.eads.com/"
+		schemaLocation="../model/model.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/content"
+		schemaLocation="../model/content.xsd" />
+	<!-- import here all others definitions files -->
+
+	<xs:import namespace="http://model.core.weblab.eads.com/multimedia"
+		schemaLocation="../model/multimedia.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/ontology"
+		schemaLocation="../model/ontology.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/query"
+		schemaLocation="../model/query.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/service"
+		schemaLocation="../model/service.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/structure"
+		schemaLocation="../model/structure.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/text"
+		schemaLocation="../model/text.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/user"
+		schemaLocation="../model/user.xsd" />
+
+	<!-- end additionals imports -->
+
+	<xs:element name="saveResourceArgs" type="tns:saveResourceArgs" />
+
+	<xs:element name="saveResourceReturn" type="tns:saveResourceReturn" />
+
+	<xs:complexType name="saveResourceArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing a resource to save.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="resource" type="model:resource"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="saveResourceReturn">
+		<xs:annotation>
+			<xs:documentation>
+				The id of the saved resource.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="resourceId" type="model:webLabRI"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="getResourceArgs" type="tns:getResourceArgs" />
+
+	<xs:element name="getResourceReturn" type="tns:getResourceReturn" />
+
+	<xs:complexType name="getResourceArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the resource Id to
+				retrieve.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="resourceId" type="model:webLabRI"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="getResourceReturn">
+		<xs:annotation>
+			<xs:documentation>
+				The resource which correspond to the id passed as
+				argument.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="resource" type="model:resource"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

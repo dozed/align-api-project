@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/analyser"
+	xmlns:analyser="http://weblab-project.org/services/analyser"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/analyser"
+	name="Analyser">
+
+	<import namespace="http://weblab-project.org/services/analyser"
+		location="../interfaces/Analyser.wsdl" />
+
+	<service name="Analyser">
+		<documentation>A sample analyser service.</documentation>
+		<port name="AnalyserPort"
+			binding="analyser:AnalyserSOAPBinding">
+			<soap:address location="" />
+		</port>
+	</service>
+
+</definitions>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/trainable"
+	xmlns:trainable="http://weblab-project.org/services/trainable"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/trainable"
+	name="Trainable">
+
+	<import namespace="http://weblab-project.org/services/trainable"
+		location="../interfaces/Trainable.wsdl" />
+
+	<service name="Trainable">
+		<documentation>A sample trainable service.</documentation>
+		<port name="TrainablePort"
+			binding="trainable:TrainableSOAPBinding">
+			<soap:address location="" />
+		</port>
+	</service>
+
+</definitions>

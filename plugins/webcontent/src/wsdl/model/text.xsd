@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/core/model/text"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Text package - Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="model.xsd" />
+
+	<xs:complexType name="text">
+		<xs:annotation>
+			<xs:documentation>
+				A text unit is the simplest specification of the media
+				unit dedicated to full text data. Its unique attribute
+				is a string which is actually the text extracted from
+				the original document content.
+
+				This content is optional, since sometimes it's too large
+				to be handled in this field. In that case, we encourage
+				to create a content (in the content package) and to
+				annotate the text with the identifier (URI) of the
+				created content.
+
+				A simple text document such as HTML page could be
+				described by a document which contains a unique text
+				unit.
+
+				As a resource, a text unit could be annotated and could
+				also be described with low level descriptors.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Text package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:mediaUnit">
+				<xs:sequence>
+					<xs:element name="content" type="xs:string"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The String content of the text. Might be
+								empty, in that case an annotation
+								referring to the whole large content
+								should be present.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="linearSegment">
+		<xs:annotation>
+			<xs:documentation>
+				A linear segment is a position which can be described by
+				a start and stop reference in accordance to a number of
+				UTF-8 characters metric. It is the kind of segment that
+				should be used for text units.
+
+				As a resource, linear segments could be annotated to
+				provide. This should be done to provide information on a
+				particular part a text, like a word for instance.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Text package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:segment">
+				<xs:sequence>
+					<xs:element name="start" type="xs:int" minOccurs="1"
+						maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The offset of the starting char in
+								UTF-8.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="end" type="xs:int" minOccurs="1"
+						maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The offset of the ending char in UTF-8.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+
+</xs:schema>

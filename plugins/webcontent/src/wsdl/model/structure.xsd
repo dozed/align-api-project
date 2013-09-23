@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/core/model/structure"
+	xmlns:tns="http://weblab-project.org/core/model/structure"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Structure package - Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="model.xsd" />
+
+	<xs:complexType name="cell">
+		<xs:annotation>
+			<xs:documentation>
+				A cell is a specific mediaUnit that could handle content
+				structured in table. It handles a mediaUnit to reflect
+				the content of the cell.
+
+				As a resource, cell could be annotated to provide, for
+				example, meta-information on its creation date, its
+				version or its content.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Structure package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:mediaUnit">
+				<xs:sequence>
+					<xs:element name="mediaUnit" type="model:mediaUnit"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The media unit contained by the cell.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="line">
+		<xs:annotation>
+			<xs:documentation>
+				A line is a specific media unit that could handle part
+				of content structured in table. It handles a list of
+				cells.
+
+				As a resource, line could be annotated to provide, for
+				example, meta-information on its creation date, its
+				version or its dimension, for instance.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Structure package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:mediaUnit">
+				<xs:sequence>
+					<xs:element name="cell" type="tns:cell"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The cells contained by the line.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="table">
+		<xs:annotation>
+			<xs:documentation>
+				A table is a specific mediaUnit that could handle
+				content structured in table. It handles a list of lines
+				to reflect the table content.
+
+				As a resource, table could be annotated to provide, for
+				example, meta-information on its creation date, its
+				version or its dimension, for instance.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Structure package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:mediaUnit">
+				<xs:sequence>
+					<xs:element name="line" type="tns:line"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The lines contained by the table.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>

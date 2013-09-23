@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/reportprovider"
+	xmlns:reportprovider="http://weblab-project.org/services/reportprovider"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/reportprovider"
+	name="ReportProvider">
+
+	<import
+		namespace="http://weblab-project.org/services/reportprovider"
+		location="../interfaces/ReportProvider.wsdl" />
+
+	<service name="ReportProvider">
+		<documentation>A sample report provider service.</documentation>
+		<port name="ReportproviderPort"
+			binding="reportprovider:ReportProviderSOAPBinding">
+			<soap:address location="" />
+		</port>
+	</service>
+
+</definitions>

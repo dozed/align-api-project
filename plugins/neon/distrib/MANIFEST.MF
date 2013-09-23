@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Alignment Plug-in
+Bundle-SymbolicName: fr.inrialpes.exmo.align.plugin.neontk;singleton:=true
+Bundle-Version: 2.3.0
+Bundle-Localization: plugin
+Bundle-Activator: fr.inrialpes.exmo.align.plugin.neontk.AlignmentPlugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.forms,
+ org.semanticweb.owl,
+ org.neontoolkit.core,
+ org.neontoolkit.io,
+ com.ontoprise.ontostudio.owl.gui;bundle-version="2.3.0";visibility:=reexport,
+ com.ontoprise.ontostudio.owl.model;bundle-version="2.3.0"
+Eclipse-AutoStart: true
+Bundle-ClassPath: .,
+ lib/procalign.jar,
+ lib/align.jar,
+ lib/ontowrap.jar,
+ lib/ontosim.jar
+Export-Package: fr.inrialpes.exmo.align.plugin.neontk

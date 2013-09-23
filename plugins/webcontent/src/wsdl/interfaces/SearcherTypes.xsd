@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<xs:schema xmlns:tns="http://weblab-project.org/services/searcher/types"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:user="http://weblab-project.org/core/model/user"
+	xmlns:query="http://weblab-project.org/core/model/query"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://weblab-project.org/services/searcher/types">
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="../model/model.xsd" />
+
+	<!-- import here all others definitions files -->
+	<xs:import namespace="http://weblab-project.org/core/model/content"
+		schemaLocation="../model/content.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/multimedia"
+		schemaLocation="../model/multimedia.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/ontology"
+		schemaLocation="../model/ontology.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/query"
+		schemaLocation="../model/query.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/service"
+		schemaLocation="../model/service.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/structure"
+		schemaLocation="../model/structure.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/text"
+		schemaLocation="../model/text.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/user"
+		schemaLocation="../model/user.xsd" />
+	<!-- end additionals imports -->
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="searchArgs" type="tns:searchArgs" />
+
+	<xs:element name="searchReturn" type="tns:searchReturn" />
+
+	<xs:complexType name="searchArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing a query to search and two intergers
+				the offset and limit values.
+
+				Note that's, when these parameters exist and the text of
+				the query contains equivalent parmeters in its syntax,
+				the offset and limit values to be used are depending of
+				the implementation.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="query" type="query:query" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="offset" type="xs:int" minOccurs="0"
+				maxOccurs="1" default="0" />
+			<xs:element name="limit" type="xs:int" minOccurs="0"
+				maxOccurs="1" default="20" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="searchReturn">
+		<xs:annotation>
+			<xs:documentation>
+				A resource collection containing all the results
+				annotated to refer to the query and provide score
+				information.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="results" type="model:resourceCollection"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

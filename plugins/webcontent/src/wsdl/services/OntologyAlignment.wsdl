@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/ontologyalignment"
+	xmlns:types="http://weblab-project.org/services/ontologyalignment/types"
+	xmlns:ex="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/ontologyalignment"
+	name="OntologyAlignment">
+
+<import namespace="http://weblab-project.org/services/ontologyalignment"
+		location="../interfaces/OntologyAlignment.wsdl" />
+
+	<service name="OntologyAlignment">
+		<documentation>An ontology analyser service.</documentation>
+		<port name="OntologyAlignmentPort"
+			binding="tns:OntologyAlignmentSOAPBinding">
+			<soap:address location="" />
+		</port>
+	</service>
+</definitions>

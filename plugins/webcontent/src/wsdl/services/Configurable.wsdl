@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/configurable"
+	xmlns:configurable="http://weblab-project.org/services/configurable"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/configurable"
+	name="Configurable">
+
+	<import namespace="http://weblab-project.org/services/configurable"
+		location="../interfaces/Configurable.wsdl" />
+
+	<service name="Configurable">
+		<documentation>A sample configurable service.</documentation>
+		<port name="ConfigurablePort"
+			binding="configurable:ConfigurableSOAPBinding">
+			<soap:address location="" />
+		</port>
+	</service>
+
+</definitions>

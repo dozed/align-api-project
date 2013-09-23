@@ -1,0 +1,77 @@
+<html><head><title>NeOn Alignment Plugin: Standard matchers</title></head>
+<body>
+
+<h1 class="mw-headline">NeOn Alignment Plugin: Standard matchers</h1>
+
+<p>
+The Alignment plug-in comes with the built-in matchers of the
+Alignment API not requiring extra installations (like WordNet).
+We give below a simple description of their behaviour.
+</p>
+
+<h3>fr.inrialpes.exmo.align.impl.method.SubsDistNameAlignment</h3>
+<p>
+Establishes an alignment based on the comparison of the names of
+entities in the two ontologies to match. The measure will depend on
+the ration of the length of the longest common substring of both names
+over the minimum lenght of these names.
+</p>
+
+<h3>fr.inrialpes.exmo.align.impl.method.ClassStructAlignment</h3>
+<p>
+Establishes an alignment based on the comparison of the properties
+that classes have in common. These properties are themselves compared
+based on correspondences provided by an initial alignment.
+</p>
+
+<h3>fr.inrialpes.exmo.align.impl.method.NameEqAlignment</h3>
+<p>
+Establishes an alignment based on the comparison of the names of
+entities in the two ontologies to match. The measure will be "1." if
+both names are equal (after downcasing), and "0." if they are not.
+</p>
+
+<h3>fr.inrialpes.exmo.align.impl.method.StringDistAlignment</h3>
+<p>
+Establishes an alignment based on the comparison of the names of
+entities in the two ontologies to match. In this case, the measure
+computes exactly <tt>NameEqAlignment</tt> (this is a parametric
+measures and the parameters are not available in the toolkit).
+</p>
+
+<h3>fr.inrialpes.exmo.align.impl.method.NameAndPropertyAlignment</h3>
+<p>
+Establishes an alignment based on the comparison of the properties
+that classes have in common. These properties are themselves compared
+based on correspondences between their names based on sub-string
+distance (like in <tt>SubsDistNameAlignment</tt>).
+</p>
+
+<h3>fr.inrialpes.exmo.align.impl.method.StructSubsDistAlignment</h3>
+<p>
+Establishes, like <tt>StructSubsDistAlignment</tt>, an alignment based
+on the comparison of the properties that classes have in common,
+except that, in the present case, an optimal matching is computed
+between the properties first.
+</p>
+
+<h3>fr.inrialpes.exmo.align.impl.method.SMAONameAlignment</h3>
+<p>
+Establishes an alignment based on the comparison of the names of
+entities in the two ontologies to match. It is somewhat similar to
+the <tt>EditDistNameAlignment</tt> but uses specific normalisation
+strategies based on how computer scientists usually name things (it
+knows about the Camel's notation, use of underscore, etc.).
+</p>
+
+<h3>fr.inrialpes.exmo.align.impl.method.EditDistNameAlignment</h3>
+<p>
+Establishes an alignment based on the comparison of the names of
+entities in the two ontologies to match. The measure is based on the
+edit distance between the names of the entity to compare. It measures
+the cost of transforming one string into another through insertion,
+deletion and replacement of characters.
+</p>
+
+</body>
+</html>

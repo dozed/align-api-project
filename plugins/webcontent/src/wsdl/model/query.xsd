@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/core/model/query"
+	xmlns:tns="http://weblab-project.org/core/model/query"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Query package - Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="model.xsd" />
+
+
+	<xs:complexType name="query" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				A query is a resource which contains request data. This
+				data describe a each specific specialisation of query,
+				in a specific format. The query object is then abstract
+				and several specialisations will be used to describe any
+				type of queries.
+
+				A proposal is to adopt common standards in order to
+				provide consistent definitions over all the WebLab
+				platform. XQuery and SPARQL format has been identified
+				as a promising candidate respectively for structured and
+				semantic search.
+
+				As a resource, a query could be annotated to provide,
+				for example, meta-informations on its creation date, its
+				author, etc.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Query package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:resource"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<!-- Offset and limit -->
+
+
+	<xs:complexType name="composedQuery">
+		<xs:annotation>
+			<xs:documentation>
+				This kind of query is only an aggregation of query using
+				a n-ary boolean operator to combine them.
+
+				Composing queries using various composed queries will
+				enable to deal with brackets.
+
+				Please note that when dealing with the operators AND and
+				OR, the number of queries should be at least two to be
+				used; used with a simple query it will have no effects.
+				NOT is a unary operator, so the list of queries should
+				be reduced to one, but when using it in a
+				more-that-one-query list, a AND NOT operator will be
+				used in fact.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Query package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:query">
+				<xs:sequence>
+					<xs:element name="query" type="tns:query"
+						minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								The list of query to be composed using
+								the operator, in the order of the list
+								if it has effects.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="operator" type="tns:operator"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								AND, OR or NOT operator to be used to
+								combine queries.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:simpleType name="operator">
+		<xs:annotation>
+			<xs:documentation>
+				This is a simple restriction of String to reduce the
+				values to the three boolean operators AND/OR/NOT.
+
+				Note that in a n-ary context, the unary operator NOT is
+				considered as a AND NOT.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Query package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AND">
+				<xs:annotation>
+					<xs:documentation>
+						A Boolean operator that narrows a search by
+						requiring all of the search queries to be
+						matched in the results retrieved.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OR">
+				<xs:annotation>
+					<xs:documentation>
+						A Boolean operator that broadens a search by
+						requiring any of the search queries to be
+						matched in the results retrieved.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NOT">
+				<xs:annotation>
+					<xs:documentation>
+						A Boolean operator that narrows a search by
+						excluding results of the given queries in the
+						results retrieved.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:complexType name="structuredQuery">
+		<xs:annotation>
+			<xs:documentation>
+				This kind of query is dedicated for search of document
+				structure and thus the chosen syntax is XQuery.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Query package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:query">
+				<xs:sequence>
+					<xs:element name="xquery" type="xs:string"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The string query in XQuery syntax.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="fullTextQuery">
+		<xs:annotation>
+			<xs:documentation>
+				This query is dedicated for full text search and thus
+				its syntax is similar to current search engines.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Query package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:query">
+				<xs:sequence>
+					<xs:element name="data" type="xs:string"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The string query in a free text syntax.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="entry" type="tns:attribute"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								A list of attributes.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="semanticQuery">
+		<xs:annotation>
+			<xs:documentation>
+				This query is dedicated for semantic search and thus its
+				syntax is SPARQL.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Query package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:query">
+				<xs:sequence>
+					<xs:element name="sparql" type="xs:string"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The string query in SPARQL syntax.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="similarityQuery">
+		<xs:annotation>
+			<xs:documentation>
+				This query is dedicated for search by similarity and
+				thus its content is a resource.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Query package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:query">
+				<xs:sequence>
+					<xs:element name="data" type="model:resource"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The resource to be used as template.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="entry" type="tns:attribute"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								A list of attributes.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="universalQuery">
+		<xs:annotation>
+			<xs:documentation>
+				This specific query allows to request on a list of
+				facets using a key/value map.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Query package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:query">
+				<xs:sequence>
+					<xs:element name="entry" type="tns:attribute"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								A list of attributes.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="attribute">
+		<xs:annotation>
+			<xs:documentation>
+				A simple container for two strings a key and its value
+				to carry out faceted search for instance.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="key" type="xs:string" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The key</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="value" type="xs:string" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>The value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

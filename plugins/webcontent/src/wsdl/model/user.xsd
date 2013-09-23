@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/core/model/user"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			User package - Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="model.xsd" />
+
+	<xs:complexType name="humanResource">
+		<xs:annotation>
+			<xs:documentation>
+				Human interaction should be a part of the WebLab
+				platform. Some particular tasks such as relevance
+				feedback will need a clear data model in order to
+				exchange information about user needs, behaviours,
+				preferences, profile... and so on. Thus this particular
+				object will handle them in a standardised way to offer
+				the human resource to all the services which needs them.
+				The internal format used to represent information about
+				a human are not fixed since it depends on other
+				component needs, but it must be serialised in XML. The
+				project could at least benefit from recent initiatives
+				around format and methodology to handle user's
+				information (P3P, UUCM, APML...).
+
+				Some major privacy issues are raised when dealing with
+				user's information and this must be taken into account.
+				However it is not in this document scope.
+
+				As a resource, a human resource could be annotated to
+				provide, for example, meta-information on its
+				application domain.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				User package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:resource">
+				<xs:sequence>
+					<xs:element name="data" type="xs:anyType"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The XML content describing a human
+								resource.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="usageContext">
+		<xs:annotation>
+			<xs:documentation>
+				An usage context represents a specific usage profile of
+				the system It can be used to provide specific
+				configuration to services regarding the usage
+				specificity.
+
+
+				Data Exchange Model for WebLab platform provided by EADS
+				User package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:resource" />
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>

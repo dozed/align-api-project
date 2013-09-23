@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- $Id: build.xml 1668 2012-01-31 15:27:06Z euzenat $ -->
+
+<project name="align" default="compile" basedir=".">
+	
+  <!-- tested -->
+  <target name="usage" depends="init">
+    <echo message="ant _target_ _options_"/>
+    <echo/>
+    <echo message="usage: this message"/>
+    <echo message="init: sets necessary variables"/>
+    <echo message="compile: incrementaly compiles sources"/>
+    <echo message="compileall: recompiles all sources"/>
+    <echo message="jar: archives compiled code"/>
+    <echo message="test: performs unit tests [nyi]"/>
+    <echo message="svnbranch: copy the version under svn"/>
+    <echo message="clean: clean-up before release"/>
+    <echo/>
+    <echo message="	-Dversion=${version}"/>
+  </target>
+
+  <!-- tested -->
+  <target name="init">
+    <property file="../../build.properties" />
+    <property name="piversion" value="9"/>
+    <property name="ntkvers" value="2.3"/>
+
+    <filter token="VERS" value="${ntkvers}.${piversion}/${version}"/>
+
+    <path id="classpath">
+      <fileset dir="./lib">
+	<include name="*.jar"/>
+      </fileset>
+      <fileset dir="../../lib">
+	<include name="align.jar"/>
+	<include name="procalign.jar"/>
+	<include name="ontowrap.jar"/>
+      </fileset>
+    </path>
+    
+  </target>
+
+  <!-- tested -->
+  <target name="compile" depends="init">
+    <echo message="Compiling..."/>
+    <property name="javacargs" value="-deprecation" />
+    <javac deprecation="yes" includeantruntime="false" nowarn="no" verbose="no" srcdir="src" destdir="neonalign" encoding="iso8859-15">
+      <compilerarg value="${javacargs}"/>
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <!-- tested -->
+  <target name="lint" depends="init">
+    <!-- values: all, deprecation, unchecked[3], fallthrough, path[5], serial, cast, finally -->
+    <echo message="Setting property..."/>
+    <property name="javacargs" value="-Xlint:all" />
+    <antcall target="compileall"/>
+  </target>
+
+  <!-- tested -->
+  <target name="compileall" depends="init">
+    <echo message="Erasing..."/>
+    <delete dir="neonalign" />
+    <mkdir dir="neonalign" />
+    <antcall target="compile"/>
+  </target>
+
+  <!-- tested -->
+  <target name="jar" depends="compileall">
+    <echo message="Jarchiving..."/>
+    <copy file="../../distrib/LICENSE.TXT" tofile="neonalign/LICENSE.TXT" filtering="true"/>
+    <copy file="distrib/plugin.xml" tofile="neonalign/plugin.xml" filtering="true"/>
+    <copy todir="neonalign/icons" filtering="false">
+      <fileset dir="distrib" includes="*.gif"/>
+    </copy>
+    <copy todir="neonalign/html" filtering="true">
+      <fileset dir="html">
+	<include name="**/*.html"/>
+	<include name="**/*.png"/>
+	<include name="toc.xml"/>
+      </fileset>
+    </copy>
+    <copy todir="neonalign/lib">
+      <fileset dir="../../lib">
+	<include name="align.jar"/>
+	<include name="procalign.jar"/>
+	<include name="ontowrap.jar"/>
+      </fileset>
+      <fileset dir="../../lib/ontosim" includes="ontosim.jar"/>
+      <!-- Useless: we cancelled JWNLAlignment -->
+      <!--fileset dir="../../lib/jwnl" includes="jwnl.jar"/-->
+    </copy>
+    <delete file="neonalign.jar"/>
+    <jar jarfile="fr.inrialpes.exmo.align.plugin.neontk_${ntkvers}.${piversion}.jar"
+	manifest="distrib/MANIFEST.MF">
+      <!-- Ant-based manifest does not seems to work with the NeOn toolkit -->
+      <!--manifest>
+	<attribute name="Manifest-Version" value="1.0"/>
+	<attribute name="Bundle-ManifestVersion" value="2"/>
+	<attribute name="Bundle-Name" value="Alignment Plug-in"/>
+	<attribute name="Bundle-SymbolicName" value="fr.inrialpes.exmo.align.plugin.neontk;singleton:=true"/>
+	<attribute name="Bundle-Version" value="${ntkvers}.${piversion}"/>
+	<attribute name="Bundle-Localization" value="plugin"/>
+	<attribute name="Bundle-Activator" value="fr.inrialpes.exmo.align.plugin.neontk.AlignmentPlugin"/>
+	<attribute name="Require-Bundle" value='org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.forms,
+ org.semanticweb.owl,
+ org.neontoolkit.core,
+ org.neontoolkit.io,
+ com.ontoprise.ontostudio.owl.gui;bundle-version="2.3.0";visibility:=reexport,
+ com.ontoprise.ontostudio.owl.model;bundle-version="2.3.0"'/>
+	<attribute name="Eclipse-AutoStart" value="true"/>
+	<attribute name="Bundle-ClassPath" value=".,
+ lib/procalign.jar,
+ lib/align.jar,
+ lib/ontowrap.jar,
+ lib/ontosim.jar"/>
+     </manifest-->
+
+      <fileset dir="neonalign" includes="**/*.*"/>
+    </jar>
+    <antcall target="clean"/>
+  </target>
+
+  <target name="clean">
+    <echo message="Cleaning..."/>
+    <!-- this does not seems to work -->
+    <delete dir="neonalign"/>
+  </target>
+
+</project>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://services.weblab.eads.com/fulltextindexing"
+	xmlns:indexer="http://services.weblab.eads.com/indexer"
+	xmlns:configurable="http://services.weblab.eads.com/configurable"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://services.weblab.eads.com/fulltextindexing"
+	name="FullTextIndexingService">
+	<import namespace="http://services.weblab.eads.com/indexer"
+		location="../interfaces/Indexer.wsdl">
+	</import>
+	<import namespace="http://services.weblab.eads.com/configurable"
+		location="../interfaces/Configurable.wsdl">
+	</import>
+
+	<service name="FullTextIndexingService">
+		<port name="ConfigurablePort"
+			binding="configurable:ConfigurableSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+		<port name="IndexerPort"
+			binding="indexer:IndexerSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+	</service>
+</definitions>

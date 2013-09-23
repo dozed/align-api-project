@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/core/model/content"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://weblab-project.org/core/model/content"
+	xmlns:model="http://weblab-project.org/core/model/">
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Content package - Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="model.xsd" />
+
+	<xs:complexType name="content">
+		<xs:annotation>
+			<xs:documentation>
+				Content is an abstract type which provides limit and
+				offset (their unit are consistent together and described
+				in the specialisations) for instantiable contents.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Content package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:resource">
+				<xs:sequence>
+					<xs:element name="offset" type="xs:int"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								A quantity to be defined in
+								specialisations that corresponds to the
+								start offset of the part of a native
+								content regarding the complete native
+								content.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="limit" type="xs:int" minOccurs="1"
+						maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								A quantity to be defined in
+								specialisations that represents the size
+								of the native content part.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="textContent">
+		<xs:annotation>
+			<xs:documentation>
+				Text content simply contains part of a text in UTF-8.
+
+				Offset and limit are defined, for this specialisation,
+				in a number of chars in the UTF-8 String.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Content package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:content">
+				<xs:sequence>
+					<xs:element name="data" type="xs:string"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The UTF-8 String of the content.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="binaryContent">
+		<xs:annotation>
+			<xs:documentation>
+				Binary content simply contains part of a binary large
+				content.
+
+				Offset and limit are defined, for this specialisation,
+				in a number of bytes.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Content package - Version 0.8 - 2008/02
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:content">
+				<xs:sequence>
+					<xs:element name="data" type="xs:base64Binary"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The byte array of the content.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>

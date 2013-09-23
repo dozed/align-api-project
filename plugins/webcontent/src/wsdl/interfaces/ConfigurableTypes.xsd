@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<xs:schema
+	xmlns:tns="http://weblab-project.org/services/configurable/types"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:user="http://weblab-project.org/core/model/user"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://weblab-project.org/services/configurable/types">
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="../model/model.xsd" />
+
+	<!-- import here all others definitions files -->
+	<xs:import namespace="http://weblab-project.org/core/model/content"
+		schemaLocation="../model/content.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/multimedia"
+		schemaLocation="../model/multimedia.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/ontology"
+		schemaLocation="../model/ontology.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/query"
+		schemaLocation="../model/query.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/service"
+		schemaLocation="../model/service.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/structure"
+		schemaLocation="../model/structure.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/text"
+		schemaLocation="../model/text.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/user"
+		schemaLocation="../model/user.xsd" />
+	<!-- end additionals imports -->
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="configureArgs" type="tns:configureArgs" />
+
+	<xs:element name="configureReturn" type="tns:configureReturn" />
+
+	<xs:complexType name="configureArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the usage context and the request
+				annotation to be used to configure the service.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="1" maxOccurs="1" />
+			<xs:element name="configuration" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="configureReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Just an empty wrapper since a service can't return a
+				void.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+	<xs:element name="resetConfigurationArgs"
+		type="tns:resetConfigurationArgs" />
+
+	<xs:element name="resetConfigurationReturn"
+		type="tns:resetConfigurationReturn" />
+
+	<xs:complexType name="resetConfigurationArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the usage context.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="resetConfigurationReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Just an empty wrapper since a service can't return a
+				void.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+</xs:schema>

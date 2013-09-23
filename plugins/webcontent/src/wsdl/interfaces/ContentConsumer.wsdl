@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/contentconsumer"
+	xmlns:types="http://weblab-project.org/services/contentconsumer/types"
+	xmlns:error="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/contentconsumer"
+	name="ContentConsumer">
+
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://weblab-project.org/services/contentconsumer/types"
+				schemaLocation="ContentConsumerTypes.xsd" />
+			<xsd:import
+				namespace="http://weblab-project.org/services/exception"
+				schemaLocation="exception.xsd" />
+		</xsd:schema>
+	</types>
+
+	<message name="setContentRequest">
+		<part name="args" element="types:setContentArgs" />
+	</message>
+	<message name="setContentResponse">
+		<part name="return" element="types:setContentReturn" />
+	</message>
+	<message name="setContentException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<portType name="ContentConsumer">
+		<documentation>
+			The content consumer interface will be used to define
+			services that need to handle with unstructured or
+			format-specific contents.
+		</documentation>
+		<operation name="setContent">
+			<documentation>
+				Set the content to be used (analysed or stored for
+				instance) by the service.
+			</documentation>
+			<input name="setContentInput"
+				message="tns:setContentRequest" />
+			<output name="setContentOutput"
+				message="tns:setContentResponse" />
+			<fault name="setContentException"
+				message="tns:setContentException">
+				<documentation>
+					To be thrown if an error occurs in setContent
+					method.
+				</documentation>
+			</fault>
+		</operation>
+	</portType>
+
+	<binding name="ContentConsumerSOAPBinding"
+		type="tns:ContentConsumer">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="setContent">
+			<soap:operation soapAction="setContent" />
+			<input name="setContentInput">
+				<soap:body use="literal"></soap:body>
+			</input>
+			<output name="setContentOutput">
+				<soap:body use="literal" />
+			</output>
+			<fault name="setContentException">
+				<soap:fault name="setContentException" use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+</definitions>

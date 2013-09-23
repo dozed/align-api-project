@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/configurable"
+	xmlns:types="http://weblab-project.org/services/configurable/types"
+	xmlns:error="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/configurable"
+	name="Configurable">
+
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://weblab-project.org/services/configurable/types"
+				schemaLocation="ConfigurableTypes.xsd" />
+			<xsd:import
+				namespace="http://weblab-project.org/services/exception"
+				schemaLocation="exception.xsd" />
+		</xsd:schema>
+	</types>
+
+	<!-- Configure -->
+	<message name="configureRequest">
+		<part name="args" element="types:configureArgs" />
+	</message>
+	<message name="configureResponse">
+		<part name="return" element="types:configureReturn" />
+	</message>
+	<message name="configureException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<!-- ResetConfiguration -->
+	<message name="resetConfigurationRequest">
+		<part name="args" element="types:resetConfigurationArgs" />
+	</message>
+	<message name="resetConfigurationResponse">
+		<part name="return" element="types:resetConfigurationReturn" />
+	</message>
+	<message name="resetConfigurationException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+
+	<portType name="Configurable">
+		<documentation>
+			The configurable interface will be used to define services
+			of which behavior depends on a usage context, this context
+			corresponding to a particular set of parameters.
+
+			In some services, the configurable interface is optional and
+			won't be inevitably realised in every implementations.
+		</documentation>
+		<operation name="configure">
+			<documentation>Configure the service.</documentation>
+			<input name="configureInput" message="tns:configureRequest" />
+			<output name="configureOutput"
+				message="tns:configureResponse" />
+			<fault name="configureException"
+				message="tns:configureException">
+				<documentation>
+					To be thrown if an error occurs in configure method.
+				</documentation>
+			</fault>
+		</operation>
+
+		<operation name="resetConfiguration">
+			<documentation>
+				Reset the configuration of the service to the default
+				one.
+			</documentation>
+			<input name="resetConfigurationInput"
+				message="tns:resetConfigurationRequest" />
+			<output name="resetConfigurationOutput"
+				message="tns:resetConfigurationResponse" />
+			<fault name="resetConfigurationException"
+				message="tns:resetConfigurationException">
+				<documentation>
+					To be thrown if an error occurs in
+					resetConfiguration method.
+				</documentation>
+			</fault>
+		</operation>
+	</portType>
+
+	<binding name="ConfigurableSOAPBinding" type="tns:Configurable">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="configure">
+			<soap:operation soapAction="configure" />
+			<input name="configureInput">
+				<soap:body use="literal" />
+			</input>
+			<output name="configureOutput">
+				<soap:body use="literal" />
+			</output>
+			<fault name="configureException">
+				<soap:fault name="configureException" use="literal" />
+			</fault>
+		</operation>
+
+		<operation name="resetConfiguration">
+			<soap:operation soapAction="resetConfiguration" />
+			<input name="resetConfigurationInput">
+				<soap:body use="literal" />
+			</input>
+			<output name="resetConfigurationOutput">
+				<soap:body use="literal" />
+			</output>
+			<fault name="resetConfigurationException">
+				<soap:fault name="resetConfigurationException"
+					use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+</definitions>

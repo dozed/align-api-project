@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<xs:schema xmlns:tns="http://services.weblab.eads.com/webcrawling/types"
+	xmlns:model="http://model.core.weblab.eads.com/"
+	xmlns:user="http://model.core.weblab.eads.com/user"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://services.weblab.eads.com/webcrawling/types">
+
+	<xs:import namespace="http://model.core.weblab.eads.com/"
+		schemaLocation="../model/model.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/content"
+		schemaLocation="../model/content.xsd" />
+	<!-- import here all others definitions files -->
+
+	<xs:import namespace="http://model.core.weblab.eads.com/multimedia"
+		schemaLocation="../model/multimedia.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/ontology"
+		schemaLocation="../model/ontology.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/query"
+		schemaLocation="../model/query.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/service"
+		schemaLocation="../model/service.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/structure"
+		schemaLocation="../model/structure.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/text"
+		schemaLocation="../model/text.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/user"
+		schemaLocation="../model/user.xsd" />
+
+	<!-- end additionals imports -->
+
+	<xs:element name="startCrawlArgs" type="tns:startCrawlArgs" />
+
+	<xs:element name="startCrawlReturn" type="tns:startCrawlReturn" />
+
+	<xs:complexType name="startCrawlArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the usage context used to launch the crawl.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="startCrawlReturn">
+		<xs:annotation>
+			<xs:documentation>Just an empty wrapper.</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+	<xs:element name="getCrawledDocumentsArgs"
+		type="tns:getCrawledDocumentsArgs" />
+
+	<xs:element name="getCrawledDocumentsReturn"
+		type="tns:getCrawledDocumentsReturn" />
+
+	<xs:complexType name="getCrawledDocumentsArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the usage context and offset and a limit to retrieve captured document in the exchange format
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="1" maxOccurs="1" />
+			<xs:element name="offset" type="xs:int" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="limit" type="xs:int" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="getCrawledDocumentsReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing a collection of crawled documents.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="resourceCollection"
+				type="model:resourceCollection" maxOccurs="1" minOccurs="1" />
+
+		</xs:sequence>
+	</xs:complexType>
+
+
+</xs:schema>

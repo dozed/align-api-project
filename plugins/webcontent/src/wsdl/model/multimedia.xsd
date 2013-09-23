@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/core/model/multimedia"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:tns="http://weblab-project.org/core/model/multimedia"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Multimedia package - Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="model.xsd" />
+
+
+	<xs:complexType name="binaryMediaUnit">
+		<xs:annotation>
+			<xs:documentation>
+				As a resource, a binary unit could be annotated to
+				provide, for example, meta-information on its content or
+				its format. It can also be described with low level
+				descriptors.
+
+				Binary media unit is abstract and enable its inherited
+				media units to have the capability to store their native
+				content is a binary 64 field. But when this content is
+				very large, the use of the binary content is encouraged.
+				It fact, the real binary content of the binary unit will
+				be in a content object and not in the content field of
+				binary media unit. This will prevent the transport of
+				the whole content between every services in the platform
+				if not needed. If the content is in a separated content
+				object, then the binary media unit object should be
+				annotated with the URI of this content object.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Multimedia package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:mediaUnit">
+				<xs:sequence>
+					<xs:element name="content" type="xs:base64Binary"
+						minOccurs="0" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The optional content as a byte array.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="audio">
+		<xs:annotation>
+			<xs:documentation>
+				An audio unit describes audio content out of media
+				document. It does not have any particular attribute but
+				only allow describing the structure.
+
+				As a resource it can be annotated to describe the audio
+				content. It can also be described using low level
+				descriptors. The original content may be in content
+				field or a reference using an annotation should be made
+				to the content.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Multimedia package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:binaryMediaUnit" />
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="image">
+		<xs:annotation>
+			<xs:documentation>
+				An image unit describe a visual static content out of
+				media document. It does not have any particular
+				attribute but only allow describing the structure.
+
+				As a resource it can be annotated to describe the
+				content. It can also be described using low level
+				descriptors. The original content may be in the content
+				field or a reference using annotation should be made to
+				the content.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Multimedia package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:binaryMediaUnit" />
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="video">
+		<xs:annotation>
+			<xs:documentation>
+				A video unit describes a dynamic visual content out of
+				media document.
+
+				As a resource it can be annotated to describe the
+				content. It can also be described using low level
+				descriptors. The original content may be in the content
+				field or a reference using annotation should be made to
+				the content.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Multimedia package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:binaryMediaUnit" />
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="spatialSegment">
+		<xs:annotation>
+			<xs:documentation>
+				A spatial segment is aiming to localise any meaningful
+				content in a spatial document. For example, one can
+				think to a picture showing some people. Specific segment
+				can be localised with coordinate descriptors defining
+				the silhouettes of each person in the picture. Then
+				specific annotation can be applied to each segment (i.e.
+				to declare that those are human beings). It is the kind
+				of segment that may be used for image and video unit.
+
+				The coordinates are describing a closed shape since the
+				last coordinate of the list will be linked to the first
+				one.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Multimedia package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:segment">
+				<xs:sequence>
+					<xs:element name="coordinate" type="tns:coordinate"
+						minOccurs="2" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								A list of coordinate defining a closed
+								shape. Last coordinate will be linked to
+								first one.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="coordinate">
+		<xs:annotation>
+			<xs:documentation>
+				A coordinate is a simple container of two dimensional
+				coordinate aiming at localising information spatially in
+				a mediaUnit; for instance in an image or a video.
+
+				Those dimensions are explained in pixel, given the fact
+				that it starts at bottom-left with (0;0).
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Multimedia package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="x" type="xs:int" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Abscissa value in pixel, with 0 at the left
+						border.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="y" type="xs:int" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						Ordinate value in pixel, with 0 at the bottom
+						border.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="temporalSegment">
+		<xs:annotation>
+			<xs:documentation>
+				A temporal segment is a segment that is described by a
+				start and stop reference in accordance to a millisecond
+				metric. It is the kind of position that may be used for
+				audio and video units.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Multimedia package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:segment">
+				<xs:sequence>
+					<xs:element name="start" type="xs:int" minOccurs="1"
+						maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Start value in millisecond.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="end" type="xs:int" minOccurs="1"
+						maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								End value in millisecond.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/indexer"
+	xmlns:types="http://weblab-project.org/services/indexer/types"
+	xmlns:error="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/indexer"
+	name="Indexer">
+
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://weblab-project.org/services/indexer/types"
+				schemaLocation="IndexerTypes.xsd" />
+			<xsd:import
+				namespace="http://weblab-project.org/services/exception"
+				schemaLocation="exception.xsd" />
+		</xsd:schema>
+	</types>
+
+	<message name="indexRequest">
+		<part name="args" element="types:indexArgs" />
+	</message>
+	<message name="indexResponse">
+		<part name="return" element="types:indexReturn" />
+	</message>
+	<message name="indexException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<portType name="Indexer">
+		<documentation>
+			The indexer interface will be used to define resources
+			indexing services. This interface will be realised only by
+			services enabling on-line indexing.
+		</documentation>
+		<operation name="index">
+			<documentation>Index the given resource.</documentation>
+			<input name="indexInput" message="tns:indexRequest" />
+			<output name="indexOutput" message="tns:indexResponse" />
+			<fault name="indexException" message="tns:indexException">
+				<documentation>
+					To be thrown if an error occurs in index method.
+				</documentation>
+			</fault>
+		</operation>
+	</portType>
+
+	<binding name="IndexerSOAPBinding" type="tns:Indexer">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="index">
+			<soap:operation soapAction="index" />
+			<input name="indexInput">
+				<soap:body use="literal" />
+			</input>
+			<output name="indexOutput">
+				<soap:body use="literal" />
+			</output>
+			<fault name="indexException">
+				<soap:fault name="indexException" use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+</definitions>

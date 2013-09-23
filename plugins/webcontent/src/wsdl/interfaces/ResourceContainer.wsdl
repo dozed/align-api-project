@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/resourcecontainer"
+	xmlns:types="http://weblab-project.org/services/resourcecontainer/types"
+	xmlns:error="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/resourcecontainer"
+	name="ResourceContainer">
+
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://weblab-project.org/services/resourcecontainer/types"
+				schemaLocation="ResourceContainerTypes.xsd" />
+			<xsd:import
+				namespace="http://weblab-project.org/services/exception"
+				schemaLocation="exception.xsd" />
+		</xsd:schema>
+	</types>
+
+	<!-- saveResource -->
+	<message name="saveResourceRequest">
+		<part name="args" element="types:saveResourceArgs" />
+	</message>
+	<message name="saveResourceResponse">
+		<part name="return" element="types:saveResourceReturn" />
+	</message>
+	<message name="saveResourceException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<!-- getResource -->
+	<message name="getResourceRequest">
+		<part name="args" element="types:getResourceArgs" />
+	</message>
+	<message name="getResourceResponse">
+		<part name="return" element="types:getResourceReturn" />
+	</message>
+	<message name="getResourceException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<portType name="ResourceContainer">
+		<documentation>
+			The resource container interface will be used to define
+			services that can manage the resources persistence.
+		</documentation>
+		<operation name="saveResource">
+			<documentation>
+				Save a resource in the repository.
+			</documentation>
+			<input name="saveResourceRequest"
+				message="tns:saveResourceRequest" />
+			<output name="saveResourceResponse"
+				message="tns:saveResourceResponse" />
+			<fault name="saveResourceException"
+				message="tns:saveResourceException">
+				<documentation>
+					To be thrown if an error occurs in saveResource
+					method.
+				</documentation>
+			</fault>
+		</operation>
+		<operation name="getResource">
+			<documentation>
+				Get a resource stored in the repository.
+			</documentation>
+			<input name="getResourceRequest"
+				message="tns:getResourceRequest" />
+			<output name="getResourceResponse"
+				message="tns:getResourceResponse" />
+			<fault name="getResourceException"
+				message="tns:getResourceException">
+				<documentation>
+					To be thrown if an error occurs in getResource
+					method.
+				</documentation>
+			</fault>
+		</operation>
+	</portType>
+
+	<binding name="ResourceContainerSOAPBinding"
+		type="tns:ResourceContainer">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="saveResource">
+			<soap:operation soapAction="saveResource" />
+			<input name="saveResourceRequest">
+				<soap:body use="literal" />
+			</input>
+			<output name="saveResourceResponse">
+				<soap:body use="literal" />
+			</output>
+			<fault name="saveResourceException">
+				<soap:fault name="saveResourceException" use="literal" />
+			</fault>
+		</operation>
+		<operation name="getResource">
+			<soap:operation soapAction="getResource" />
+			<input name="getResourceRequest">
+				<soap:body use="literal" />
+			</input>
+			<output name="getResourceResponse">
+				<soap:body use="literal" />
+			</output>
+			<fault name="getResourceException">
+				<soap:fault name="getResourceException" use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+</definitions>

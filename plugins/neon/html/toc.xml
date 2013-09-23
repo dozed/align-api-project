@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<!-- JE: this may be without html now -->
+<toc label="Alignment plugin">
+  <topic label="Introduction" href="html/intro.html"/>
+  <topic label="Commands" href="html/commands.html"/>
+  <topic label="Step-by-step usage" href="html/doc.html"/>
+  <topic label="Standard matchers" href="html/matchers.html"/>
+  <topic label="Use Cases" href="html/use.html"/>
+</toc>

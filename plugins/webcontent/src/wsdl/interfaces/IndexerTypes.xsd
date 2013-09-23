@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<xs:schema xmlns:tns="http://weblab-project.org/services/indexer/types"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:user="http://weblab-project.org/core/model/user"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://weblab-project.org/services/indexer/types">
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="../model/model.xsd" />
+
+	<!-- import here all others definitions files -->
+	<xs:import namespace="http://weblab-project.org/core/model/content"
+		schemaLocation="../model/content.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/multimedia"
+		schemaLocation="../model/multimedia.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/ontology"
+		schemaLocation="../model/ontology.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/query"
+		schemaLocation="../model/query.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/service"
+		schemaLocation="../model/service.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/structure"
+		schemaLocation="../model/structure.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/text"
+		schemaLocation="../model/text.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/user"
+		schemaLocation="../model/user.xsd" />
+	<!-- end additionals imports -->
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="indexArgs" type="tns:indexArgs" />
+
+	<xs:element name="indexReturn" type="tns:indexReturn" />
+
+	<xs:complexType name="indexArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the resource to index.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="resource" type="model:resource"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="indexReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Just an empty wrapper since a service can't return a
+				void.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+</xs:schema>

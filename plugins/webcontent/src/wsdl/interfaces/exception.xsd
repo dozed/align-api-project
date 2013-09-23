@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/services/exception"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://weblab-project.org/services/exception">
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="webLabException" type="tns:webLabException" />
+
+	<xs:complexType name="webLabException">
+		<xs:annotation>
+			<xs:documentation>
+				This is the common exception to be shared by the
+				services. It contains an error message which is free to
+				use and a errorId which is normalised.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="errorMessage" type="xs:string"
+				minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						The error message, free text for the service.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="errorId" type="xs:string" minOccurs="1"
+				maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>
+						An error id which is (should be) normalised.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>
+

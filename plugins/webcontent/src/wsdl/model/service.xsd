@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/core/model/service"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Service package - Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="model.xsd" />
+
+	<xs:complexType name="service">
+		<xs:annotation>
+			<xs:documentation>
+				A service is a resource which contains XML data. This
+				data describe the WSDL interface of the service (roughly
+				speaking its functions, needed arguments and returned
+				values).
+
+				As a resource, a service could be annotated to provide,
+				for example, meta-information on its creation date,
+				description of its internal process, reliability
+				indication, or anything relevant to the WebLab platform.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Service package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:resource">
+				<xs:sequence>
+					<xs:element name="data" type="xs:anyType"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								The WSDL interface of the service (XML).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>

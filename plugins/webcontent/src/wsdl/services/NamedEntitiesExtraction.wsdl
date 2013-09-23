@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://services.weblab.eads.com/namedentitiesextraction"
+	xmlns:analyzer="http://services.weblab.eads.com/analyzer"
+	xmlns:configurable="http://services.weblab.eads.com/configurable"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://services.weblab.eads.com/namedentitiesextraction"
+	name="NamedEntitiesExtractionService">
+
+	<import namespace="http://services.weblab.eads.com/analyzer"
+		location="../interfaces/Analyzer.wsdl">
+	</import>
+	<import namespace="http://services.weblab.eads.com/configurable"
+		location="../interfaces/Configurable.wsdl">
+	</import>
+	<service name="NamedEntitiesExtractionService">
+		<port name="AnalyzerPort" binding="analyzer:AnalyzerSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+		<port name="ConfigurablePort" binding="configurable:ConfigurableSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+	</service>
+</definitions>

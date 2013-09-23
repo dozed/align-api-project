@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://services.weblab.eads.com/analyzer"
+	xmlns:types="http://services.weblab.eads.com/analyzer/types"
+	xmlns:error="http://model.core.weblab.eads.com/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://services.weblab.eads.com/analyzer"
+	name="Analyzer">
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://services.weblab.eads.com/analyzer/types"
+				schemaLocation="AnalyzerTypes.xsd" />
+			<xsd:import
+				namespace="http://model.core.weblab.eads.com/exception"
+				schemaLocation="exception.xsd" />
+		</xsd:schema>
+	</types>
+	<message name="processRequest">
+		<part name="args" element="types:processArgs" />
+	</message>
+	<message name="processResponse">
+		<part name="return" element="types:processReturn" />
+	</message>
+
+	<message name="processException">
+		<!-- this part name isn't used in source code generation using wsimport
+			but it's necessary -->
+		<part name="error" element="error:webLabException" />
+	</message>
+	<portType name="Analyzer">
+		<operation name="process">
+			<input name="processInput" message="tns:processRequest" />
+			<output name="processOutput" message="tns:processResponse" />
+			<!-- this name have to match with the binding - operation - fault and soap:fault name attribute -->
+			<fault name="processException"
+				message="tns:processException">
+			</fault>
+		</operation>
+	</portType>
+	<binding name="AnalyzerSOAPBinding" type="tns:Analyzer">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document"></soap:binding>
+		<operation name="process">
+			<soap:operation soapAction="process"></soap:operation>
+			<input name="processInput">
+				<soap:body use="literal"></soap:body>
+			</input>
+			<output name="processOutput">
+				<soap:body use="literal"></soap:body>
+			</output>
+			<!-- fault name have to be the same has in the portype - operation - fault name -->
+			<fault name="processException">
+				<!-- exactly the same for the soap:fault name attribute -->
+				<soap:fault name="processException" use="literal"></soap:fault>
+			</fault>
+		</operation>
+	</binding>
+</definitions>

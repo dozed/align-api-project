@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://services.weblab.eads.com/documentanalysis"
+	xmlns:analyzer="http://services.weblab.eads.com/analyzer"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://services.weblab.eads.com/documentanalysis"
+	name="DocumentAnalysisService">
+	<import namespace="http://services.weblab.eads.com/analyzer"
+		location="../interfaces/Analyzer.wsdl">
+	</import>
+	
+	<service name="DocumentAnalysisService">
+		<port name="AnalyzerPort"
+			binding="analyzer:AnalyzerSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+	</service>
+</definitions>

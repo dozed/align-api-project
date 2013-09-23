@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<xs:schema xmlns:tns="http://weblab-project.org/services/ontologyalignment/types"
+	xmlns:model="http://weblab-project.org/core/model/" xmlns:user="http://weblab-project.org/core/model/user"
+	xmlns:structure="http://weblab-project.org/core/model/structure"
+	xmlns:ontology="http://weblab-project.org/core/model/ontology"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://weblab-project.org/services/ontologyalignment/types">
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="../model/model.xsd" />
+
+	<!-- import here all others definitions files -->
+	<xs:import namespace="http://weblab-project.org/core/model/content"
+		schemaLocation="../model/content.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/multimedia"
+		schemaLocation="../model/multimedia.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/ontology"
+		schemaLocation="../model/ontology.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/query"
+		schemaLocation="../model/query.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/service"
+		schemaLocation="../model/service.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/structure"
+		schemaLocation="../model/structure.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/text"
+		schemaLocation="../model/text.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/user"
+		schemaLocation="../model/user.xsd" />
+	<!-- end additionals imports -->
+	<xs:annotation>
+		<xs:documentation>
+			An additional interface, to be only used for
+			OntologyEnrichment service.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element name="matchArgs" type="tns:matchArgs" />
+	<xs:element name="matchReturn" type="tns:matchReturn" />
+	<xs:complexType name="matchArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the two ontologies to align and the usage
+				context to be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element name="onto1" type="ontology:ontology"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element name="onto2" type="ontology:ontology"
+				minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="matchReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the computed annotation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="annotation" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="findArgs" type="tns:findArgs" />
+	<xs:element name="findReturn" type="tns:findReturn" />
+	<xs:complexType name="findArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the two ontologies to align and the usage
+				context to be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="onto1" type="ontology:ontology"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element name="onto2" type="ontology:ontology"
+				minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+ 	
+	<xs:complexType name="findReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the computed annotation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="annotation" type="model:annotation"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="retrieveArgs" type="tns:retrieveArgs" />
+	<xs:element name="retrieveReturn" type="tns:retrieveReturn" />
+	<xs:complexType name="retrieveArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the two ontologies to align and the usage
+				context to be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element name="align" type="model:annotation"
+				minOccurs="0" maxOccurs="1" />
+ 		</xs:sequence>
+	</xs:complexType>
+ 	
+	<xs:complexType name="retrieveReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the computed annotation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="annotation" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="trimArgs" type="tns:trimArgs" />
+	<xs:element name="trimReturn" type="tns:trimReturn" />
+	<xs:complexType name="trimArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the two ontologies to align and the usage
+				context to be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="threshold" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+			<xs:element name="align" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+ 		</xs:sequence>
+	</xs:complexType>
+ 	
+	<xs:complexType name="trimReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the computed annotation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="annotation" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="storeArgs" type="tns:storeArgs" />
+	<xs:element name="storeReturn" type="tns:storeReturn" />
+	<xs:complexType name="storeArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the two ontologies to align and the usage
+				context to be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="align" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+ 		</xs:sequence>
+	</xs:complexType>
+ 	
+	<xs:complexType name="storeReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the computed annotation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="annotation" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="loadArgs" type="tns:loadArgs" />
+	<xs:element name="loadReturn" type="tns:loadReturn" />
+	<xs:complexType name="loadArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the two ontologies to align and the usage
+				context to be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="fileContent" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+ 		</xs:sequence>
+	</xs:complexType>
+ 	
+	<xs:complexType name="loadReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the computed annotation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="annotation" type="model:annotation"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="addResourceArgs" type="tns:addResourceArgs" />
+	<xs:element name="addResourceReturn" type="tns:addResourceReturn" />
+	<xs:complexType name="addResourceArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the resource and the usage context to
+				add.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element name="resource" type="model:resource"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="addResourceReturn">
+		<xs:annotation>
+			<xs:documentation>Just an empty wrapper.</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints
+  xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+  version="2.0">
+  
+  <endpoint
+    name="webcontent"
+    implementation="fr.inrialpes.exmo.align.plugin.webcontent.OntologyAlignmentImpl"
+    url-pattern="/*"/>
+
+     
+</endpoints>

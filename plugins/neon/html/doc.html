@@ -1,0 +1,139 @@
+<html><head><title>NeOn Alignment Plugin: Step-by-step usage</title></head>
+<body>
+
+<h1 class="mw-headline">NeOn Alignment Plugin: Step-by-step usage</h1>
+
+<p>
+The NeOn Alignment plugin panel is obtained by selecting "Windows" ->
+"Show view" -> "Others..." -> "Alignment" -> "Alignment".
+</p>
+<!--p>To activate the NeOn Alignment Plugin from the NeOnToolkit Menu,
+ click on the "Align" menu or the button on Toolbar, a view "Alignment
+ Server" for the plugin will be opened.
+</p-->
+<p>
+The figure below shows the available functions of the plugin.
+</p><p><a href="Functions.png" class="image" title="Image:Functions.png"><img alt="Image:Functions.png" src="Functions.png" width="831" height="707" border="0" /></a>
+
+</p>
+<p>
+The NeOn Alignment Plugin can work in two modes: offline and
+online. Roughly speaking, the offline mode allows users to reach
+main functionalities of the Alignment Server without connection to
+the server while the online mode offers additionally mechanisms to
+store and reuse alignments. 
+</p>
+
+<h2>Using the plugin in local mode</h2>
+
+<p>
+In the offline mode, which is activated by clicking on button
+"Offline", the NeOn Alignment Plugin can access to NeOn Toolkit
+ontologies (i.e. opened ontologies in Ontology Navigator) and match
+any pair of them. Resulting alignments can be stored as local system
+files and imported to Ontology Navigator as OWL ontologies.
+</p>
+
+<a name="Stepwise_example." id="Stepwise_example."></a>
+<h3 class="mw-headline">Step-by-step example</h3>
+
+<a name="Show_the_Ontology_Navigator_view"
+   id="Show_the_Ontology_Navigator_view"></a>
+<h4 class="mw-headline">Show the Ontology Navigator view</h4>
+
+<p>From the Ontology Navigator, create a
+  project, for example "OntologyProject", in this view.</p>
+
+<a name="Open_working_OWL_ontologies"
+   id="Open_working_OWL_ontologies"></a>
+<h4 class="mw-headline">Open working OWL ontologies</h4>
+
+<p>From the menu bar of the NeonToolkit, open working OWL ontologies
+  in the project "OntologyProject" created above by "File -&gt;
+  Import... -&gt; Ontologies -&gt; ". You can select either "OWL2
+  Ontologies from the filesystem" or "Import ontology from the web"</p>
+
+<!--a name="Activate_the_Neon_Alignment_Plugin"
+   id="Activate_the_Neon_Alignment_Plugin"></a>
+
+<h4 class="mw-headline">Activate the Neon Alignment Plugin</h4>
+
+<p>From the menu bar or the button, activate the Neon Alignment Plugin
+  and a view for the plug-in will be openned.</p-->
+
+<!--a name="Define_an_alignment_project"
+   id="Define_an_alignment_project"></a>
+<h4 class="mw-headline">Define an alignment project</h4>
+
+<p>From the view for the plug-in, give a name in the field "Alignment
+  Project Name". This name will be used for an Ontology Navigator
+  project which includes all alignments created by the NeOn Alignment
+  plug-in later on.</p-->
+
+<a name="Matching_two_ontologies" id="Matching_two_ontologies"></a>
+<h4 class="mw-headline">Matching two ontologies</h4>
+
+<p>First we must fetch the working ontologies from Ontology Navigator
+  by clicking on the button "Refresh". All the working ontologies will
+  be added to two lists "Ontology 1" and "Ontology 2". Choose two
+  ontologies to match from the two lists. Next, choose an alignment
+  method from the list "Alignment methods". Click on "Match" to match
+  these two ontologies with the method chosen. The resulting alignment
+  will be  added to the list "Alignments found". See the figure below.
+</p>
+<p><a href="Matching.png" class="image" title="Image:Matching.png"><img alt="Image:Matching.png" src="Matching.png" width="831" height="534" border="0" /></a>
+</p>
+
+<a name="Importing_an_alignment" id="Importing_an_alignment"></a>
+<h4 class="mw-headline">Importing an alignment</h4>
+
+<p>Choose an alignment from the list "Alignments found" and click on
+  "Import to Ontology Navigator". The alignment chosen will be
+  imported as an OWL ontology to the alignment project which was
+  created in Ontology Navigator. Users can navigate the OWL alignment
+  imported in Ontology Navigator. See the figure below.</p>
+
+<p><a href="ImporOWLAlign.png" class="image" title="Image:ImporOWLAlign.png"><img alt="Image:ImporOWLAlign.png" src="ImporOWLAlign.png" width="884" height="659" border="0" /></a>
+</p><p><br />
+</p>
+
+<h2>Using the plugin with the Alignment Server</h2>
+
+<p>
+In the online mode,  which is activated by clicking on button
+"Online", the NeOn Alignment Plugin provides all functions from the
+Alignment Server.  Resulting alignments are stored  on the server and
+exported to Ontology Navigator as OWL ontologies. This allows NeOn
+Toolkit users, with help of the Ontology Editor, to use, share or edit
+alignments.
+</p>
+
+<a name="Activate_the_on-line_mode"
+   id="Activate_the_on-line_mode"></a>
+<h4 class="mw-headline">Activate the on-line mode</h4>
+
+<p>From the view for the plugin, activate the on-line mode by clicking on the button "Online" and the button "Connect" becomes enabled.
+<p>
+
+<a name="Connecting" id="Connecting"></a>
+<h4 class="mw-headline">Connecting</h4>
+
+<p>To connect to the INRIA's Alignment Server from the NeOn Alignment Plugin, you have to type "aserv.inrialpes.fr" for hostname and "80" for port.<br />
+If the connection is successful, we can see the buttons "Refresh", "Match", "Import to Ontology Navigator", "Trim", "Find an alignment...", "Store an alignment..." and "Fetch available alignments..." become enable. In particular, a list of available alignment methods is visible at "Alignment methods". In addition, an Ontology Navigator project, whose name was defined above, is automatically created for alignments.
+</p>
+
+<a name="Fetch_available_alignments"
+   id="Fetch_available_alignments"></a>
+<h4 class="mw-headline">Fetch available alignments</h4>
+
+<p>This function allows users to obtain a list of all alignments
+  available on the Alignment Server. See the figure below.</p>
+
+<p><a href="FetchAlign.png" class="image" title="Image:FetchAlign.png"><img alt="Image:FetchAlign.png" src="FetchAlign.png" width="899" height="612" border="0" /></a>
+</p>
+
+<!--h2>How to use the NeOn Alignment Plugin with Ontomap Plugin</h2-->
+
+
+</body>
+</html>

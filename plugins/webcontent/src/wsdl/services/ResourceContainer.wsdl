@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/resourcescontainer"
+	xmlns:resourcecontainer="http://weblab-project.org/services/resourcecontainer"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/resourcecontainer"
+	name="ResourceContainer">
+
+	<import
+		namespace="http://weblab-project.org/services/resourcecontainer"
+		location="../interfaces/ResourceContainer.wsdl" />
+
+	<service name="ResourceContainer">
+		<documentation>
+			A sample resources container service.
+		</documentation>
+		<port name="ResourceContainerPort"
+			binding="resourcecontainer:ResourceContainerSOAPBinding">
+			<soap:address location="" />
+		</port>
+	</service>
+
+</definitions>

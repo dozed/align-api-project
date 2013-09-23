@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://services.weblab.eads.com/normalisation"
+	xmlns:analyzer="http://services.weblab.eads.com/analyzer"
+	xmlns:contentprovider="http://services.weblab.eads.com/contentprovider"
+	xmlns:contentconsumer="http://services.weblab.eads.com/contentconsumer"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://services.weblab.eads.com/documentanalysis"
+	name="DocumentAnalysisService">
+
+	<import namespace="http://services.weblab.eads.com/analyzer"
+		location="../interfaces/Analyzer.wsdl">
+	</import>
+
+	<import namespace="http://services.weblab.eads.com/contentprovider"
+		location="../interfaces/ContentProvider.wsdl">
+	</import>
+
+	<import namespace="http://services.weblab.eads.com/contentconsumer"
+		location="../interfaces/ContentConsumer.wsdl">
+	</import>
+
+	<service name="NormalisationService">
+		<port name="ContentConsumerPort"
+			binding="contentconsumer:ContentConsumerSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+		<port name="ContentProviderPort"
+			binding="contentprovider:ContentProviderSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+		<port name="AnalyzerPort"
+			binding="analyzer:AnalyzerSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+	</service>
+</definitions>

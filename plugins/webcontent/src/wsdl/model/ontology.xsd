@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/core/model/ontology"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Ontology package - Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="model.xsd" />
+
+	<xs:complexType name="ontology">
+		<xs:annotation>
+			<xs:documentation>
+				Ontologies are introduced as an example of resources
+				that can be used by a service. It contains XML data
+				which is formatted into an RDFS/XML or OWL/XML string
+				and which should refer and/or describe to an ontology
+				scheme. For example it can be used to provide an
+				annotation scheme in accordance to specific service
+				extraction capabilities.
+
+				As a resource, ontology could be annotated to provide,
+				for example, meta-information on its creation date, its
+				version or its application domain.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Ontology package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="model:resource">
+				<xs:sequence>
+					<xs:element name="data" type="xs:anyType"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								A RDFS/XML, OWL/XML formatted content.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>

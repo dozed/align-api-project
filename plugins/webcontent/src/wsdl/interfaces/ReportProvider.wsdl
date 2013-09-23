@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/reportprovider"
+	xmlns:types="http://weblab-project.org/services/reportprovider/types"
+	xmlns:error="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/reportprovider"
+	name="ReportProvider">
+
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://weblab-project.org/services/reportprovider/types"
+				schemaLocation="ReportProviderTypes.xsd" />
+			<xsd:import
+				namespace="http://weblab-project.org/services/exception"
+				schemaLocation="exception.xsd" />
+		</xsd:schema>
+	</types>
+
+	<!-- addReportResource -->
+	<message name="addReportResourceRequest">
+		<part name="args" element="types:addReportResourceArgs" />
+	</message>
+	<message name="addReportResourceResponse">
+		<part name="return" element="types:addReportResourceReturn" />
+	</message>
+	<message name="addReportResourceException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<!-- buildReport -->
+	<message name="buildReportRequest">
+		<part name="args" element="types:buildReportArgs" />
+	</message>
+	<message name="buildReportResponse">
+		<part name="return" element="types:buildReportReturn" />
+	</message>
+	<message name="buildReportException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<portType name="ReportProvider">
+		<documentation>
+			The report provider interface will be used to define
+			services that can produce reports. These services will be,
+			in most of the cases, parametrisable: they will realised
+			configurable interface. This will enable the reporting to be
+			dependent of the usage context.
+		</documentation>
+		<operation name="addReportResource">
+			<documentation>
+				Add a resource to be reported given a usage context.
+			</documentation>
+			<input name="addReportResourceRequest"
+				message="tns:addReportResourceRequest" />
+			<output name="addReportResourceResponse"
+				message="tns:addReportResourceResponse" />
+			<fault name="addReportResourceException"
+				message="tns:addReportResourceException">
+				<documentation>
+					To be thrown if an error occurs in addReportResource
+					method.
+				</documentation>
+			</fault>
+		</operation>
+		<operation name="buildReport">
+			<documentation>
+				Build the report on the previously added resources,
+				given a usage context.
+			</documentation>
+			<input name="buildReportRequest"
+				message="tns:buildReportRequest" />
+			<output name="buildReportResponse"
+				message="tns:buildReportResponse" />
+			<fault name="buildReportException"
+				message="tns:buildReportException">
+				<documentation>
+					To be thrown if an error occurs in buildReport
+					method.
+				</documentation>
+			</fault>
+		</operation>
+	</portType>
+
+	<binding name="ReportProviderSOAPBinding"
+		type="tns:ReportProvider">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="addReportResource">
+			<soap:operation soapAction="addReportResource" />
+			<input name="addReportResourceRequest">
+				<soap:body use="literal" />
+			</input>
+			<output name="addReportResourceResponse">
+				<soap:body use="literal" />
+			</output>
+			<fault name="addReportResourceException">
+				<soap:fault name="addReportResourceException"
+					use="literal" />
+			</fault>
+		</operation>
+		<operation name="buildReport">
+			<soap:operation soapAction="buildReport" />
+			<input name="buildReportRequest">
+				<soap:body use="literal" />
+			</input>
+			<output name="buildReportResponse">
+				<soap:body use="literal" />
+			</output>
+			<fault name="buildReportException">
+				<soap:fault name="buildReportException" use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+</definitions>

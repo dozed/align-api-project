@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://services.weblab.eads.com/resourcerepository"
+	xmlns:searcher="http://services.weblab.eads.com/searcher"
+	xmlns:contentprovider="http://services.weblab.eads.com/contentprovider"
+	xmlns:contentconsumer="http://services.weblab.eads.com/contentconsumer"
+	xmlns:resourcescontainer="http://services.weblab.eads.com/resourcescontainer"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://services.weblab.eads.com/resourcerepository"
+	name="ResourceRepositoryService">
+
+	<import namespace="http://services.weblab.eads.com/searcher"
+		location="../interfaces/Searcher.wsdl">
+	</import>
+
+	<import namespace="http://services.weblab.eads.com/contentprovider"
+		location="../interfaces/ContentProvider.wsdl">
+	</import>
+
+	<import namespace="http://services.weblab.eads.com/contentconsumer"
+		location="../interfaces/ContentConsumer.wsdl">
+	</import>
+
+	<import
+		namespace="http://services.weblab.eads.com/resourcescontainer"
+		location="../interfaces/ResourcesContainer.wsdl">
+	</import>
+
+	<service name="ResourceRepositoryService">
+		<port name="ContentconsumerPort"
+			binding="contentconsumer:ContentConsumerSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+		<port name="ContentproviderPort"
+			binding="contentprovider:ContentProviderSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+		<port name="ResourcesContainerPort"
+			binding="resourcescontainer:ResourcesContainerSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+		<port name="SearcherPort"
+			binding="searcher:SearcherSOAPBinding">
+			<soap:address location=""></soap:address>
+		</port>
+	</service>
+</definitions>

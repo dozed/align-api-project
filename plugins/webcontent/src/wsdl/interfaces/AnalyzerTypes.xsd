@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<xs:schema
+	xmlns:tns="http://services.weblab.eads.com/analyzer/types"
+	xmlns:model="http://model.core.weblab.eads.com/"
+	xmlns:user="http://model.core.weblab.eads.com/user"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://services.weblab.eads.com/analyzer/types">
+
+	<xs:import namespace="http://model.core.weblab.eads.com/"
+		schemaLocation="../model/model.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/content"
+		schemaLocation="../model/content.xsd" />
+	<!-- import here all others definitions files -->
+
+	<xs:import namespace="http://model.core.weblab.eads.com/multimedia"
+		schemaLocation="../model/multimedia.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/ontology"
+		schemaLocation="../model/ontology.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/query"
+		schemaLocation="../model/query.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/service"
+		schemaLocation="../model/service.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/structure"
+		schemaLocation="../model/structure.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/text"
+		schemaLocation="../model/text.xsd" />
+
+	<xs:import namespace="http://model.core.weblab.eads.com/user"
+		schemaLocation="../model/user.xsd" />
+
+	<!-- end additionals imports -->
+
+	<xs:element name="processArgs" type="tns:processArgs" />
+
+	<xs:element name="processReturn" type="tns:processReturn" />
+
+	<xs:complexType name="processArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the usage context and the requested MediaUnit.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usagContext" type="user:usageContext"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element name="mediaUnit" type="model:mediaUnit"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="processReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the processed MediaUnit.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="mediaUnit" type="model:mediaUnit"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

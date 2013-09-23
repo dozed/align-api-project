@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	targetNamespace="http://weblab-project.org/core/model/"
+	xmlns:tns="http://weblab-project.org/core/model/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Core package - Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:complexType name="resource">
+		<xs:annotation>
+			<xs:documentation>
+				A resource refers to any object that could be
+				manipulated in the WebLab platform. It will be
+				identified by a unique URI. It can hold some annotations
+				that will describe the resource itself at a semantic
+				level. It can also hold some low level descriptors that
+				are describing itself at a lower level. It will be a
+				common interface which will be inherited by almost all
+				WebLab objects.
+
+				Any reference to a resource will use its URI.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Core package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="annotation" type="tns:annotation"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						A list of annotations describing the resource.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="descriptor" type="tns:lowLevelDescriptor"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						A list of low level descriptors describing the
+						resource.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="uri" type="xs:anyURI">
+			<xs:annotation>
+				<xs:documentation>
+					The unique identifier of the resource.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+
+	<xs:complexType name="annotation">
+		<xs:annotation>
+			<xs:documentation>
+				Annotation object should be understood as the definition
+				provided by the W3C in its resource description
+				framework. It will contain a set of annotations which
+				refer to a specific resource known as the subject of the
+				annotations. Thus an annotation object is fully
+				dependant on the resource it describes. One can note
+				that we involve the RDF methodology concepts and design
+				formalism which should not be misunderstood as the
+				RDF/XML serialisation format.
+
+				Annotation is one of the major objects manipulated
+				through the WebLab platform since it will allow adding
+				any particular information on any type of WebLab
+				resource. For example, many process services will add
+				annotations in order to link the extracted information
+				to the resource processed (i.e. a language recognition
+				service will annotate a document in order to note the
+				language identified, or perhaps that the language could
+				not be recognised).
+
+				Each annotation is composed of a set of statements
+				composed of a set of triple: subject, property and
+				object. Thus any description can be applied on any
+				resource as soon as the property and object element
+				refer to a consistent vocabulary in a certain domain.
+				This vocabulary could be expressed in accordance to a
+				specified ontology. However, one of the project's
+				guidelines is extensibility, thus annotation should be
+				adapted. The set of triple statements described a
+				resource will be contained in the annotation object
+				serialised in the RDF/XML format.
+
+				Since an annotation is a resource, it can also contain
+				annotations. The contained statements can be seen as
+				meta-annotations describing, for example, how and when
+				the first level of annotations has been created (which
+				service with what resource or configuration).
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Core package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:resource">
+				<xs:sequence>
+					<!--<xs:element name="data" type="xs:anyType"-->
+					<xs:element name="data" type="xs:string"
+						minOccurs="1" maxOccurs="1">
+						<xs:annotation>
+							<xs:documentation>
+								Should be RDF/XML content.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="mediaUnit" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				This is the major object manipulated through the WebLab
+				platform. It is mainly assumed that almost all
+				processing services should accept the media unit as a
+				common argument and provide enhanced media unit as a
+				result.
+
+				A media unit can be defined as the structural annotable
+				representation of any multimedia content. It is a
+				resource and thus can be retrieved by an URI and
+				annotated by any kind of descriptive annotations or low
+				level descriptors. As described in the following
+				sections any particular type of media (i.e. picture,
+				text, video segment, audio sample or video frame...)
+				will inherit from this object.
+
+				It could have a composed unit as a parent when it is
+				contained in a group of units. Finally it could contain
+				annotable segments which will allow describing sub-parts
+				of its own content.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Core package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:resource">
+				<xs:sequence>
+					<xs:element name="segment" type="tns:segment"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								A list of segments.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="composedUnit">
+		<xs:annotation>
+			<xs:documentation>
+				A composed unit is a media unit which only contain a
+				list of other units. Thus it can be viewed as a common
+				container handling the global structure description of a
+				multimedia document. The intern media unit can be
+				organised sequentially (i.e. multiple text section) or
+				in parallel and synchronised (i.e. audio speech of a
+				video, speech transcription or multiple translation of
+				the same text content). In order to reflect this
+				capability a specific boolean attribute will mark if the
+				unit are synchronised (i.e. "true" means synchronised
+				units and "false" sequential units).
+
+				As a resource, a composed unit could be annotated to
+				provide, for example, meta-information on its content or
+				on the relation which links the different unit composing
+				its content.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Core package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:mediaUnit">
+				<xs:sequence>
+					<xs:element name="mediaUnit" type="tns:mediaUnit"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								A list of media units.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="synchronised" type="xs:boolean"
+					use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Whether or not media units are synchronised.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="document">
+		<xs:annotation>
+			<xs:documentation>
+				A document is assumed to be a composed unit which handle
+				the references of all the unit which have been build on
+				it through the multiple processes.
+
+				As a resource, a document could be annotated to provide,
+				for example, meta-information on the original document
+				source, the author or the original creation date...
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Core package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:composedUnit" />
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="segment" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				A segment is a resource that should not have any content
+				and which is linked to a media unit. It allows
+				describing the content of a unit with at much finer
+				level. The segment could be annotated as it inherits
+				from resource. It provides a way to assign annotation on
+				a very high level of structure description without
+				adding weight to the model by transporting the data.
+
+				The object will contain positioning information which
+				allows localising itself in the parent unit. As media
+				type are very different the position itself will be
+				specialised to them and thus provide localisation
+				adapted to the media.
+
+				This object cannot be used itself (this is an abstract
+				object). However, some implementations with real
+				capabilities must be developed in order to match every
+				media class. A class of media stands here for a list of
+				segments which can be localised in the same manner. For
+				example, a text section can be described in the same way
+				as a video segment: both of them need a start and stop
+				index, one referring to character index and the other to
+				a temporal reference.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Core package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:resource" />
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="resourceCollection">
+		<xs:annotation>
+			<xs:documentation>
+				A resource collection defines a simple list of resources
+				and allows to regroup them with a common meaning or
+				utility. Since a multimedia document is a resource, the
+				simplest resource collection will be a corpus of
+				documents such as the video about the same program
+				during one year. It could also be a set of useful
+				resource needed by a service such as a set of
+				annotations.
+
+				As a common design principle, a resource collection
+				should not refer to a heterogeneous set of resources
+				(i.e. a document and a query). However, such specific
+				case could be tackled by a collection of collection
+				which will themselves be consistent (same resource
+				type).
+
+				As a resource, a resource collection could be annotated
+				to provide, for example, meta-information on its content
+				or the reasons of the collection.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Core package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:resource">
+				<xs:sequence>
+					<xs:element name="resource" type="tns:resource"
+						minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								A list of resources.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="lowLevelDescriptor">
+		<xs:annotation>
+			<xs:documentation>
+				A low level descriptor is composed of a set features
+				that have been extracted from a document or a part of
+				document.
+
+				It aims at representing low level annotation (not at a
+				semantic level but at a numerical level) mainly for
+				computing similarity between objects For instance, Text
+				could use lowLevelDescriuptor to store TFIDF values,
+				Image could use lowLevelDescriuptor to handle color
+				histograms.
+
+				A low level descriptor may be composed of a set of
+				features for instance, an image may contains edge
+				feature Vector as well as red color histogram vector
+
+				As a resource, a low level descriptor could be annotated
+				to provide, for example, meta information on its
+				creation date, its version or its application domain.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Core package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:resource">
+				<xs:sequence>
+					<xs:element name="feature" type="tns:feature"
+						minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								A list of features.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="key" type="xs:string"
+					use="required">
+					<xs:annotation>
+						<xs:documentation>
+							A key for the low level descriptor. Ex.
+							"ImageFeatures"
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+	<xs:complexType name="feature">
+		<xs:annotation>
+			<xs:documentation>
+				A low level feature vector, for instance a TFIDF vector,
+				a Red histogram vector etc.
+
+				Data Exchange Model for WebLab platform provided by EADS
+				Core package - Version 1.0 - 2008/05
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="value" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:list itemType="xs:anySimpleType">
+						<xs:annotation>
+							<xs:documentation>
+								A list of value that are simple types.
+								(i.e. numbers, boolean or string for
+								instance).
+							</xs:documentation>
+						</xs:annotation>
+					</xs:list>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="label" use="optional" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					A non-compulsory identifier for this feature.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+</xs:schema>

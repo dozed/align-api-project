@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/searcher"
+	xmlns:types="http://weblab-project.org/services/searcher/types"
+	xmlns:error="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/searcher"
+	name="Searcher">
+
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://weblab-project.org/services/searcher/types"
+				schemaLocation="SearcherTypes.xsd" />
+			<xsd:import
+				namespace="http://weblab-project.org/services/exception"
+				schemaLocation="exception.xsd" />
+		</xsd:schema>
+	</types>
+
+	<message name="searchRequest">
+		<part name="args" element="types:searchArgs" />
+	</message>
+	<message name="searchResponse">
+		<part name="return" element="types:searchReturn" />
+	</message>
+	<message name="searchException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<portType name="Searcher">
+		<documentation>
+			The searcher interface will be used to define resource
+			searching services.
+		</documentation>
+		<operation name="search">
+			<documentation>Search using the given query.</documentation>
+			<input name="searchInput" message="tns:searchRequest" />
+			<output name="searchOutput" message="tns:searchResponse" />
+			<fault name="searchException"
+				message="tns:searchException">
+				<documentation>
+					To be thrown if an error occurs in index method.
+				</documentation>
+			</fault>
+		</operation>
+	</portType>
+
+	<binding name="SearcherSOAPBinding" type="tns:Searcher">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="search">
+			<soap:operation soapAction="search" />
+			<input name="searchInput">
+				<soap:body use="literal" />
+			</input>
+			<output name="searchOutput">
+				<soap:body use="literal" />
+			</output>
+			<fault name="searchException">
+				<soap:fault name="searchException" use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+</definitions>

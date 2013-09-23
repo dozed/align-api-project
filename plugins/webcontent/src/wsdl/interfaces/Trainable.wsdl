@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/trainable"
+	xmlns:types="http://weblab-project.org/services/trainable/types"
+	xmlns:error="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/trainable"
+	name="Trainable">
+
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://weblab-project.org/services/trainable/types"
+				schemaLocation="TrainableTypes.xsd" />
+			<xsd:import
+				namespace="http://weblab-project.org/services/exception"
+				schemaLocation="exception.xsd" />
+		</xsd:schema>
+	</types>
+
+	<!-- addTrainResource -->
+	<message name="addTrainResourceRequest">
+		<part name="args" element="types:addTrainResourceArgs" />
+	</message>
+	<message name="addTrainResourceResponse">
+		<part name="return" element="types:addTrainResourceReturn" />
+	</message>
+	<message name="addTrainResourceException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<!-- train -->
+	<message name="trainRequest">
+		<part name="args" element="types:trainArgs" />
+	</message>
+	<message name="trainResponse">
+		<part name="return" element="types:trainReturn" />
+	</message>
+	<message name="trainException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<!-- resetTrainModel -->
+	<message name="resetTrainedModelRequest">
+		<part name="args" element="types:resetTrainedModelArgs" />
+	</message>
+	<message name="resetTrainedModelResponse">
+		<part name="return" element="types:resetTrainedModelReturn" />
+	</message>
+	<message name="resetTrainedModelException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<portType name="Trainable">
+		<documentation>
+			The trainable interface will be used to define services of
+			which behavior change dynamically by machine learning. This
+			interface should enable to provide resources to the
+			services. These resources will be used to learned its
+			behavior model. In some services, this model could be
+			dependant of a usage context.
+
+			The trainable interface will be realised only by services
+			enabling the machine learning procedure on-line (in some
+			case, this step will be done off-line).
+		</documentation>
+		<operation name="addTrainResource">
+			<documentation>
+				Add the resource to the training set, given a usage
+				context.
+			</documentation>
+			<input name="addTrainResourceRequest"
+				message="tns:addTrainResourceRequest" />
+			<output name="addTrainResourceResponse"
+				message="tns:addTrainResourceResponse" />
+			<fault name="addTrainResourceException"
+				message="tns:addTrainResourceException">
+				<documentation>
+					To be thrown if an error occurs in addTrainResource
+					method.
+				</documentation>
+			</fault>
+		</operation>
+		<operation name="train">
+			<documentation>
+				Train using the resources previously added to the
+				training set identified by the usage context.
+			</documentation>
+			<input name="trainRequest" message="tns:trainRequest" />
+			<output name="trainResponse" message="tns:trainResponse" />
+			<fault name="trainException" message="tns:trainException">
+				<documentation>
+					To be thrown if an error occurs in train method.
+				</documentation>
+			</fault>
+		</operation>
+		<operation name="resetTrainedModel">
+			<documentation>
+				Empty training set identified by the usage context.
+			</documentation>
+			<input name="resetTrainedModelRequest"
+				message="tns:resetTrainedModelRequest" />
+			<output name="resetTrainedModelResponse"
+				message="tns:resetTrainedModelResponse" />
+			<fault name="resetTrainedModelException"
+				message="tns:resetTrainedModelException">
+				<documentation>
+					To be thrown if an error occurs in resetTrainedModel
+					method.
+				</documentation>
+			</fault>
+		</operation>
+	</portType>
+
+	<binding name="TrainableSOAPBinding" type="tns:Trainable">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="addTrainResource">
+			<soap:operation soapAction="addTrainResource" />
+			<input name="addTrainResourceRequest">
+				<soap:body use="literal" />
+			</input>
+			<output name="addTrainResourceResponse">
+				<soap:body use="literal" />
+			</output>
+			<fault name="addTrainResourceException">
+				<soap:fault name="addTrainResourceException"
+					use="literal" />
+			</fault>
+		</operation>
+		<operation name="train">
+			<soap:operation soapAction="train" />
+			<input name="trainRequest">
+				<soap:body use="literal" />
+			</input>
+			<output name="trainResponse">
+				<soap:body use="literal" />
+			</output>
+			<fault name="trainException">
+				<soap:fault name="trainException" use="literal" />
+			</fault>
+		</operation>
+		<operation name="resetTrainedModel">
+			<soap:operation soapAction="resetTrainedModel" />
+			<input name="resetTrainedModelRequest">
+				<soap:body use="literal" />
+			</input>
+			<output name="resetTrainedModelResponse">
+				<soap:body use="literal" />
+			</output>
+			<fault name="resetTrainedModelException">
+				<soap:fault name="resetTrainedModelException"
+					use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+</definitions>

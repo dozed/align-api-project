@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- $Id: build.xml 1705 2012-03-13 21:51:49Z euzenat $ -->
+
+<project name="alignoid" default="compile" basedir=".">
+
+  <!-- this is useful but introduces, Xlint:path warnings -->
+  <filelist id="mujar" dir="../../lib">
+    <!-- JEoid: maybe check better those which are necessary -->
+    <file name="align.jar"/>
+    <file name="jena/icu4j.jar"/>
+    <file name="jena/iri.jar"/>
+    <file name="jena/jena.jar"/>
+    <file name="log4j/commons-logging.jar"/>
+    <file name="log4j/log4j.jar"/>
+    <file name="log4j/slf4j-api.jar"/>
+    <file name="log4j/slf4j-log4j.jar"/>
+    <file name="xerces/resolver.jar"/>
+    <file name="xerces/xercesImpl.jar"/>            <!-- redundancy in the two following -->
+    <file name="xsdlib/xsdlib.jar"/>
+    <!--file name="xsdlib/relaxngDatatype.jar"/-->  <!-- is this one in the JDK? -->
+  </filelist>
+
+  <fileset id="musrc" dir="../../src">
+    <include name="fr/inrialpes/exmo/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/ontowrap/owlapi10/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/ontowrap/owlapi30/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/ontowrap/skosapi/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/align/gen/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/align/ling/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/align/service/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/align/cli/**/*.java"/>
+    <!-- for picoalign -->
+    <!--exclude name="fr/inrialpes/exmo/align/impl/edoal/**/*.java"/>
+	<exclude name="fr/inrialpes/exmo/align/parser/RDFParser.java"/-->
+    <exclude name="fr/inrialpes/exmo/align/impl/aggr/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/align/impl/method/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/align/impl/eval/**/*.java"/>
+    <exclude name="fr/inrialpes/exmo/align/impl/BasicEvaluator.java"/>
+    <exclude name="fr/inrialpes/exmo/align/impl/BasicOntologyNetwork.java"/>
+    <exclude name="fr/inrialpes/exmo/align/impl/DistanceAlignment.java"/>
+    <exclude name="fr/inrialpes/exmo/align/impl/IDDLOntologyNetwork.java"/>
+    <exclude name="fr/inrialpes/exmo/align/impl/InstanceBasedMatrixMeasure.java"/>
+    <exclude name="fr/inrialpes/exmo/align/impl/MatrixMeasure.java"/>
+    <exclude name="fr/inrialpes/exmo/align/impl/Similarity.java"/>
+  </fileset>
+
+  <path id="classpath">
+    <filelist refid="mujar"/>
+  </path>
+
+  <taskdef resource="proguard/ant/task.properties"
+	   classpath="../../tools/proguard/proguard.jar" />
+
+  <!-- tested -->
+  <target name="usage" depends="init">
+    <echo>ant _target_ _options_
+
+      usage: this message
+      init: sets necessary variables
+      compile: incrementaly compiles sources
+      compileall: recompiles all sources
+      testindep: tests if selected files are really self sufficient
+      jar: archives compiled code
+      zip: creates a new zip file
+      clean: clean-up before release
+
+	-Dversion=${version}.${svn.revision}
+    </echo>
+  </target>
+
+  <!-- tested -->
+  <target name="init">
+    <condition property="tempdir" value="${tempdir}" else="/tmp">
+      <isset property="tempdit"/>
+    </condition>
+    <property name="jarclasspath" value="log4j/commons-logging.jar log4j/log4j.jar log4j/slf4j-api.jar log4j/slf4j-log4j.jar jena/jena.jar jena/iri.jar jena/icu4j.jar xerces/xercesImpl.jar xerces/resolver.jar align.jar microalign.jar"/>
+    <tstamp><format locale="fr,fr" pattern="dd/MM/yyyy" property="date"/></tstamp>
+    <exec executable="svnversion" outputproperty="svn.rev" failifexecutionfails="false"/>
+    <condition property="svn.revision" value="${svn.rev}" else="nosvn">
+      <isset property="svn.rev"/>
+    </condition>
+    <property name="version" value="${version.major}.${version.minor}"/>
+    <tstamp>
+      <format property="curyear" pattern="yyyy" locale="fr"/>
+    </tstamp>
+    <property name="login" value="${user.name}"/>
+    <property name="debug" value="off"/>
+    <property name="rep" value="svn+ssh://scm.gforge.inria.fr/svn/alignapi"/>
+    
+    <filter token="DATE" value="${date}"/>
+    <filter token="VERS" value="${version}"/>
+  </target>
+
+  <target name="testindep" depends="init">
+    <echo message="Testing ..."/>
+    <antcall target="clean"/>
+    <!-- copy to src only what is necessary -->
+    <copy todir="src">
+      <fileset refid="musrc"/>
+    </copy>
+    <!-- compile all with the restricted path -->
+    <mkdir dir="classes"/>
+    <property name="javacargs" value="-deprecation" />
+    <javac deprecation="yes" includeantruntime="false" nowarn="no" verbose="no" srcdir="src" destdir="classes" encoding="iso8859-15">
+      <compilerarg value="${javacargs}"/>
+      <classpath refid="classpath"/>
+    </javac>
+    <antcall target="clean"/>
+  </target>
+
+  <!-- tested -->
+  <!-- JEoid: not even sure it is necessary to recompile
+    the otherway would be to select these files from classes and to do
+    the jar/apk
+    -->
+  <target name="compile" depends="init">
+    <echo message="Compiling..."/>
+    <property name="javacargs" value="-deprecation" />
+    <mkdir dir="classes"/>
+    <javac deprecation="yes" includeantruntime="false" nowarn="no" verbose="no" srcdir="../../src/" destdir="classes" encoding="iso8859-15">
+      <compilerarg value="${javacargs}"/>
+      <classpath refid="classpath" />
+      <!-- That would be too simple -->
+      <!--fileset refid="musrc"/-->
+      <include name="fr/inrialpes/exmo/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/ontowrap/owlapi10/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/ontowrap/owlapi30/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/ontowrap/skosapi/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/align/gen/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/align/ling/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/align/service/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/align/cli/**/*.java"/>
+      <!-- for picoalign -->
+      <!--exclude name="fr/inrialpes/exmo/align/impl/edoal/**/*.java"/>
+	  <exclude name="fr/inrialpes/exmo/align/parser/RDFParser.java"/-->
+      <exclude name="fr/inrialpes/exmo/align/impl/aggr/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/align/impl/method/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/align/impl/eval/**/*.java"/>
+      <exclude name="fr/inrialpes/exmo/align/impl/BasicEvaluator.java"/>
+      <exclude name="fr/inrialpes/exmo/align/impl/BasicOntologyNetwork.java"/>
+      <exclude name="fr/inrialpes/exmo/align/impl/DistanceAlignment.java"/>
+      <exclude name="fr/inrialpes/exmo/align/impl/IDDLOntologyNetwork.java"/>
+      <exclude name="fr/inrialpes/exmo/align/impl/InstanceBasedMatrixMeasure.java"/>
+      <exclude name="fr/inrialpes/exmo/align/impl/MatrixMeasure.java"/>
+      <exclude name="fr/inrialpes/exmo/align/impl/Similarity.java"/>
+    </javac>
+  </target>
+
+  <!-- tested -->
+  <target name="compileall" depends="init">
+    <echo message="Erasing..."/>
+    <delete>
+      <fileset dir="." includes="classes/**/*.class"/>
+    </delete>
+    <antcall target="compile"/>
+  </target>
+
+  <target name="shrink" depends="jar">
+    <proguard shrink="true" optimize="true" obfuscate="false" warn="true"
+	      skipnonpubliclibraryclasses="false" optimizationpasses="2">
+      <optimizations filter="!code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable" />
+      <keepattributes filter="SourceFile,SourceDir,LineNumberTable,LocalVariableTable,LocalVariableTypeTable" />
+      <libraryjar refid="classpath" />
+      <!-- MacOS X way to call ${java.home}/lib/rt.jar -->
+      <libraryjar file="/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Classes/classes.jar" />
+      <injar file="lib/microalign.jar" />
+      <outjar file="lib/microalign2.jar" />
+      <!-- we do not have these -->
+      <!--keepclassmembers access="public" type="class" name="*">
+	<method access="public" name="Main" type="void" parameters="java.lang.String[]" />
+      </keepclassmembers-->
+      <keep type="class" access="public" name="*" implements="org.semanticweb.owl.align.Alignment" />
+      <keep type="class" access="public" name="*" implements="org.semanticweb.owl.align.Relation" />
+      <keep type="class" access="public" name="*" implements="org.semanticweb.owl.align.Cell" />
+      <keep type="class" access="public" name="*" implements="org.semanticweb.owl.align.Evaluator" />
+      <keep type="class" access="public" name="*" implements="org.semanticweb.owl.align.AlignmentVisitor" />
+      <keep type="class" access="public" name="fr.inrialpes.exmo.align.parser.*Parser" />
+      <keepclassmembers access="public" type="class" name="fr.inrialpes.exmo.align.impl.rel.*">
+	<method access="public" name="getInstance" />
+      </keepclassmembers>
+      <keep type="class" access="public" name="fr.inrialpes.exmo.ontowrap.jena25.JENAOntologyFactory" />
+      <keep type="class" access="public" name="fr.inrialpes.exmo.ontowrap.skoslite.SKOSLiteOntologyFactory" />
+    </proguard>
+  </target>
+
+  <!-- tested -->
+  <target name="jar" depends="compileall">
+    <echo message="Jarchiving..."/>
+    <delete file="lib/microalign.jar"/>
+    <jar jarfile="lib/microalign.jar">
+      <manifest>
+	<attribute name="Built-Date" value="${date}"/>
+        <attribute name="Class-Path" value="${jarclasspath}"/>
+	<attribute name="Implementation-Title" value="Minimal Alignment API implementation"/>
+	<attribute name="Implementation-Version" value="${version}.${version.update}"/> 
+	<attribute name="Bundle-Name" value="Minimal Alignment API implementation"/>
+	<attribute name="Bundle-SymbolicName" value="microalign"/>
+	<attribute name="Bundle-Version" value="${version}.${version.update}"/>
+	<attribute name="Bundle-Copyright" value="INRIA, 2003-2011"/>
+	<attribute name="Bundle-Date" value="${date}"/>
+	<attribute name="Bundle-License" value="GNU Lesser General Public License 2.1 or above"/>
+	<attribute name="Export-package" value="fr.inrialpes.exmo.align.impl,fr.inrialpes.exmo.align.impl.edoal,fr.inrialpes.exmo.align.impl.rel,fr.inrialpes.exmo.align.impl.renderer,fr.inrialpes.exmo.align.parser,fr.inrialpes.exmo.ontowrap,fr.inrialpes.exmo.ontowrap.jena25"/>
+	<attribute name="Import-package" value="org.semanticweb.owl.align"/>
+      </manifest>
+      <fileset dir="classes" includes="fr/**/*.class"/>
+      <fileset dir="classes" includes="LICENSE.TXT"/>
+    </jar>
+    <delete dir="classes" />
+  </target>
+
+  <!-- tested -->
+  <target name="zip" depends="jar">
+    <echo message="Creating zip archive..."/>
+    <zip zipfile="${tempdir}/malign.zip">
+      <fileset dir="../../distrib" includes="LICENSE.TXT"/>
+      <filelist refid="mujar"/>
+      <fileset dir="./lib" includes="microalign.jar"/>
+    </zip>
+  </target>
+
+  <!-- tested -->
+  <target name="clean">
+    <echo message="Cleaning..."/>
+    <delete dir="classes" />
+    <delete dir="lib" />
+    <delete dir="src" />
+  </target>
+
+</project>

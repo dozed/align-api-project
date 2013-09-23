@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/contentprovider"
+	xmlns:types="http://weblab-project.org/services/contentprovider/types"
+	xmlns:error="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/contentprovider"
+	name="ContentProvider">
+
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://weblab-project.org/services/contentprovider/types"
+				schemaLocation="ContentProviderTypes.xsd" />
+			<xsd:import
+				namespace="http://weblab-project.org/services/exception"
+				schemaLocation="exception.xsd" />
+		</xsd:schema>
+	</types>
+
+	<message name="getContentRequest">
+		<part name="args" element="types:getContentArgs" />
+	</message>
+	<message name="getContentResponse">
+		<part name="return" element="types:getContentReturn" />
+	</message>
+	<message name="getContentException">
+		<part name="error" element="error:webLabException" />
+	</message>
+
+	<portType name="ContentProvider">
+		<documentation>
+			The content provider interface will be used to define
+			services that could provide unstructured content or in
+			specific formats (documents in their native or binary
+			format).
+		</documentation>
+		<operation name="getContent">
+			<documentation>
+				Get the content stored in this provider.
+			</documentation>
+			<input name="getContentInput"
+				message="tns:getContentRequest" />
+			<output name="getContentOutput"
+				message="tns:getContentResponse" />
+			<fault name="getContentException"
+				message="tns:getContentException">
+				<documentation>
+					To be thrown if an error occurs in getContent
+					method.
+				</documentation>
+			</fault>
+		</operation>
+	</portType>
+
+	<binding name="ContentProviderSOAPBinding"
+		type="tns:ContentProvider">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="getContent">
+			<soap:operation soapAction="getContent" />
+			<input name="getContentInput">
+				<soap:body use="literal" />
+			</input>
+			<output name="getContentOutput">
+				<soap:body use="literal" />
+			</output>
+			<fault name="getContentException">
+				<soap:fault name="getContentException" use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+</definitions>

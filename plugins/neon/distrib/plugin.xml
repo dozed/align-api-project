@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+  <extension point="org.eclipse.ui.views">
+    <category id="fr.inrialpes.exmo.align.plugin.neontk.viewCategory" name="Alignment"/>
+    <view
+       name="Alignment"
+       category="fr.inrialpes.exmo.align.plugin.neontk.viewCategory"
+       allowMultiple="true"
+       icon="icons/align.gif"
+       class="fr.inrialpes.exmo.align.plugin.neontk.AlignView"
+       id="fr.inrialpes.exmo.align.plugin.neontk.alignView">
+    </view>
+  </extension>  
+
+  <extension point="org.eclipse.help.toc">
+    <toc extradir="html" primary="true" file="html/toc.xml"/>
+  </extension>
+
+  <extension point="org.neontoolkit.upm.gontt">
+    <plugin
+       name="Alignment"
+       viewId="fr.inrialpes.exmo.align.plugin.neontk.alignView"
+       perspectiveId="com.ontoprise.ontostudio.owl.perspectives.OWLPerspective"
+       activityId="ontologyAligning">
+    </plugin>
+  </extension> 
+
+</plugin>

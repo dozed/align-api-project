@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/searcher"
+	xmlns:searcher="http://weblab-project.org/services/searcher"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/searcher"
+	name="Searcher">
+
+	<import namespace="http://weblab-project.org/services/searcher"
+		location="../interfaces/Searcher.wsdl" />
+
+	<service name="Searcher">
+		<documentation>A sample searcher service.</documentation>
+		<port name="SearcherPort"
+			binding="searcher:SearcherSOAPBinding">
+			<soap:address location="" />
+		</port>
+	</service>
+
+</definitions>

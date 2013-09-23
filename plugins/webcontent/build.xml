@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- $Id: build.xml 1668 2012-01-31 15:27:06Z euzenat $ -->
+
+<project name="align" default="compile" basedir="."> 
+
+  <target name="init">
+    <tstamp><format locale="fr,fr" pattern="dd/MM/yyyy" property="TODAY"/></tstamp>
+    <property name="doing" value="running"/>
+    <property name="version" value="1"/>
+    <property name="date" value="${TODAY}"/>
+    <property name="login" value=""/>
+    <property name="email" value=""/>
+    <property name="libdir"  value="lib" />
+    <property name="debug" value="off"/>
+    <!-- This should now be handled by GForge -->
+    <property name="FTPDir" value=""/>
+    <property name="classpath"  value="target/classes"/>
+    
+    <filter token="DATE" value="${date}"/>
+    <filter token="VERS" value="${version}"/>
+    <!--
+    <property name="jarclasspath" value="activation-1.1.jar axis2-jws-api-1.3.jar jaxb-api-2.1.jar jaxb-impl-2.1.5.jar jaxb-xjc-2.1.5.jar jaxws-api-2.1.jar jaxws-rt-2.1.2.jar jaxws-tools-2.1.2.jar jsr250-api-1.0.jar neonalign.jar resolver.jar saaj-api-1.3.jar saaj-impl-1.3.jar sjsxp.jar stax-api-1.0-2.jar stax-ex-1.1.jar streambuffer-0.6.jar align.jar procalign.jar weblab.jar"/> -->
+    
+    <!-- this is useful but introduces, Xlint:path warnings -->
+    <path id="classpath">
+      <fileset dir="./lib">
+	<include name="*.jar"/>
+      </fileset>
+      <fileset dir="../../lib">
+	<include name="align.jar"/>
+	<include name="procalign.jar"/>
+      </fileset>
+    </path>
+    
+  </target>
+
+  
+  <target name="compile" depends="init">
+    <echo message="Compiling..."/>
+    <property name="javacargs" value="-deprecation" />
+    <javac deprecation="yes" includeantruntime="false" nowarn="no" verbose="no" srcdir="src" destdir="webc/WEB-INF/classes" encoding="iso8859-15">
+      <compilerarg value="${javacargs}"/>
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <!-- tested -->
+  <target name="compileall" depends="init">
+    <echo message="Erasing..."/>
+    <delete dir="webc" />
+    <mkdir dir="webc" />
+    <mkdir dir="webc/WEB-INF" />
+    <mkdir dir="webc/WEB-INF/classes" />
+    <antcall target="compile"/>
+  </target>
+
+
+  <target name="war" depends="compileall">
+    <echo message="Warchiving..."/>
+    <copy file="distrib/web.xml" tofile="webc/WEB-INF/web.xml" filtering="true"/>
+    <copy file="distrib/sun-jaxws.xml" tofile="webc/WEB-INF/sun-jaxws.xml" filtering="true"/>
+    <copy file="distrib/index.jsp" tofile="webc/index.jsp" filtering="true"/>
+    <copy todir="webc/WEB-INF/lib">
+      <fileset dir="lib" includes="*.jar" />
+    </copy>
+	
+    <copy todir="webc/WEB-INF/lib">
+      <fileset dir="../../lib">
+ 	<include name="align.jar"/>
+	<include name="procalign.jar"/>
+      </fileset>
+    </copy>
+  
+    <delete file="webcontent.war"/>
+    <jar jarfile="webcontent.war">
+      <manifest>
+	<attribute name="Built-Date" value="${TODAY}"/>
+        <attribute name="Main-Class" value="fr.inrialpes.exmo.align.plugin.webcontent.OntologyAlignmentImpl"/>
+        <attribute name="Class-Path" value="${jarclasspath}"/>
+      </manifest>
+      <fileset dir="webc" includes="**/*.*"/>  
+    </jar>
+  </target>
+
+  <target name="clean" depends="init">
+    <delete dir="webc" />
+  </target>
+ 
+</project>

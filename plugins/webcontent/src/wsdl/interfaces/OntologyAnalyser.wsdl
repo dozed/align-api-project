@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://weblab-project.org/services/ontologyanalyser"
+	xmlns:types="http://weblab-project.org/services/ontologyanalyser/types"
+	xmlns:ex="http://weblab-project.org/services/exception"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://weblab-project.org/services/ontologyanalyser"
+	name="OntologyAnalyser">
+
+	<types>
+		<xsd:schema>
+			<xsd:import
+				namespace="http://weblab-project.org/services/ontologyanalyser/types"
+				schemaLocation="OntologyAnalyserTypes.xsd" />
+			<xsd:import
+				namespace="http://weblab-project.org/services/exception"
+				schemaLocation="http://ipcc-projects.org/weblab/core/services/1.0/exception.xsd" />
+		</xsd:schema>
+	</types>
+
+	<message name="processRequest">
+		<part name="args" element="types:processArgs" />
+	</message>
+	<message name="processResponse">
+		<part name="return" element="types:processReturn" />
+	</message>
+	<message name="processException">
+		<part name="error" element="ex:webLabException" />
+	</message>
+
+	<message name="addResourceRequest">
+		<part name="args" element="types:addResourceArgs" />
+	</message>
+	<message name="addResourceResponse">
+		<part name="return" element="types:addResourceReturn" />
+	</message>
+	<message name="addResourceException">
+		<part name="error" element="ex:webLabException" />
+	</message>
+
+	<portType name="OntologyAnalyser">
+		<documentation>
+			A simple interface for a, ontology analyser. It contains a
+			method to enable business analyser to process the ontology,
+			given a usage content; and a method enabling to add some
+			resources to extract the knowledge from.
+		</documentation>
+		<operation name="process">
+			<documentation>
+				Ask to the service to process with its business method.
+			</documentation>
+			<input name="processInput" message="tns:processRequest" />
+			<output name="processOutput" message="tns:processResponse" />
+			<fault name="processException"
+				message="tns:processException">
+				<documentation>
+					To be thrown when an error occurs in the process
+					method of the ontology analyser.
+				</documentation>
+			</fault>
+		</operation>
+		<operation name="addResource">
+			<documentation>
+				Add the resource within a usage context to the service.
+			</documentation>
+			<input name="addResourceInput"
+				message="tns:addResourceRequest" />
+			<output name="addResourceOutput"
+				message="tns:addResourceResponse" />
+			<fault name="addResourceException"
+				message="tns:addResourceException">
+				<documentation>
+					To be thrown when an error occurs when adding this
+					resource to the service.
+				</documentation>
+			</fault>
+		</operation>
+	</portType>
+
+	<binding name="OntologyAnalyserSOAPBinding"
+		type="tns:OntologyAnalyser">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"
+			style="document" />
+		<operation name="process">
+			<soap:operation soapAction="process" />
+			<input name="processInput">
+				<soap:body use="literal" />
+			</input>
+			<output name="processOutput">
+				<soap:body use="literal" />
+			</output>
+			<fault name="processException">
+				<soap:fault name="processException" use="literal" />
+			</fault>
+		</operation>
+		<operation name="addResource">
+			<soap:operation soapAction="addResource" />
+			<input name="addResourceInput">
+				<soap:body use="literal" />
+			</input>
+			<output name="addResourceOutput">
+				<soap:body use="literal" />
+			</output>
+			<fault name="addResourceException">
+				<soap:fault name="addResourceException" use="literal" />
+			</fault>
+		</operation>
+	</binding>
+
+
+</definitions>

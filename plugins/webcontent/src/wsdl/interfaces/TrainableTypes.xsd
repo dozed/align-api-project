@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by EADS DS - IPCC -->
+<xs:schema
+	xmlns:tns="http://weblab-project.org/services/trainable/types"
+	xmlns:model="http://weblab-project.org/core/model/"
+	xmlns:user="http://weblab-project.org/core/model/user"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://weblab-project.org/services/trainable/types">
+
+	<xs:import namespace="http://weblab-project.org/core/model/"
+		schemaLocation="../model/model.xsd" />
+
+	<!-- import here all others definitions files -->
+	<xs:import namespace="http://weblab-project.org/core/model/content"
+		schemaLocation="../model/content.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/multimedia"
+		schemaLocation="../model/multimedia.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/ontology"
+		schemaLocation="../model/ontology.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/query"
+		schemaLocation="../model/query.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/service"
+		schemaLocation="../model/service.xsd" />
+	<xs:import
+		namespace="http://weblab-project.org/core/model/structure"
+		schemaLocation="../model/structure.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/text"
+		schemaLocation="../model/text.xsd" />
+	<xs:import namespace="http://weblab-project.org/core/model/user"
+		schemaLocation="../model/user.xsd" />
+	<!-- end additionals imports -->
+
+	<xs:annotation>
+		<xs:documentation>
+			Data Exchange Model for WebLab platform provided by EADS
+			Version 1.0 - 2008/05
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="addTrainResourceArgs"
+		type="tns:addTrainResourceArgs" />
+
+	<xs:element name="addTrainResourceReturn"
+		type="tns:addTrainResourceReturn" />
+
+	<xs:complexType name="addTrainResourceArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the resource to add and the usage
+				context.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element name="resource" type="model:resource"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="addTrainResourceReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Just an empty wrapper since a service can't return a
+				void.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+	<xs:element name="trainArgs" type="tns:trainArgs" />
+
+	<xs:element name="trainReturn" type="tns:trainReturn" />
+
+	<xs:complexType name="trainArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the usage context to be used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="trainReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Just an empty wrapper since a service can't return a
+				void.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+	<xs:element name="resetTrainedModelArgs"
+		type="tns:resetTrainedModelArgs" />
+
+	<xs:element name="resetTrainedModelReturn"
+		type="tns:resetTrainedModelReturn" />
+
+	<xs:complexType name="resetTrainedModelArgs">
+		<xs:annotation>
+			<xs:documentation>
+				Wrapper containing the usage context.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="usageContext" type="user:usageContext"
+				minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="resetTrainedModelReturn">
+		<xs:annotation>
+			<xs:documentation>
+				Just an empty wrapper since a service can't return a
+				void.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+</xs:schema>
