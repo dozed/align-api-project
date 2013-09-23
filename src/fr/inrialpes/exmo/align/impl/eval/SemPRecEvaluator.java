@@ -112,7 +112,7 @@ public class SemPRecEvaluator extends PRecEvaluator implements Evaluator {
     public int nbEntailedCorrespondences(ObjectAlignment al1, ObjectAlignment al2) throws AlignmentException {
         ReasonerBuilder builder = new ReasonerBuilder()
                 .add(al1.getOntologyObject1())
-                .add(al2.getOntologyObject1())
+                .add(al1.getOntologyObject2())
                 .add(al1);
 
         Reasoner reasoner = builder.build();
