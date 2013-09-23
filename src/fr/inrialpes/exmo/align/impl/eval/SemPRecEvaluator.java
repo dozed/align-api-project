@@ -20,76 +20,18 @@
 
 package fr.inrialpes.exmo.align.impl.eval;
 
-import fr.inrialpes.exmo.ontowrap.owlapi30.OWLAPI3Ontology;
+import fr.inrialpes.exmo.align.impl.ObjectAlignment;
+import fr.inrialpes.exmo.align.impl.ObjectCell;
+import fr.paris8.iut.info.iddl.conf.Semantics;
+import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
 import org.semanticweb.owl.align.Cell;
-import org.semanticweb.owl.align.Relation;
 import org.semanticweb.owl.align.Evaluator;
-
-import fr.inrialpes.exmo.align.impl.BasicEvaluator;
-import fr.inrialpes.exmo.align.impl.BasicAlignment;
-import fr.inrialpes.exmo.align.impl.ObjectAlignment;
-import fr.inrialpes.exmo.align.impl.ObjectCell;
-import fr.inrialpes.exmo.align.impl.URIAlignment;
-import fr.inrialpes.exmo.align.impl.Annotations;
-import fr.inrialpes.exmo.align.impl.eval.PRecEvaluator;
-import fr.inrialpes.exmo.align.impl.rel.*;
-import fr.inrialpes.exmo.align.impl.renderer.OWLAxiomsRendererVisitor;
-
-import fr.inrialpes.exmo.ontowrap.Ontology;
-import fr.inrialpes.exmo.ontowrap.LoadedOntology;
-import fr.inrialpes.exmo.ontowrap.OntowrapException;
-
-// ---- IDDL
-import fr.paris8.iut.info.iddl.IDDLReasoner;
-import fr.paris8.iut.info.iddl.IDDLException;
-import fr.paris8.iut.info.iddl.conf.Semantics;
-
-// ----  HermiT Implementation
-
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLIndividual;
-
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.util.SimpleIRIMapper;
-import uk.ac.manchester.cs.owl.owlapi.OWLOntologyIRIMapperImpl;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.reasoner.BufferingMode;
-
-import org.semanticweb.HermiT.Reasoner;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.FileWriter;
-
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.Thread;
-import java.lang.Runnable;
-import java.lang.IllegalArgumentException;
-
 import java.util.Properties;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.ArrayList;
-import java.io.PrintWriter;
-import java.net.URI;
 
 /**
  * Evaluate proximity between two alignments.
@@ -177,257 +119,23 @@ public class SemPRecEvaluator extends PRecEvaluator implements Evaluator {
     }
 
     public int nbEntailedCorrespondences(ObjectAlignment al1, ObjectAlignment al2) throws AlignmentException {
-        Reasoner reasoner = new ReasonerBuilder()
+        ReasonerBuilder builder = new ReasonerBuilder()
                 .add(al1.getOntologyObject1())
                 .add(al2.getOntologyObject1())
-                .add(al1.getArrayElements())
-                .build();
+                .add(al1);
+
+        Reasoner reasoner = builder.build();
 
         if (!reasoner.isConsistent()) return al2.nbCells(); // everything is entailed
 
         int entailed = 0;
         for (Cell c2 : al2) {
-            try {
-                if (reasoner.isEntailed(correspToAxiom(al2, (ObjectCell) c2))) {
-                    entailed++;
-                }
-            } catch (AlignmentException aex) { // type mismatch -> 0
-                logger.warn("Cannot be translated.");
+            if (reasoner.isEntailed(builder.correspondenceToAxiom((ObjectCell) c2))) {
+                entailed++;
             }
         }
+
         return entailed;
-    }
-
-    public void loadAlignedOntologies(ObjectAlignment align) throws OWLOntologyCreationException, OntowrapException {
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-
-        OWLOntology ontology = manager.createOntology();
-
-        for (Object o : ((LoadedOntology<?>) align.getOntologyObject1()).getIndividuals()) {
-
-            manager.addAxiom(ontology, owlAxiom);
-        }
-
-        for (OWLAxiom owlAxiom : ((OWLAPI3Ontology) (Object) align.getOntologyObject2()).getOntology().getAxioms()) {
-            manager.addAxiom(ontology, owlAxiom);
-        }
-
-        for (Cell cell : align.getArrayElements()) {
-            correspToAxiom(manager, null, (ObjectCell) cell);
-        }
-
-        reasoner = new Reasoner(ontology);
-    }
-
-    public OWLAxiom correspToAxiom(OWLOntologyManager manager, LoadedOntology onto, ObjectCell corresp) throws AlignmentException {
-        OWLDataFactory owlfactory = manager.getOWLDataFactory();
-
-        Object e1 = corresp.getObject1();
-        Object e2 = corresp.getObject2();
-        Relation r = corresp.getRelation();
-
-        try {
-            if (onto.isIndividual(e1)) {
-                if (onto.isIndividual(e2)) {
-                    OWLIndividual entity1 = owlfactory.getOWLNamedIndividual(IRI.create(onto.getEntityURI(e1)));
-                    OWLIndividual entity2 = owlfactory.getOWLNamedIndividual(IRI.create(onto.getEntityURI(e2)));
-                    if (r instanceof EquivRelation) {
-                        return owlfactory.getOWLSameIndividualAxiom(entity1, entity2);
-                    } else if (r instanceof IncompatRelation) {
-                        return owlfactory.getOWLDifferentIndividualsAxiom(entity1, entity2);
-                    }
-                }
-            }
-        } catch (OntowrapException owex) {
-            throw new AlignmentException("Error interpreting URI " + owex);
-        }
-
-        throw new AlignmentException("Cannot convert correspondence " + corresp);
-    }
-
-
-    /**
-     * It would be useful to directly use the Ontologies since they are already loaded
-     * Two implementation of Alignment loading: one with intermediate file and one without.
-     */
-    protected OWLOntologyManager manager = null;
-    //  protected OWLReasoner reasoner = null;
-
-    /* 
-     * Loads the Aligned ontologies without intermediate file
-     */
-    public void loadPipedAlignedOntologies(final ObjectAlignment align) throws AlignmentException {
-        PipedInputStream in = new PipedInputStream();
-        try {
-            final PipedOutputStream out = new PipedOutputStream(in);
-            Thread myThread = new Thread(
-                    new Runnable() {
-                        public void run() {
-                            PrintWriter writer = null;
-                            try {
-                                writer = new PrintWriter(
-                                        new BufferedWriter(
-                                                new OutputStreamWriter(out, "UTF-8")), true);
-                                OWLAxiomsRendererVisitor renderer = new OWLAxiomsRendererVisitor(writer);
-                                renderer.init(new Properties());
-                                // Generate the ontology as OWL Axioms
-                                align.render(renderer);
-                            } catch (Exception ex) {
-                                // No way to handle this exception???
-                                // At worse, the other end will raise an exception
-                                logger.error("Cannot render alignment to OWL", ex);
-                            } finally {
-                                if (writer != null) {
-                                    writer.flush();
-                                    writer.close();
-                                }
-                            }
-                        }
-                    }
-            );
-            myThread.start();
-        } catch (UnsupportedEncodingException ueex) {
-            throw new AlignmentException("Cannot render alignment to OWL", ueex);
-        } catch (IOException ioex) {
-            throw new AlignmentException("Cannot render alignment to OWL", ioex);
-        }
-
-        manager = OWLManager.createOWLOntologyManager();
-        //logger.trace( "{} ----> {}", align.getOntology1URI(), align.getFile1() );
-        //logger.trace( "{} ----> {}", align.getOntology2URI(), align.getFile2() );
-        manager.addIRIMapper(new SimpleIRIMapper(IRI.create(align.getOntology1URI()),
-                IRI.create(align.getFile1())));
-        manager.addIRIMapper(new SimpleIRIMapper(IRI.create(align.getOntology2URI()),
-                IRI.create(align.getFile2())));
-        try {
-            manager.loadOntologyFromOntologyDocument(IRI.create(align.getFile1()));
-            manager.loadOntologyFromOntologyDocument(IRI.create(align.getFile2()));
-            // Load the ontology stream
-            OWLOntology ontology = manager.loadOntologyFromOntologyDocument(in);
-            reasoner = new Reasoner(ontology);
-        } catch (OWLOntologyCreationException ooce) {
-            throw new AlignmentException("Hermit : Cannot load alignment", ooce);
-        } catch (IllegalArgumentException ilex) {
-            throw new AlignmentException("Hermit : Cannot load alignment", ilex);
-        }
-    }
-
-    /* 
-     * Loads the Aligned ontologies through an intermediate file
-     */
-    public void loadFileAlignedOntologies(ObjectAlignment align) throws AlignmentException {
-        // Render the alignment
-        PrintWriter writer = null;
-        File merged = null;
-        try {
-            merged = File.createTempFile("spreval", ".owl");
-            merged.deleteOnExit();
-            writer = new PrintWriter(new FileWriter(merged, false), true);
-            OWLAxiomsRendererVisitor renderer = new OWLAxiomsRendererVisitor(writer);
-            renderer.init(new Properties());
-            align.render(renderer);
-        } catch (UnsupportedEncodingException ueex) {
-            throw new AlignmentException("Cannot render alignment to OWL", ueex);
-        } catch (IOException ioex) {
-            throw new AlignmentException("Cannot render alignment to OWL", ioex);
-        } finally {
-            if (writer != null) {
-                writer.flush();
-                writer.close();
-            }
-        }
-
-        // Load the ontology
-        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        //logger.trace( "{} ----> {}", align.getOntology1URI(), align.getFile1() );
-        //logger.trace( "{} ----> {}", align.getOntology2URI(), align.getFile2() );
-        manager.addIRIMapper(new SimpleIRIMapper(IRI.create(align.getOntology1URI()),
-                IRI.create(align.getFile1())));
-        manager.addIRIMapper(new SimpleIRIMapper(IRI.create(align.getOntology2URI()),
-                IRI.create(align.getFile2())));
-        try {
-            manager.loadOntologyFromOntologyDocument(IRI.create(align.getFile1()));
-            manager.loadOntologyFromOntologyDocument(IRI.create(align.getFile2()));
-            OWLOntology ontology = manager.loadOntologyFromOntologyDocument(merged);
-            reasoner = new Reasoner(ontology);
-        } catch (OWLOntologyCreationException ooce) {
-            throw new AlignmentException("Hermit : Cannot load alignment", ooce);
-        } catch (IllegalArgumentException ilex) {
-            throw new AlignmentException("Hermit : Cannot load alignment", ilex);
-        }
-    }
-
-    // In fact, it should be possible to do all EDOAL
-    public OWLAxiom correspToAxiom(ObjectAlignment al, ObjectCell corresp) throws AlignmentException {
-        OWLDataFactory owlfactory = manager.getOWLDataFactory();
-
-        LoadedOntology onto1 = al.ontology1();
-        LoadedOntology onto2 = al.ontology2();
-        // retrieve entity1 and entity2
-        // create the axiom in function of their labels
-        Object e1 = corresp.getObject1();
-        Object e2 = corresp.getObject2();
-        Relation r = corresp.getRelation();
-        try {
-            if (onto1.isClass(e1)) {
-                if (onto2.isClass(e2)) {
-                    OWLClass entity1 = owlfactory.getOWLClass(IRI.create(onto1.getEntityURI(e1)));
-                    OWLClass entity2 = owlfactory.getOWLClass(IRI.create(onto2.getEntityURI(e2)));
-                    if (r instanceof EquivRelation) {
-                        return owlfactory.getOWLEquivalentClassesAxiom(entity1, entity2);
-                    } else if (r instanceof SubsumeRelation) {
-                        return owlfactory.getOWLSubClassOfAxiom(entity2, entity1);
-                    } else if (r instanceof SubsumedRelation) {
-                        return owlfactory.getOWLSubClassOfAxiom(entity1, entity2);
-                    } else if (r instanceof IncompatRelation) {
-                        return owlfactory.getOWLDisjointClassesAxiom(entity1, entity2);
-                    }
-                } else if (onto2.isIndividual(e2) && (r instanceof HasInstanceRelation)) {
-                    return owlfactory.getOWLClassAssertionAxiom(owlfactory.getOWLClass(IRI.create(onto1.getEntityURI(e1))),
-                            owlfactory.getOWLNamedIndividual(IRI.create(onto2.getEntityURI(e2))));
-                }
-            } else if (onto1.isDataProperty(e1) && onto2.isDataProperty(e2)) {
-                OWLDataProperty entity1 = owlfactory.getOWLDataProperty(IRI.create(onto1.getEntityURI(e1)));
-                OWLDataProperty entity2 = owlfactory.getOWLDataProperty(IRI.create(onto2.getEntityURI(e2)));
-                if (r instanceof EquivRelation) {
-                    return owlfactory.getOWLEquivalentDataPropertiesAxiom(entity1, entity2);
-                } else if (r instanceof SubsumeRelation) {
-                    return owlfactory.getOWLSubDataPropertyOfAxiom(entity2, entity1);
-                } else if (r instanceof SubsumedRelation) {
-                    return owlfactory.getOWLSubDataPropertyOfAxiom(entity1, entity2);
-                } else if (r instanceof IncompatRelation) {
-                    return owlfactory.getOWLDisjointDataPropertiesAxiom(entity1, entity2);
-                }
-            } else if (onto1.isObjectProperty(e1) && onto2.isObjectProperty(e2)) {
-                OWLObjectProperty entity1 = owlfactory.getOWLObjectProperty(IRI.create(onto1.getEntityURI(e1)));
-                OWLObjectProperty entity2 = owlfactory.getOWLObjectProperty(IRI.create(onto2.getEntityURI(e2)));
-                if (r instanceof EquivRelation) {
-                    return owlfactory.getOWLEquivalentObjectPropertiesAxiom(entity1, entity2);
-                } else if (r instanceof SubsumeRelation) {
-                    return owlfactory.getOWLSubObjectPropertyOfAxiom(entity2, entity1);
-                } else if (r instanceof SubsumedRelation) {
-                    return owlfactory.getOWLSubObjectPropertyOfAxiom(entity1, entity2);
-                } else if (r instanceof IncompatRelation) {
-                    return owlfactory.getOWLDisjointObjectPropertiesAxiom(entity1, entity2);
-                }
-            } else if (onto1.isIndividual(e1)) {
-                if (onto2.isIndividual(e2)) {
-                    OWLIndividual entity1 = owlfactory.getOWLNamedIndividual(IRI.create(onto1.getEntityURI(e1)));
-                    OWLIndividual entity2 = owlfactory.getOWLNamedIndividual(IRI.create(onto2.getEntityURI(e2)));
-                    if (r instanceof EquivRelation) {
-                        return owlfactory.getOWLSameIndividualAxiom(entity1, entity2);
-                    } else if (r instanceof IncompatRelation) {
-                        return owlfactory.getOWLDifferentIndividualsAxiom(entity1, entity2);
-                    }
-                } else if (onto2.isClass(e2) && (r instanceof InstanceOfRelation)) {
-                    return owlfactory.getOWLClassAssertionAxiom(owlfactory.getOWLClass(IRI.create(onto2.getEntityURI(e2))),
-                            owlfactory.getOWLNamedIndividual(IRI.create(onto1.getEntityURI(e1))));
-                }
-            }
-        } catch (OntowrapException owex) {
-            throw new AlignmentException("Error interpreting URI " + owex);
-        }
-        throw new AlignmentException("Cannot convert correspondence " + corresp);
     }
 
 }
