@@ -1,6 +1,7 @@
 package fr.inrialpes.exmo.align.impl.eval;
 
 import fr.inrialpes.exmo.align.impl.ObjectCell;
+import fr.inrialpes.exmo.align.impl.rel.*;
 import fr.inrialpes.exmo.ontowrap.Ontology;
 import fr.inrialpes.exmo.ontowrap.OntowrapException;
 import fr.inrialpes.exmo.ontowrap.owlapi30.OWLAPI3Ontology;

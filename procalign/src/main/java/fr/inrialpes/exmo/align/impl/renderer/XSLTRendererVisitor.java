@@ -26,6 +26,10 @@ import java.util.Properties;
 import java.io.PrintWriter;
 import java.net.URI;
 
+import fr.inrialpes.exmo.align.impl.rel.EquivRelation;
+import fr.inrialpes.exmo.align.impl.rel.IncompatRelation;
+import fr.inrialpes.exmo.align.impl.rel.SubsumeRelation;
+import fr.inrialpes.exmo.align.impl.rel.SubsumedRelation;
 import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentVisitor;
 import org.semanticweb.owl.align.AlignmentException;
