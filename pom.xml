@@ -35,8 +35,7 @@
         <module>alignsvc</module>
     </modules>
 
-    <name>The Alignment API</name>
-    <description>The Alignment API is an API for manipulating ontology alignments.</description>
+    <name>Alignment API Reference Implementation</name>
     <url>http://alignapi.gforge.inria.fr</url>
 
     <inceptionYear>2003</inceptionYear>
