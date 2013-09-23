@@ -59,11 +59,11 @@ public class AlignmentTransformer {
 
         OWLClass thing = df.getOWLClass(IRI.create("http://www.w3.org/2002/07/owl#Thing"));
 
-        // creates an individual for each match
-        Enumeration<Cell> e = al.getElements();
-        while (e.hasMoreElements()) {
-            Cell cell = e.nextElement();
+        // the ObjectAlignment
+        ObjectAlignment oa = new ObjectAlignment();
 
+        // creates an individual for each match
+        for (Cell cell : al) {
             URI uri1 = cell.getObject1AsURI();
             URI uri2 = cell.getObject2AsURI();
 
@@ -75,11 +75,12 @@ public class AlignmentTransformer {
 
             OWLClassAssertionAxiom cax2 = df.getOWLClassAssertionAxiom(thing, ind2);
             manager.addAxiom(ont2, cax2);
+
+            Cell clone = oa.createCell(cell.getId(), ind1, ind2, cell.getRelation(), cell.getStrength());
+            oa.addCell(clone);
         }
 
-        ObjectAlignment oa = new ObjectAlignment();
-        oa.setOntology1(wrapOWLOntology(ont1));
-        oa.setOntology2(wrapOWLOntology(ont2));
+        oa.init(wrapOWLOntology(ont1), wrapOWLOntology(ont2));
 
         return oa;
     }
