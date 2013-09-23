@@ -6,6 +6,9 @@ import org.semanticweb.owl.align.Alignment;
 import org.semanticweb.owl.align.AlignmentException;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import static org.testng.Assert.assertNotNull;
 
 /**
@@ -17,14 +20,8 @@ import static org.testng.Assert.assertNotNull;
  */
 public class EvaluatorTest {
 
-//    private ObjectAlignment objectAlignment(URIAlignment a) {
-//        ObjectAlignment alignment = new ObjectAlignment();
-//            alignment.init( al.getFile1(), al.getFile2() );
-//
-//    }
-
     @Test
-    public void testEvaluation() throws AlignmentException {
+    public void testEvaluation() throws AlignmentException, IOException {
         AlignmentParser aparser = new AlignmentParser(0);
 
         Alignment a1 = aparser.parse("file:/home/stefan/Code/diplom-code/ldif-geo/data/align-reegle-ref.rdf");
@@ -33,6 +30,10 @@ public class EvaluatorTest {
         SemPRecEvaluator e1 = new SemPRecEvaluator(a1, a2);
         e1.eval(System.getProperties());
 
+        PrintWriter writer = new PrintWriter(System.out);
+        e1.write(writer);
+        writer.flush();
+        writer.close();
     }
 
 }
