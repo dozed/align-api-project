@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>align</artifactId>
+        <groupId>org.semanticweb.owl</groupId>
+        <version>5.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>fr.inrialpes.exmo.align</groupId>
+    <artifactId>procalign</artifactId>
+    <version>5.0-SNAPSHOT</version>
+
+    <name>Reference implementation of the Alignment API</name>
+    <description>Implementation of the Alignment API for manipulating ontology alignments.</description>
+    <url>http://alignapi.gforge.inria.fr</url>
+    <organization>
+        <name>INRIA Exmo team</name>
+        <url>http://exmo.inrialpes.fr</url>
+    </organization>
+    <!-- (C) INRIA, @COPYYEAR@ -->
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+        </license>
+        <license>
+            <name>CeCILL-C Licence française de logiciel libre</name>
+            <url>http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.txt</url>
+        </license>
+    </licenses>
+    <packaging>jar</packaging>
+
+    <!--dependencies>
+      <dependency>
+        <groupId>org.semanticweb.owl</groupId>
+        <artifactId>align</artifactId>
+        <version>@VERS@</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>fr.inrialpes.exmo</groupId>
+        <artifactId>ontowrap</artifactId>
+        <version>@VERS@</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>gnu.getopt</groupId>
+        <artifactId>java-getopt</artifactId>
+      </dependency>
+      <dependency>
+        <comment>why??</comment>
+        <groupId>org.semanticweb</groupId>
+        <artifactId>owl</artifactId>
+        <scope>compile</scope>
+        <optional>true</optional>
+      </dependency>
+      <dependency>
+        <groupId>org.semanticweb</groupId>
+        <artifactId>owlapi</artifactId>
+        <optional>true</optional>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jena</groupId>
+        <artifactId>jena-core</artifactId>
+        <optional>true</optional>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.semanticweb.HermiT</groupId>
+        <artifactId>HermiT</artifactId>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>fr.paris8.iut.info.iddl</groupId>
+        <artifactId>iddl</artifactId>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>fr.inrialpes.exmo</groupId>
+        <artifactId>ontosim</artifactId>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.google.api</groupId>
+        <artifactId>google-api-translate-java</artifactId>
+        <scope>compile</scope>
+      </dependency>
+    <dependencies-->
+
+    <developers>
+        <developer>
+            <id>JeromE</id>
+            <name>Jérôme Euzenat</name>
+            <organization>INRIA</organization>
+            <email>Jerome.Euzenat@acm.org</email>
+            <roles>
+                <role>Main developer</role>
+                <role>Maintainer</role>
+            </roles>
+            <timezone>1</timezone>
+        </developer>
+    </developers>
+    <!-- For contributors, see http://alignapi.gforge.inria.fr/credits.html -->
+
+</project>
