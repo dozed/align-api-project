@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<rdf:RDF xmlns='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns:xsd='http://www.w3.org/2001/XMLSchema#'
+         xmlns:align='http://knowledgeweb.semanticweb.org/heterogeneity/alignment#'
+         xmlns:edoal='http://ns.inria.org/edoal/1.0/#'>
+<Alignment rdf:about="http://oms.omwg.org/wine-vin/">
+  <xml>yes</xml>
+  <level>2EDOAL</level>
+  <type>**</type>
+  <id>http://oms.omwg.org/wine-vin/</id>
+  <onto1>
+    <Ontology rdf:about="http://www.w3.org/TR/2003/CR-owl-guide-20030818/wine#">
+      <location>http://www.w3.org/TR/2003/CR-owl-guide-20030818/wine#</location>
+      <formalism>
+        <Formalism align:name="owl" align:uri="http://www.w3.org/TR/owl-guide/"/>
+      </formalism>
+    </Ontology>
+  </onto1>
+  <onto2>
+    <Ontology rdf:about="http://ontology.deri.org/vin#">
+      <location>http://www.scharffe.fr/ontologies/OntologieDuVin.wsml</location>
+      <formalism>
+        <Formalism align:name="wsml" align:uri="http://www.wsmo.org/wsml/wsml-syntax/wsml-dl"/>
+      </formalism>
+    </Ontology>
+  </onto2>
+  <map>
+    <Cell rdf:about="http://oms.omwg.org/wine-vin/MappingRule_1">
+      <entity1>
+        <edoal:Property rdf:about="http://www.w3.org/TR/2003/CR-owl-guide-20030818/wine#yearValue"/>
+      </entity1>
+      <entity2>
+        <edoal:Property rdf:about="http://ontology.deri.org/vin#anneeMillesime"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="http://oms.omwg.org/wine-vin/MappingRule_3">
+      <entity1>
+        <edoal:Class rdf:about="http://www.w3.org/TR/2003/CR-owl-guide-20030818/wine#Bordeaux"/>
+      </entity1>
+      <entity2>
+        <edoal:Class>
+          <edoal:and rdf:parseType="Collection">
+            <edoal:Class rdf:about="http://ontology.deri.org/vin#Vin"/>
+            <edoal:AttributeValueRestriction>
+              <edoal:onAttribute>
+                <edoal:Relation>
+                  <edoal:compose rdf:parseType="Collection">
+                    <edoal:Relation rdf:about="http://ontology.deri.org/vin#hasTerroir"/>
+                    <edoal:Relation rdf:about="http://proton.semanticweb.org/locatedIn"/>
+                  </edoal:compose>
+                </edoal:Relation>
+              </edoal:onAttribute>
+              <edoal:comparator rdf:resource="http://ns.inria.org/edoal/1.0/#equals"/>
+              <edoal:value>
+                <edoal:Instance rdf:about="http://ontology.deri.org/vin#Aquitaine"/>
+              </edoal:value>
+            </edoal:AttributeValueRestriction>
+          </edoal:and>
+        </edoal:Class>
+      </entity2>
+      <relation>&lt;</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="http://oms.omwg.org/wine-vin/MappingRule_4">
+      <entity1>
+        <edoal:Class>
+          <edoal:or rdf:parseType="Collection">
+            <edoal:Class rdf:about="http://ontology.deri.org/vin#Acidite"/>
+            <edoal:Class rdf:about="http://ontology.deri.org/vin#Astreingence"/>
+            <edoal:Class rdf:about="http://ontology.deri.org/vin#Amertume"/>
+          </edoal:or>
+        </edoal:Class>
+      </entity1>
+      <entity2>
+        <edoal:Class>
+          <edoal:not>
+            <edoal:Class rdf:about="http://www.w3.org/TR/2003/CR-owl-guide-20030818/wine#WineFlavor"/>
+          </edoal:not>
+        </edoal:Class>
+      </entity2>
+      <relation>&lt;</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="http://oms.omwg.org/wine-vin/MappingRule_0">
+      <entity1>
+        <edoal:Class rdf:about="http://www.w3.org/TR/2003/CR-owl-guide-20030818/wine#VintageYear"/>
+      </entity1>
+      <entity2>
+        <edoal:Class rdf:about="http://ontology.deri.org/vin#Millesime"/>
+      </entity2>
+      <relation>=</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+  <map>
+    <Cell rdf:about="http://oms.omwg.org/wine-vin/MappingRule_2">
+      <entity1>
+        <edoal:Relation rdf:about="http://www.w3.org/TR/2003/CR-owl-guide-20030818/wine#locatedIn"/>
+      </entity1>
+      <entity2>
+        <edoal:Relation rdf:about="http://ontology.deri.org/vin#hasTerroir"/>
+      </entity2>
+      <relation>&lt;</relation>
+      <measure rdf:datatype='http://www.w3.org/2001/XMLSchema#float'>1.0</measure>
+    </Cell>
+  </map>
+</Alignment>
+</rdf:RDF>
