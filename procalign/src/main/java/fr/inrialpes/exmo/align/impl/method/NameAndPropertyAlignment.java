@@ -50,7 +50,7 @@ import fr.inrialpes.exmo.ontosim.string.StringDistances;
  *  - pia3 [ignored=0]: weigth for property domain
  *  - pia4 [ignored=0]: weigth for property range
  *
- * @author J�r�me Euzenat / Jerome Pierson
+ * @author Jérôme Euzenat / Jerome Pierson
  * @version $Id: NameAndPropertyAlignment.java 1502 2010-08-16 08:13:55Z euzenat $ 
  */
 

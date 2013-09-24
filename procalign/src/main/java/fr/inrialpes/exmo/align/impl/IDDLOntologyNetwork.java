@@ -33,7 +33,7 @@ import fr.paris8.iut.info.iddl.conf.Semantics;
 /**
  * Represents a distributed system of aligned ontologies or network of ontologies.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: BasicOntologyNetwork.java 987 2009-05-27 13:48:33Z euzenat $ 
  */
 

@@ -1,7 +1,7 @@
 /*
  * $Id: JWNLDistances.java 111 2011-05-27 09:18:55Z jdavid $
  *
- * Copyright (C) University of Montr�al, 2004-2005
+ * Copyright (C) University of Montréal, 2004-2005
  * Copyright (C) INRIA, 2004-2005, 2007-2011
  * This program was originaly part of the Alignment API implementation
  *

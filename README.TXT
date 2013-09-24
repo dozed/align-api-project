@@ -5,7 +5,7 @@
 #######################################################################
 
 Copyright (C) 2003-2013 INRIA.
-Copyright (C) 2004-2005 Université de Montréal.
+Copyright (C) 2004-2005 UniversitÃ´ de MontrÃ´al.
 Copyright (C) 2005 CNR Pisa.
 Copyright (C) 2005 Konstantinos A. Nedas.
 Copyright (C) 2006 CERT.

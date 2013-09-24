@@ -70,7 +70,7 @@ import gnu.getopt.Getopt;
 $Id: EvalAlign.java 1805 2013-02-08 14:25:15Z euzenat $
 </pre>
 
-@author J�r�me Euzenat
+@author Jérôme Euzenat
     */
 
 public class EvalAlign {

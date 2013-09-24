@@ -44,7 +44,7 @@ import fr.inrialpes.exmo.ontowrap.OntowrapException;
 /**
  * Renders an alignment as a new ontology merging these.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: SEKTMappingRendererVisitor.java 1827 2013-03-07 22:44:05Z euzenat $ 
  */
 

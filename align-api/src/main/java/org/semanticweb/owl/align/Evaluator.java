@@ -26,7 +26,7 @@ import java.util.Properties;
 /**
  * Assess the closeness between two ontology alignments.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: Evaluator.java 1425 2010-04-06 20:25:39Z euzenat $ 
  */
 

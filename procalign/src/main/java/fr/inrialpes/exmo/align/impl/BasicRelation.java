@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * Represents an ontology alignment relation.
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: BasicRelation.java 1681 2012-02-16 10:11:59Z euzenat $
  */
 

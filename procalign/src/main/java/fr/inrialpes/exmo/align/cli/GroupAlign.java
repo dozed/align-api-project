@@ -4,7 +4,7 @@
  * Copyright (C) 2003 The University of Manchester
  * Copyright (C) 2003 The University of Karlsruhe
  * Copyright (C) 2003-2008, 2010-2013 INRIA
- * Copyright (C) 2004, Universit� de Montr�al
+ * Copyright (C) 2004, Université de Montréal
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -73,7 +73,7 @@ $Id: GroupAlign.java 1820 2013-03-06 10:13:00Z euzenat $
 </pre>
 
 @author Sean K. Bechhofer
-@author J�r�me Euzenat
+@author Jérôme Euzenat
     */
 
 public class GroupAlign {

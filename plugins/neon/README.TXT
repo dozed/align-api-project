@@ -2,7 +2,7 @@
 #                    NeOn Toolkit Alignment plug-in                   #
 #######################################################################
 
-(C) INRIA Rhône-Alpes, 2007-2009
+(C) INRIA RhÃ´ne-Alpes, 2007-2009
 Licensed under the LGPL 2.0 or above
 
 This program is free software; you can redistribute it and/or

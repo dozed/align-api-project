@@ -76,7 +76,7 @@ import fr.inrialpes.exmo.align.impl.edoal.EDOALVisitor;
  *
  * application/json <========= media type available
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: JSONRendererVisitor.java 1771 2012-08-20 13:11:00Z euzenat $
  */
 

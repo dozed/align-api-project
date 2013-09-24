@@ -45,7 +45,7 @@ import fr.inrialpes.exmo.ontowrap.OntowrapException;
  * Renders an alignment as a SWRL rule set interpreting
  *.data of the first ontology into the second one.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: SWRLRendererVisitor.java 1827 2013-03-07 22:44:05Z euzenat $ 
  */
 

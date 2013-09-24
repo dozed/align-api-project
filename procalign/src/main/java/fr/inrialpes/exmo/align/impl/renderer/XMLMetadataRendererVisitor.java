@@ -39,7 +39,7 @@ import fr.inrialpes.exmo.align.impl.BasicAlignment;
 /**
  * Renders an alignment in its RDF format
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: XMLMetadataRendererVisitor.java 1699 2012-03-09 23:07:32Z euzenat $ 
  */
 

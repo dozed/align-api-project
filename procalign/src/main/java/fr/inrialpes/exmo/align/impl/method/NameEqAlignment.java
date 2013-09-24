@@ -1,7 +1,7 @@
 /*
  * $Id: NameEqAlignment.java 1256 2010-02-15 22:27:54Z euzenat $
  *
- * Copyright (C) INRIA Rhône-Alpes, 2003-2005, 2007-2008, 2010
+ * Copyright (C) INRIA RhÃ´ne-Alpes, 2003-2005, 2007-2008, 2010
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ import org.semanticweb.owl.align.AlignmentProcess;
  * Matches two oontologies based on the equality of the name of their entities.
  * THIS CLASS IS ONLY HERE FOR COMPATIBILITY PURPOSES
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: NameEqAlignment.java 1256 2010-02-15 22:27:54Z euzenat $ 
  */
 

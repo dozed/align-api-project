@@ -1,7 +1,7 @@
 /*
  * $Id: Result.java 630 2008-02-08 20:55:59Z euzenat $
  *
- * Copyright (C) INRIA Rhône-Alpes, 2006, 2008
+ * Copyright (C) INRIA RhÃ´ne-Alpes, 2006, 2008
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

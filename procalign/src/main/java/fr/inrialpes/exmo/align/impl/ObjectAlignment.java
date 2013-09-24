@@ -38,7 +38,7 @@ import fr.inrialpes.exmo.ontowrap.OntowrapException;
  * individuals, along with a number of axioms asserting information about those
  * objects.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: ObjectAlignment.java 1820 2013-03-06 10:13:00Z euzenat $
  */
 

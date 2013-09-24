@@ -35,7 +35,7 @@ import org.semanticweb.owl.align.Relation;
 /**
  * Represents an ontology alignment correspondence.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: BasicCell.java 1325 2010-03-10 11:47:07Z euzenat $
  */
 

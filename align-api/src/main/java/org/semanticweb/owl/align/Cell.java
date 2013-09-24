@@ -32,7 +32,7 @@ import org.xml.sax.ContentHandler;
  * individuals, along with a number of axioms asserting information
  * about those objects.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: Cell.java 1189 2010-01-03 17:57:13Z euzenat $
  */
 

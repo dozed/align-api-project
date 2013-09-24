@@ -74,7 +74,7 @@ import fr.inrialpes.exmo.align.impl.edoal.EDOALVisitor;
 /**
  * Renders an alignment as a new ontology merging these.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: OWLAxiomsRendererVisitor.java 1827 2013-03-07 22:44:05Z euzenat $ 
  */
 

@@ -54,7 +54,7 @@ import java.io.IOException;
  * against loss in generality.
  * 
  * @author Arun Sharma
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  */
 public class QueryMediator implements QueryProcessor {
     

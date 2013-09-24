@@ -52,7 +52,7 @@ import fr.inrialpes.exmo.ontowrap.BasicOntology;
  * In version 3.0 this class is virtually abstract.
  * But it cannot be declared abstract because it uses its own constructor.
  *
- * @author J�r�me Euzenat, David Loup, Rapha�l Troncy
+ * @author Jérôme Euzenat, David Loup, Raphaél Troncy
  * @version $Id: BasicAlignment.java 1809 2013-02-11 16:24:40Z euzenat $
  */
 

@@ -43,7 +43,7 @@ import fr.inrialpes.exmo.ontowrap.OntowrapException;
 /**
  * Renders an alignment as a new ontology merging these.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: SKOSRendererVisitor.java 1662 2012-01-14 15:47:39Z euzenat $ 
  */
 

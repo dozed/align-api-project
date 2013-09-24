@@ -27,7 +27,7 @@ import org.semanticweb.owl.align.AlignmentProcess;
  * of class and property labels
  * THIS CLASS IS ONLY HERE FOR COMPATIBILITY PURPOSES
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: SubsDistNameAlignment.java 1256 2010-02-15 22:27:54Z euzenat $ 
  */
 

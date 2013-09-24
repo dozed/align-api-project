@@ -33,7 +33,7 @@ import fr.inrialpes.exmo.align.impl.BasicAlignment;
 
 /**
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: ConsensusAggregator.java 1608 2011-05-28 20:21:16Z euzenat $ 
  *
  * This class is a generalisation of a consensus aggregation.

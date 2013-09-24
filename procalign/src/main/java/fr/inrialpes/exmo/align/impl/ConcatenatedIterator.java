@@ -31,7 +31,7 @@ import java.lang.UnsupportedOperationException;
  *
  * This is the naive implementation (can be optimized)
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: ConcatenatedIterator.java 899 2009-01-11 12:47:29Z euzenat $ 
  */
 

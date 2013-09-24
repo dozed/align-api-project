@@ -36,7 +36,7 @@ import fr.inrialpes.exmo.ontowrap.OntowrapException;
  * Implements the structure needed for recording class similarity
  * or dissimilarity within a matrix structure.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: MatrixMeasure.java 1502 2010-08-16 08:13:55Z euzenat $ 
  */
 

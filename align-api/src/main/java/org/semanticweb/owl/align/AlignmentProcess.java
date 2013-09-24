@@ -25,7 +25,7 @@ import java.util.Properties;
 /**
  * Represents an executable alignment
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: AlignmentProcess.java 1598 2011-05-14 20:58:47Z euzenat $ 
  */
 

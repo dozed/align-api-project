@@ -678,7 +678,7 @@ public class CacheImpl {
 	for( int i=0; i < 3 ; i++ ) {
 	    st = createStatement();
 	    try {
-		logger.debug( "Storing alignment {}�as {}", uri, id );
+		logger.debug( "Storing alignment {} as {}", uri, id );
 		conn.setAutoCommit( false );
 		query = "INSERT INTO alignment " + 
 		    "(id, type, level) " +

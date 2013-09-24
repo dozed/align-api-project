@@ -1,7 +1,7 @@
 /*
  * $Id: Triple.java 384 2007-02-02 11:09:40Z euzenat $
  *
- * Copyright (C) INRIA Rhône-Alpes, 2006
+ * Copyright (C) INRIA RhÃ´ne-Alpes, 2006
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -55,7 +55,7 @@ import fr.inrialpes.exmo.align.parser.TypeCheckingVisitor;
  * measure: float measure
  *  -- no real use of direction.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: EDOALCell.java 1568 2011-04-20 13:20:24Z euzenat $ 
  */
 

@@ -4,7 +4,7 @@
  * Copyright (C) 2003 The University of Manchester
  * Copyright (C) 2003 The University of Karlsruhe
  * Copyright (C) 2003-2012, INRIA
- * Copyright (C) 2004, Universit� de Montr�al
+ * Copyright (C) 2004, Université de Montréal
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -81,7 +81,7 @@ $Id: GroupEval.java 1792 2012-11-30 11:59:22Z euzenat $
 </pre>
 
 @author Sean K. Bechhofer
-@author J�r�me Euzenat
+@author Jérôme Euzenat
     */
 
 public class GroupEval {
@@ -810,7 +810,7 @@ public class FMeasureLines {
 }
 */
 
-/* A few comments on how and why computing "weighted harmonic means" (J�r�me Euzenat)
+/* A few comments on how and why computing "weighted harmonic means" (Jérôme Euzenat)
 
 Let Ai be the found alignment for test i, let Ri be the reference alignment for test i.
 Let |A| be the size of A, i.e., the number of correspondences.

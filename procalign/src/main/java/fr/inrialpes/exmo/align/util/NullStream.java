@@ -1,7 +1,7 @@
 /*
  * $Id: NullStream.java 563 2008-01-15 15:09:04Z euzenat $
  *
- * Copyright (C) INRIA Rhône-Alpes, 2007
+ * Copyright (C) INRIA RhÃ´ne-Alpes, 2007
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License

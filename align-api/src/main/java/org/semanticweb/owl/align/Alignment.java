@@ -33,7 +33,7 @@ import org.xml.sax.ContentHandler;
 /**
  * Represents an Ontology alignment.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: Alignment.java 1189 2010-01-03 17:57:13Z euzenat $ 
  */
 

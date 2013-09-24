@@ -1,7 +1,7 @@
 /*
  * $Id: AlignmentServiceProfile.java 1189 2010-01-03 17:57:13Z euzenat $
  *
- * Copyright (C) INRIA Rhône-Alpes, 2006
+ * Copyright (C) INRIA RhÃ´ne-Alpes, 2006
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License

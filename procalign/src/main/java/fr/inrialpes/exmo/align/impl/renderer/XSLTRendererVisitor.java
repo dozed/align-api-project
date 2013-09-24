@@ -45,7 +45,7 @@ import fr.inrialpes.exmo.ontowrap.OntowrapException;
  * Renders an alignment as a XSLT stylesheet transforming 
  *.data of the first ontology into the second one.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: XSLTRendererVisitor.java 1662 2012-01-14 15:47:39Z euzenat $ 
  */
 

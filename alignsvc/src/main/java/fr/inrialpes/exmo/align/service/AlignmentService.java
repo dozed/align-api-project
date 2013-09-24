@@ -56,7 +56,7 @@ import java.lang.reflect.InvocationTargetException;
 $Id: AlignmentService.java 1841 2013-03-24 17:28:33Z euzenat $
 </pre>
 
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  */
 public class AlignmentService {
     final static Logger logger = LoggerFactory.getLogger( AlignmentService.class );

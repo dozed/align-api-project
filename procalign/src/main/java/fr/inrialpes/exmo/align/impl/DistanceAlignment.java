@@ -43,7 +43,7 @@ import fr.inrialpes.exmo.ontosim.util.HungarianAlgorithm;
  * This class should work with similarity and distances, as soon as, the used
  * similarity structure is defined as such.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: DistanceAlignment.java 1630 2011-09-15 20:29:40Z euzenat $ 
  */
 

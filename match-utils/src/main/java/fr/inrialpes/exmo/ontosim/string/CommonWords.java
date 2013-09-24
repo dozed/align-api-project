@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (C) Universit� Pierre Mendes-France, 2009-2010
+ * Copyright (C) Université Pierre Mendes-France, 2009-2010
  *
  * This program was originaly part of the Alignment API implementation
  *

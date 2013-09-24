@@ -26,7 +26,7 @@ import org.xml.sax.ContentHandler;
 
 /**
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: Relation.java 1095 2009-08-16 21:08:26Z euzenat $
  */
 

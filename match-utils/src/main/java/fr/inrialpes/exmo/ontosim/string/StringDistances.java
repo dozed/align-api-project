@@ -4,7 +4,7 @@
  * Copyright (C) INRIA, 2003-2007, 2009
  * Except for the Levenshtein class whose copyright is not claimed to
  * our knowledge.
- * Copyright (C) University of Montr�al, 2004-2005 for the tokenizer
+ * Copyright (C) University of Montréal, 2004-2005 for the tokenizer
  * This program was originaly part of the Alignment API implementation
  *
  * This program is free software; you can redistribute it and/or modify
@@ -38,7 +38,7 @@
  * largest possible distance between two such strings.
  * They return doubles
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: StringDistances.java 126 2012-07-17 07:30:13Z euzenat $ 
  */
 
@@ -129,7 +129,7 @@ public class StringDistances {
     /*
      * jaroMeasure as a dissimilarity (identical have 0.)
      * return: 
-     * Original algorithm by J�r�me Euzenat.
+     * Original algorithm by Jérôme Euzenat.
      * It traverses both strings at the same time
      * finding the first match on s, then looking for the first on t
      * (and deciding if there is transposition or not on the fly)
@@ -232,8 +232,8 @@ public class StringDistances {
        This algorithm should be taken appart of this file and reset in the
        context of a proper package name with an acceptable license terms.
        Hopefully, Jakarta Commons will provide this.
-       Modified by J�r�me Euzenat for returning normalized distance.
-       Modified again by J�r�me Euzenat for computing Needleman-Wunsch.
+       Modified by Jérôme Euzenat for returning normalized distance.
+       Modified again by Jérôme Euzenat for computing Needleman-Wunsch.
        Bugfix 2009-08-10 by Gerard de Melo fixing Needleman-Wunsch initialization.
     */
     public static double needlemanWunschDistance (String s, String t, int gap) {

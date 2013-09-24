@@ -66,7 +66,7 @@ import fr.inrialpes.exmo.align.impl.edoal.Datatype;
  * Checks if an EDOALAlignment is well-typed
  * This is called by AlignmentParser (with debug>0)
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: TypeCheckingVisitor.java 1713 2012-03-26 17:48:12Z euzenat $
  */
 

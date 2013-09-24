@@ -2,7 +2,7 @@
  * $Id: BasicParameters.java 1704 2012-03-10 16:24:07Z euzenat $
  *
  * Copyright (C) INRIA, 2004-2005, 2008-2010, 2012
- * Copyright (C) University of Montr�al, 2004
+ * Copyright (C) University of Montréal, 2004
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -58,7 +58,7 @@ import org.semanticweb.owl.align.Parameters;
   * Using keySet will not change anything, because it will be Set<Object>
   * Java 6 introduces Set<String> stringPropertyNames() !!
   * 
-  * @author J�r�me Euzenat
+  * @author Jérôme Euzenat
   * @version $Id: BasicParameters.java 1704 2012-03-10 16:24:07Z euzenat $ 
  */
 

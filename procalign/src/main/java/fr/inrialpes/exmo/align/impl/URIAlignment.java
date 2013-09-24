@@ -34,7 +34,7 @@ import fr.inrialpes.exmo.ontowrap.Ontology;
 /**
  * Represents an ontology alignment relating entities identified by their URIs
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: URIAlignment.java 1323 2010-03-10 10:54:28Z euzenat $
  */
 

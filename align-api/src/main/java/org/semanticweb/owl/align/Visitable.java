@@ -23,7 +23,7 @@ package org.semanticweb.owl.align;
 /**
  * The interface of the objects that can be visited by a renderer
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: Visitable.java 1311 2010-03-07 22:51:10Z euzenat $ 
  */
 

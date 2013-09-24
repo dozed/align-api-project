@@ -34,7 +34,7 @@ import java.util.Enumeration;
  * JE: this may be deprecated at some point to use the standard Java
  * java.lang.Properties class.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: Parameters.java 1323 2010-03-10 10:54:28Z euzenat $ 
  * 
  * This interface is morally deprecated in version 4.0 to the advantage of java.util.Properties

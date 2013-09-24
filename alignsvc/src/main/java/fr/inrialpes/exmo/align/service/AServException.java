@@ -26,7 +26,7 @@ import java.lang.Exception;
  * Base class for all Alignment Service Exceptions.
  *
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: AServException.java 1129 2009-09-08 22:22:08Z euzenat $
  */
 

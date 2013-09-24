@@ -73,7 +73,7 @@ import fr.inrialpes.exmo.align.impl.edoal.EDOALVisitor;
 /**
  * Renders an alignment in its RDF format
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: RDFRendererVisitor.java 1806 2013-02-08 14:27:25Z euzenat $
  */
 

@@ -1,6 +1,6 @@
 /*
  * $Id: NonTransitiveImplicationRelation.java 1710 2012-03-23 19:53:25Z euzenat $
-¨*
+ *
  * Copyright (C) INRIA, 2004-2005, 2008, 2011-2012
  *
  * This program is free software; you can redistribute it and/or modify

@@ -27,7 +27,7 @@ import org.semanticweb.owl.align.AlignmentProcess;
  * class names.
  * THIS CLASS IS ONLY HERE FOR COMPATIBILITY PURPOSES
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: SMOANameAlignment.java 1255 2010-02-15 22:26:10Z euzenat $ 
  */
 

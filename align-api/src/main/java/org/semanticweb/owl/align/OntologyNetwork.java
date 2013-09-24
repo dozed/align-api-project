@@ -27,7 +27,7 @@ import java.net.URI;
 /**
  * Represents a distributed system of aligned ontologies or network of ontologies.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: OntologyNetwork.java 1620 2011-05-31 13:49:54Z jdavid $ 
  */
 public interface OntologyNetwork extends Cloneable {

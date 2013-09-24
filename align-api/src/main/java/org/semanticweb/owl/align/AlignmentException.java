@@ -1,7 +1,7 @@
 /*
  * $Id: AlignmentException.java 670 2008-03-02 00:06:16Z euzenat $
  *
- * Copyright (C) INRIA Rh�ne-Alpes, 2003-2004, 2008
+ * Copyright (C) INRIA Rhône-Alpes, 2003-2004, 2008
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +26,7 @@ import java.lang.Exception;
  * Base class for all Alignment Exceptions.
  *
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: AlignmentException.java 670 2008-03-02 00:06:16Z euzenat $
  */
 

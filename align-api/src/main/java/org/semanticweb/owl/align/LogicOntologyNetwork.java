@@ -23,7 +23,7 @@ package org.semanticweb.owl.align;
 /**
  * Represents a distributed system of aligned ontologies or network of ontologies.
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: LogicOntologyNetwork.java 1828 2013-03-09 18:18:05Z euzenat $ 
  */
 

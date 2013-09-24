@@ -39,7 +39,7 @@ import fr.inrialpes.exmo.align.impl.MatrixMeasure;
  * An improvement of that class is that, since it is based on names only,
  * it can match freely property names with class names...
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: StringDistAlignment.java 1630 2011-09-15 20:29:40Z euzenat $ 
  */
 

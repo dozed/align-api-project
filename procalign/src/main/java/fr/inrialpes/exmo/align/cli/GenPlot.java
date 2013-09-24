@@ -2,7 +2,7 @@
  * $Id: GenPlot.java 1701 2012-03-10 15:54:01Z euzenat $
  *
  * Copyright (C) 2003-2012, INRIA
- * Copyright (C) 2004, Universit� de Montr�al
+ * Copyright (C) 2004, Université de Montréal
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -84,7 +84,7 @@ import fr.inrialpes.exmo.align.parser.AlignmentParser;
  * $Id: GenPlot.java 1701 2012-03-10 15:54:01Z euzenat $
  * </pre>
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  */
 
 public class GenPlot {

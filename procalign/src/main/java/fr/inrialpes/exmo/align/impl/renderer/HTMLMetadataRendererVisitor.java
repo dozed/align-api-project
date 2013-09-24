@@ -42,7 +42,7 @@ import fr.inrialpes.exmo.align.impl.BasicAlignment;
  * - add CSS categories
  * - add resource chooser
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: HTMLMetadataRendererVisitor.java 1832 2013-03-14 20:14:01Z euzenat $ 
  */
 

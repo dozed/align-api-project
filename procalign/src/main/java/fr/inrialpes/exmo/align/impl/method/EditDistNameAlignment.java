@@ -27,7 +27,7 @@ import org.semanticweb.owl.align.AlignmentProcess;
  * class names.
  * TODO: It does not normalize the results...
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: EditDistNameAlignment.java 1237 2010-02-13 15:01:50Z euzenat $ 
  */
 

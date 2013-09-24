@@ -1,7 +1,7 @@
 /*
  * $Id: OntowrapException.java 1311 2010-03-07 22:51:10Z euzenat $
  *
- * Copyright (C) INRIA Rhône-Alpes, 2010
+ * Copyright (C) INRIA RhÃ´ne-Alpes, 2010
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +26,7 @@ import java.lang.Exception;
  * Base class for all Ontowrap Exceptions.
  *
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: OntowrapException.java 1311 2010-03-07 22:51:10Z euzenat $
  */
 

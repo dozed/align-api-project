@@ -26,6 +26,10 @@
     <packaging>pom</packaging>
 
     <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <align-api.version>5.0-SNAPSHOT</align-api.version>
         <jena.version>2.7.0-incubating</jena.version>
         <owlapi.version>3.4.2</owlapi.version>
@@ -39,6 +43,7 @@
         <module>alignsvc</module>
         <module>ontosim</module>
         <module>match-utils</module>
+        <module>align-api</module>
     </modules>
 
     <name>Alignment API Reference Implementation</name>

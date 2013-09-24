@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
   * It uses the SOAP web service interface
   * TODO: Implement the REST interface (see examples/wservice/AlignmentClient)
   *
-  * @author J�r�me Euzenat
+  * @author Jérôme Euzenat
   * @version $Id: WSAlignment.java 1831 2013-03-09 18:58:49Z euzenat $
   */
 

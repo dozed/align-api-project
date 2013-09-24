@@ -29,7 +29,7 @@ import fr.inrialpes.exmo.ontowrap.LoadedOntology;
 /**
  * Represents the implementation of a similarity measure
  *
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: Similarity.java 1502 2010-08-16 08:13:55Z euzenat $ 
  */
 

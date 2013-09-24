@@ -25,7 +25,7 @@ import java.io.PrintWriter;
 /**
  * Structure for indented rendering
  *
- * @author J�r�me Euzenat
+ * @author Jérôme Euzenat
  * @version $Id: IndentedRendererVisitor.java 1662 2012-01-14 15:47:39Z euzenat $
  */
 

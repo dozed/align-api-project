@@ -31,7 +31,7 @@ import java.net.URI;
  * to share them between alignments
  * as well as to unload them if necessary.
  * 
- * @author Jérôme Euzenat
+ * @author JÃ©rÃ´me Euzenat
  * @version $Id: OntologyCache.java 1459 2010-06-17 08:31:04Z euzenat $ 
  * 
  * This class should be parameterized by O subClassOf LoadedOntology 
