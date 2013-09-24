@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>fr.inrialpes.exmo.align</groupId>
+        <groupId>fr.inrialpes.exmo</groupId>
         <artifactId>align-project</artifactId>
         <version>5.0-SNAPSHOT</version>
     </parent>
