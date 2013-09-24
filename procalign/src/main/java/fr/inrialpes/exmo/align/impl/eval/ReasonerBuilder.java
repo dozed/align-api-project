@@ -13,11 +13,7 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: stefan
- * Date: 21.09.13
- * Time: 01:17
- * To change this template use File | Settings | File Templates.
+ * Creates a reasoner over the merged ontology of an Alignment(o1, o2, relations).
  */
 public class ReasonerBuilder {
 
