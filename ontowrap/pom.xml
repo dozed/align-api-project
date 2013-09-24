@@ -22,11 +22,11 @@
             <artifactId>owl</artifactId>
             <version>1.4.3</version>
         </dependency>
-        <dependency>
-            <groupId>org.semanticweb</groupId>
-            <artifactId>owlapi</artifactId>
-            <version>3.4.2</version>
-        </dependency>
+         <dependency>
+             <groupId>org.semanticweb</groupId>
+             <artifactId>owlapi</artifactId>
+             <version>${owlapi.version}</version>
+         </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-core</artifactId>
