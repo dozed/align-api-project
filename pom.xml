@@ -27,6 +27,9 @@
 
     <properties>
         <align-api.version>5.0-SNAPSHOT</align-api.version>
+        <jena.version>2.7.0-incubating</jena.version>
+        <logback.version>1.0.13</logback.version>
+        <owlapi.version>3.4.2</owlapi.version>
     </properties>
 
     <modules>
@@ -90,5 +93,25 @@
             <url>https://github.com/dozed/mvn-repo/raw/master/external</url>
         </repository>
     </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.jena</groupId>
+                <artifactId>jena-core</artifactId>
+                <version>${jena.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

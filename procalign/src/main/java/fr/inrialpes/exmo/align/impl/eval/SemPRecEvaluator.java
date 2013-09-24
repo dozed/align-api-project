@@ -123,6 +123,8 @@ public class SemPRecEvaluator extends PRecEvaluator implements Evaluator {
         for (Cell c2 : al2) {
             if (reasoner.isEntailed(builder.correspondenceToAxiom((ObjectCell) c2))) {
                 entailed++;
+            } else {
+                logger.debug("could not find: " + c2.getObject1AsURI(al2) + " - " + c2.getObject2AsURI(al2) + " - " + c2.getRelation());
             }
         }
 
